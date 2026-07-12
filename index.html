@@ -57,29 +57,65 @@
             <div id="burning-badge" class="hidden">🔥 BURNING</div>
         </div>
 
+        <!-- ======= NOUVELLE PAGE D'ACCUEIL ======= -->
         <div id="start-screen" class="screen">
+            <!-- Image Godzilla en haut à droite -->
+            <div id="start-godzilla-container">
+                <img id="start-godzilla-img" src="assets/godzilla_presentation.png" alt="Godzilla">
+            </div>
+
+            <!-- Titre -->
             <h1>🦖 GODZILLA : MAÎTRE DES TABLES</h1>
 
+            <!-- Lore (au centre, là où l'image laisse de la place) -->
             <div class="lore-box">
                 <div class="lore-line"><span class="ico">🧪</span> Apex Cybernetics a créé des <b>pierres de résonance</b>.</div>
                 <div class="lore-line"><span class="ico">😡</span> Ces pierres rendent les kaijus furieux et incontrôlables.</div>
                 <div class="lore-line"><span class="ico">🦖</span> MONARCH demande à Godzilla de les calmer et de les capturer.</div>
-                <div class="lore-line"><span class="ico">🔢</span> Trouve le bon résultat pour viser juste et libérer le kaiju de la pierre !</div>
+                <div class="lore-line"><span class="ico">🔢</span> Trouve le bon résultat pour viser juste et libérer le kaiju !</div>
             </div>
 
-            <div class="lore-box">
-                <div class="lore-line"><span class="ico">💥</span> 5 erreurs sur un niveau = l'attaque échoue.</div>
-                <div class="lore-line"><span class="ico">⚡</span> Réponds vite : gros bonus de points !</div>
-                <div class="lore-line"><span class="ico">🦋</span> 3 bonnes réponses d'affilée : Mothra efface une faute.</div>
-                <div class="lore-line"><span class="ico">❓</span> Le nom d'un kaiju reste secret tant qu'il n'est pas vaincu.</div>
-                <div class="lore-line"><span class="ico">🔥</span> En mode burning : encore plus de points à chaque tir !</div>
+            <!-- Onglets (Règles / Parc / Galerie) -->
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="rules">📖 Règles</button>
+                <button class="tab-btn" data-tab="park">🏛️ Parc des monstres</button>
+                <button class="tab-btn" data-tab="medals">🏅 Galerie des médailles</button>
             </div>
 
-            <div class="levels-track" id="levels-track"></div>
+            <!-- Contenu des onglets -->
+            <div class="tab-content" id="tab-rules">
+                <div class="rules-grid">
+                    <div class="rule-item"><span>💥</span> 5 erreurs = l'attaque échoue</div>
+                    <div class="rule-item"><span>⚡</span> Réponds vite : gros bonus !</div>
+                    <div class="rule-item"><span>🦋</span> 3 bonnes d'affilée : Mothra efface une faute</div>
+                    <div class="rule-item"><span>❓</span> Kaiju secret tant qu'il n'est pas vaincu</div>
+                    <div class="rule-item"><span>🔥</span> Mode burning : + de points !</div>
+                    <div class="rule-item"><span>🏆</span> Débloque des médailles en progressant</div>
+                </div>
+            </div>
+
+            <div class="tab-content hidden" id="tab-park">
+                <div class="park-grid" id="park-grid-start"></div>
+                <p style="font-size:14px; color:#9098b0; margin-top:8px;">Les monstres capturés apparaissent ici.</p>
+            </div>
+
+            <div class="tab-content hidden" id="tab-medals">
+                <div class="medals-grid" id="medals-grid-start"></div>
+                <p style="font-size:14px; color:#9098b0; margin-top:8px;">Débloque des médailles en gagnant des niveaux !</p>
+            </div>
+
+            <!-- Tables à débloquer (en bas) -->
+            <div class="tables-track" id="tables-track-start">
+                <!-- Rempli par JS -->
+            </div>
+
+            <!-- Bouton Lancer -->
             <button id="btn-start" disabled>🦖 Affronter le niveau 1</button>
-            <button id="btn-park" class="secondary">🏛️ Parc des Kaiju de Monarch</button>
-            <div id="loading-label" style="margin-top:14px; font-size:14px; color:#ffb347; letter-spacing:1px;">Chargement des images...</div>
+
+            <div id="loading-label" style="margin-top:10px; font-size:14px; color:#ffb347; letter-spacing:1px;">Chargement des images...</div>
         </div>
+
+        <!-- ======= FIN NOUVELLE PAGE D'ACCUEIL ======= -->
 
         <div id="park-screen" class="screen hidden">
             <h1>🏛️ Parc des Kaiju de Monarch</h1>
@@ -117,9 +153,5 @@
 </div>
 
 <script src="game.js"></script>
-<!-- La piste de niveaux (pastilles "?" tant que le kaiju n'est pas vaincu,
-     nom + vignette une fois révélé, cliquable pour rejouer) est maintenant
-     construite par renderLevelsTrack() dans game.js, appelée au chargement
-     et à chaque retour au menu — voir goToMenu(). -->
 </body>
 </html>
