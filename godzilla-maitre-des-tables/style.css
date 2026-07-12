@@ -1,0 +1,350 @@
+/* ============================================================
+   GODZILLA : MAÎTRE DES TABLES — styles
+   Thème "alerte kaiju" : panneaux HUD métalliques, accents
+   orange-rouge (dos de Godzilla) + cyan (rayon atomique)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 0%, #1a2438 0%, #05070d 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    padding: 20px;
+    cursor: none;
+}
+
+#game-wrapper {
+    position: relative;
+    border-radius: 28px;
+    box-shadow:
+        0 0 0 2px rgba(255, 140, 60, 0.25),
+        0 25px 60px rgba(0,0,0,0.7),
+        inset 0 1px 2px rgba(255,255,255,0.08);
+    background: #000000aa;
+    padding: 8px;
+}
+
+#game-container {
+    position: relative;
+    width: 1100px;
+    height: 700px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.75);
+    background: #06080f;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------- Bandeau question ---------- */
+#phrase-area {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(10,14,24,0.92), rgba(30,14,10,0.92));
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 14px 30px;
+    text-align: center;
+    z-index: 10;
+    border: 2px solid #ff6b35;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.55), 0 0 18px rgba(255,107,53,0.25);
+    pointer-events: none;
+}
+
+#phrase-card {
+    font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+    font-size: 42px;
+    letter-spacing: 3px;
+    color: #fff3e0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 14px rgba(255,140,60,0.35);
+}
+
+/* ---------- Barre de stats ---------- */
+#stats-bar {
+    position: absolute;
+    bottom: 18px;
+    left: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(8,10,18,0.9), rgba(20,10,8,0.92));
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 10px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    border-top: 2px solid #ffb347;
+    border-bottom: 2px solid #ffb347;
+    pointer-events: none;
+    font-weight: 600;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    background: rgba(0,0,0,0.45);
+    padding: 5px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,178,71,0.2);
+}
+
+.stat-label {
+    font-size: 15px;
+    color: #ffb347;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #ffd966, #ff6b35);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#chrono-box {
+    background: rgba(0,0,0,0.6);
+    padding: 6px 22px;
+    border-radius: 12px;
+    font-family: 'Bebas Neue', monospace;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: #4de3ff;
+    text-shadow: 0 0 10px #1ec8ff;
+    border: 1px solid rgba(77,227,255,0.3);
+}
+
+/* ---------- Combo Mothra ---------- */
+#combo-indicator {
+    position: absolute;
+    top: 95px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: linear-gradient(135deg, rgba(255,178,20,0.95), rgba(255,110,20,0.95));
+    color: #221000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    padding: 8px 26px;
+    border-radius: 40px;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 0 22px rgba(255,178,20,0.7);
+    pointer-events: none;
+    white-space: nowrap;
+}
+#combo-indicator.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* ---------- Carte "Leçon express" ---------- */
+.help-card {
+    position: absolute;
+    right: -420px;
+    bottom: 100px;
+    width: 340px;
+    background: #10131c;
+    border-radius: 18px;
+    box-shadow: 0 14px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+    z-index: 150;
+    font-family: 'Rajdhani', sans-serif;
+    transition: right 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border-left: 6px solid #ff6b35;
+    cursor: pointer;
+    color: #e8e8ee;
+}
+.help-card:hover { background: #151a26; }
+
+.card-header {
+    background: #1c2130;
+    padding: 12px 18px;
+    border-radius: 18px 18px 0 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    color: #ff9a57;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ff6b3555;
+}
+.close-card {
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #8a8fa3;
+    width: 28px;
+    text-align: center;
+    border-radius: 20px;
+}
+.close-card:hover { color: #ff6b35; background: #ffffff11; }
+
+.card-body { padding: 16px 20px; }
+.card-body .correction {
+    background: #14261a;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-family: 'Bebas Neue', monospace;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #6fe08a;
+    margin-bottom: 12px;
+    border-left: 4px solid #3fae5c;
+}
+.card-body .explanation { font-size: 15px; line-height: 1.4; color: #cfd2df; margin: 10px 0; }
+.card-body .rule {
+    background: #2a1c0f;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-left: 4px solid #ffb347;
+    color: #ffdcae;
+    margin-top: 10px;
+}
+.card-footer {
+    font-size: 11px;
+    padding: 8px 18px 12px;
+    color: #6c7185;
+    border-top: 1px solid #ffffff10;
+    text-align: center;
+}
+
+/* ---------- Écrans start / end ---------- */
+.screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(4,6,12,0.93);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 30;
+    padding: 20px;
+}
+
+.screen h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffe6b0, #ff6b35);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(255,107,53,0.25);
+}
+
+.screen p { font-size: 20px; color: #c7cbdb; max-width: 640px; line-height: 1.5; }
+
+.screen .levels-track {
+    display: flex;
+    gap: 6px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 700px;
+}
+.level-chip {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #1c2130;
+    border: 1px solid #ff6b3544;
+    color: #ffb347;
+}
+
+button {
+    padding: 14px 42px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff9a3c, #ff5b1f);
+    border: none;
+    border-radius: 40px;
+    color: #1a0c00;
+    margin-top: 26px;
+    margin-right: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 8px 20px rgba(255,90,20,0.35);
+}
+button:hover { transform: scale(1.05); box-shadow: 0 12px 26px rgba(255,90,20,0.5); }
+button.secondary {
+    background: transparent;
+    color: #ffb347;
+    border: 2px solid #ffb34766;
+    box-shadow: none;
+}
+button.secondary:hover { background: #ffb34718; }
+
+.hidden { display: none !important; }
+
+/* ---------- Curseur viseur ---------- */
+#custom-cursor {
+    position: fixed;
+    width: 32px; height: 32px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+}
+.crosshair-ring {
+    position: absolute; width: 100%; height: 100%;
+    border: 3px solid rgba(255,130,60,0.85);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255,255,200,0.5), 0 0 10px rgba(255,110,30,0.5);
+}
+.crosshair-dot {
+    position: absolute; top: 50%; left: 50%;
+    width: 5px; height: 5px;
+    background: #ff6644;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 2px white;
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110px) rotate(720deg); opacity: 0; }
+}
+
+@keyframes paletteFlash {
+    0% { opacity: 0; }
+    15% { opacity: 0.55; }
+    100% { opacity: 0; }
+}
+#palier-flash {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,140,50,0.2) 60%, transparent 75%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 55;
+}
+#palier-flash.active { animation: paletteFlash 0.7s ease-out; }
