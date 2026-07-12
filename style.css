@@ -666,6 +666,20 @@ button.secondary:hover { background: #ffb34718; }
     z-index: 2;
 }
 .park-cell.locked .cell-name { color: #9098b0; }
+.park-cell.clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+.park-cell.clickable:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: inset 0 0 22px rgba(0,0,0,0.8), 0 0 18px rgba(255,178,71,0.4);
+}
+
+/* ---------- Vue agrandie d'une cellule (Parc) ---------- */
+.park-detail-canvas {
+    margin-top: 14px;
+    border-radius: 18px;
+    border: 2px solid rgba(255,178,71,0.5);
+    box-shadow: 0 14px 34px rgba(0,0,0,0.6), 0 0 28px rgba(80,170,255,0.15);
+    max-width: 100%;
+}
 
 /* ---------- Galerie des Médailles (rangs de Godzilla) ---------- */
 #medals-progress { font-size: 16px; margin-top: 4px; }
