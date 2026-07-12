@@ -1,125 +1,125 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Godzilla : Maître des Tables</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div id="game-wrapper">
-    <div id="game-container">
-        <canvas id="gameCanvas" width="1100" height="700"></canvas>
-
-        <div id="palier-flash"></div>
-        <div id="combo-indicator"></div>
-
-        <div id="settings-btn" title="Réglages">⚙️</div>
-        <div id="settings-panel" class="hidden">
-            <label>
-                <input type="checkbox" id="chk-show-chrono">
-                Afficher le chrono ⏱️ pendant la partie
-            </label>
-        </div>
-
-        <div id="phrase-area">
-            <div id="phrase-card">🦖 Chargement des kaijus...</div>
-        </div>
-
-        <div id="stats-bar">
-            <div class="stat-item">
-                <span class="stat-label">🌋 Niveau</span>
-                <span class="stat-value" id="lbl-level">1</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">✖️ Table</span>
-                <span class="stat-value" id="lbl-table">2</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">👹 Kaiju</span>
-                <span class="stat-value" id="lbl-kaiju" style="font-size:20px;">Mothra</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">🎯 Score</span>
-                <span class="stat-value" id="lbl-score">0</span>
-                <span style="font-size:18px; color:#ffb347;">/10</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">🏆 Points</span>
-                <span class="stat-value" id="lbl-points">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">💥 Fautes</span>
-                <span class="stat-value" id="lbl-errors" style="background:linear-gradient(135deg,#ff8888,#ff4444); -webkit-background-clip:text;">0</span>
-                <span style="font-size:18px; color:#ff8888;">/5</span>
-            </div>
-            <div id="chrono-box">⏱️ 00.0s</div>
-            <div id="burning-badge" class="hidden">🔥 BURNING</div>
-        </div>
-
-        <div id="start-screen" class="screen">
-            <h1>🦖 GODZILLA : MAÎTRE DES TABLES</h1>
-
-            <div class="lore-box">
-                <div class="lore-line"><span class="ico">🧪</span> Apex Cybernetics a créé des <b>pierres de résonance</b>.</div>
-                <div class="lore-line"><span class="ico">😡</span> Ces pierres rendent les kaijus furieux et incontrôlables.</div>
-                <div class="lore-line"><span class="ico">🦖</span> MONARCH demande à Godzilla de les calmer et de les capturer.</div>
-                <div class="lore-line"><span class="ico">🔢</span> Trouve le bon résultat pour viser juste et libérer le kaiju de la pierre !</div>
-            </div>
-
-            <div class="lore-box">
-                <div class="lore-line"><span class="ico">💥</span> 5 erreurs sur un niveau = l'attaque échoue.</div>
-                <div class="lore-line"><span class="ico">⚡</span> Réponds vite : gros bonus de points !</div>
-                <div class="lore-line"><span class="ico">🦋</span> 3 bonnes réponses d'affilée : Mothra efface une faute.</div>
-                <div class="lore-line"><span class="ico">❓</span> Le nom d'un kaiju reste secret tant qu'il n'est pas vaincu.</div>
-                <div class="lore-line"><span class="ico">🔥</span> En mode burning : encore plus de points à chaque tir !</div>
-            </div>
-
-            <div class="levels-track" id="levels-track"></div>
-            <button id="btn-start" disabled>🦖 Affronter le niveau 1</button>
-            <button id="btn-park" class="secondary">🏛️ Parc des Kaiju de Monarch</button>
-            <div id="loading-label" style="margin-top:14px; font-size:14px; color:#ffb347; letter-spacing:1px;">Chargement des images...</div>
-        </div>
-
-        <div id="park-screen" class="screen hidden">
-            <h1>🏛️ Parc des Kaiju de Monarch</h1>
-            <p>Voici les kaijus que Godzilla a déjà capturés et ramenés en prison.</p>
-            <div class="park-grid" id="park-grid"></div>
-            <button id="btn-park-back" class="secondary">↩️ Retour au menu</button>
-        </div>
-
-        <div id="level-complete-screen" class="screen hidden">
-            <h1 id="lvl-complete-title">✅ NIVEAU TERMINÉ</h1>
-            <p id="lvl-complete-desc"></p>
-            <div>
-                <button id="btn-lvl-next">➡️ Niveau suivant</button>
-                <button id="btn-lvl-retry" class="secondary">🔁 Recommencer ce niveau</button>
-                <button id="btn-lvl-menu" class="secondary">🏠 Menu</button>
-            </div>
-        </div>
-
-        <div id="end-screen" class="screen hidden">
-            <h1 id="end-title">Fin de partie</h1>
-            <p id="end-desc"></p>
-            <div>
-                <button id="btn-retry-level" class="hidden">🔁 Réessayer ce niveau</button>
-                <button id="btn-restart-all" class="secondary hidden">↩️ Repartir du niveau 1</button>
-                <button id="btn-play-again" class="hidden">✨ Rejouer</button>
-                <button id="btn-menu" class="secondary hidden">🏠 Menu</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="custom-cursor">
-    <div class="crosshair-ring"></div>
-    <div class="crosshair-dot"></div>
-</div>
-
-<script src="game.js"></script>
-<!-- La piste de niveaux (pastilles "?" tant que le kaiju n'est pas vaincu,
-     nom + vignette une fois révélé, cliquable pour rejouer) est maintenant
-     construite par renderLevelsTrack() dans game.js, appelée au chargement
-     et à chaque retour au menu — voir goToMenu(). -->
-</body>
-</html>
+     2	<html lang="fr">
+     3	<head>
+     4	    <meta charset="UTF-8">
+     5	    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+     6	    <title>Godzilla : Maître des Tables</title>
+     7	    <link rel="stylesheet" href="style.css">
+     8	</head>
+     9	<body>
+    10	<div id="game-wrapper">
+    11	    <div id="game-container">
+    12	        <canvas id="gameCanvas" width="1100" height="700"></canvas>
+    13	
+    14	        <div id="palier-flash"></div>
+    15	        <div id="combo-indicator"></div>
+    16	
+    17	        <div id="settings-btn" title="Réglages">⚙️</div>
+    18	        <div id="settings-panel" class="hidden">
+    19	            <label>
+    20	                <input type="checkbox" id="chk-show-chrono">
+    21	                Afficher le chrono ⏱️ pendant la partie
+    22	            </label>
+    23	        </div>
+    24	
+    25	        <div id="phrase-area">
+    26	            <div id="phrase-card">🦖 Chargement des kaijus...</div>
+    27	        </div>
+    28	
+    29	        <div id="stats-bar">
+    30	            <div class="stat-item">
+    31	                <span class="stat-label">🌋 Niveau</span>
+    32	                <span class="stat-value" id="lbl-level">1</span>
+    33	            </div>
+    34	            <div class="stat-item">
+    35	                <span class="stat-label">✖️ Table</span>
+    36	                <span class="stat-value" id="lbl-table">2</span>
+    37	            </div>
+    38	            <div class="stat-item">
+    39	                <span class="stat-label">👹 Kaiju</span>
+    40	                <span class="stat-value" id="lbl-kaiju" style="font-size:20px;">Mothra</span>
+    41	            </div>
+    42	            <div class="stat-item">
+    43	                <span class="stat-label">🎯 Score</span>
+    44	                <span class="stat-value" id="lbl-score">0</span>
+    45	                <span style="font-size:18px; color:#ffb347;">/10</span>
+    46	            </div>
+    47	            <div class="stat-item">
+    48	                <span class="stat-label">🏆 Points</span>
+    49	                <span class="stat-value" id="lbl-points">0</span>
+    50	            </div>
+    51	            <div class="stat-item">
+    52	                <span class="stat-label">💥 Fautes</span>
+    53	                <span class="stat-value" id="lbl-errors" style="background:linear-gradient(135deg,#ff8888,#ff4444); -webkit-background-clip:text;">0</span>
+    54	                <span style="font-size:18px; color:#ff8888;">/5</span>
+    55	            </div>
+    56	            <div id="chrono-box">⏱️ 00.0s</div>
+    57	            <div id="burning-badge" class="hidden">🔥 BURNING</div>
+    58	        </div>
+    59	
+    60	        <div id="start-screen" class="screen">
+    61	            <h1>🦖 GODZILLA : MAÎTRE DES TABLES</h1>
+    62	
+    63	            <div class="lore-box">
+    64	                <div class="lore-line"><span class="ico">🧪</span> Apex Cybernetics a créé des <b>pierres de résonance</b>.</div>
+    65	                <div class="lore-line"><span class="ico">😡</span> Ces pierres rendent les kaijus furieux et incontrôlables.</div>
+    66	                <div class="lore-line"><span class="ico">🦖</span> MONARCH demande à Godzilla de les calmer et de les capturer.</div>
+    67	                <div class="lore-line"><span class="ico">🔢</span> Trouve le bon résultat pour viser juste et libérer le kaiju de la pierre !</div>
+    68	            </div>
+    69	
+    70	            <div class="lore-box">
+    71	                <div class="lore-line"><span class="ico">💥</span> 5 erreurs sur un niveau = l'attaque échoue.</div>
+    72	                <div class="lore-line"><span class="ico">⚡</span> Réponds vite : gros bonus de points !</div>
+    73	                <div class="lore-line"><span class="ico">🦋</span> 3 bonnes réponses d'affilée : Mothra efface une faute.</div>
+    74	                <div class="lore-line"><span class="ico">❓</span> Le nom d'un kaiju reste secret tant qu'il n'est pas vaincu.</div>
+    75	                <div class="lore-line"><span class="ico">🔥</span> En mode burning : encore plus de points à chaque tir !</div>
+    76	            </div>
+    77	
+    78	            <div class="levels-track" id="levels-track"></div>
+    79	            <button id="btn-start" disabled>🦖 Affronter le niveau 1</button>
+    80	            <button id="btn-park" class="secondary">🏛️ Parc des Kaiju de Monarch</button>
+    81	            <div id="loading-label" style="margin-top:14px; font-size:14px; color:#ffb347; letter-spacing:1px;">Chargement des images...</div>
+    82	        </div>
+    83	
+    84	        <div id="park-screen" class="screen hidden">
+    85	            <h1>🏛️ Parc des Kaiju de Monarch</h1>
+    86	            <p>Voici les kaijus que Godzilla a déjà capturés et ramenés en prison.</p>
+    87	            <div class="park-grid" id="park-grid"></div>
+    88	            <button id="btn-park-back" class="secondary">↩️ Retour au menu</button>
+    89	        </div>
+    90	
+    91	        <div id="level-complete-screen" class="screen hidden">
+    92	            <h1 id="lvl-complete-title">✅ NIVEAU TERMINÉ</h1>
+    93	            <p id="lvl-complete-desc"></p>
+    94	            <div>
+    95	                <button id="btn-lvl-next">➡️ Niveau suivant</button>
+    96	                <button id="btn-lvl-retry" class="secondary">🔁 Recommencer ce niveau</button>
+    97	                <button id="btn-lvl-menu" class="secondary">🏠 Menu</button>
+    98	            </div>
+    99	        </div>
+   100	
+   101	        <div id="end-screen" class="screen hidden">
+   102	            <h1 id="end-title">Fin de partie</h1>
+   103	            <p id="end-desc"></p>
+   104	            <div>
+   105	                <button id="btn-retry-level" class="hidden">🔁 Réessayer ce niveau</button>
+   106	                <button id="btn-restart-all" class="secondary hidden">↩️ Repartir du niveau 1</button>
+   107	                <button id="btn-play-again" class="hidden">✨ Rejouer</button>
+   108	                <button id="btn-menu" class="secondary hidden">🏠 Menu</button>
+   109	            </div>
+   110	        </div>
+   111	    </div>
+   112	</div>
+   113	
+   114	<div id="custom-cursor">
+   115	    <div class="crosshair-ring"></div>
+   116	    <div class="crosshair-dot"></div>
+   117	</div>
+   118	
+   119	<script src="game.js"></script>
+   120	<!-- La piste de niveaux (pastilles "?" tant que le kaiju n'est pas vaincu,
+   121	     nom + vignette une fois révélé, cliquable pour rejouer) est maintenant
+   122	     construite par renderLevelsTrack() dans game.js, appelée au chargement
+   123	     et à chaque retour au menu — voir goToMenu(). -->
+   124	</body>
+   125	</html>
