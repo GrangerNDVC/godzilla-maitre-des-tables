@@ -463,6 +463,164 @@ button.secondary:hover { background: #ffb34718; }
 }
 .lore-line .ico { font-size: 26px; flex-shrink: 0; width: 32px; text-align: center; }
 
+/* ============================================================
+   ÉCRAN D'ACCUEIL — mise en page compacte (tient dans 1100x700)
+   Header compact > (lore | image héro + onglets) > pied de page
+   (bouton d'action + tables à débloquer)
+   ============================================================ */
+.home-screen {
+    justify-content: flex-start;
+    align-items: stretch;
+    text-align: left;
+    gap: 10px;
+    padding: 18px 26px 16px;
+}
+
+.home-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    margin-bottom: 2px;
+}
+.home-header h1 {
+    font-size: 40px;
+    margin: 0;
+    letter-spacing: 2px;
+}
+#loading-label {
+    font-size: 13px;
+    color: #ffb347;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+#loading-label.hidden { display: none; }
+
+.home-main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 22px;
+}
+
+.home-left {
+    flex: 1.35;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.home-left .lore-box.compact {
+    max-width: none;
+    margin-top: 0;
+}
+.home-left .lore-box.compact .lore-line { font-size: 18px; margin: 9px 0; }
+
+.home-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hero-frame {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(255,178,71,0.45);
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.4), 0 14px 30px rgba(0,0,0,0.6), 0 0 34px rgba(80,170,255,0.18);
+    background: #05070d;
+}
+.hero-img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+}
+.hero-fade {
+    position: absolute;
+    left: 0; right: 0; bottom: 0; height: 55%;
+    background: linear-gradient(to top, rgba(4,6,12,0.85), transparent);
+    pointer-events: none;
+}
+
+.home-tabs {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.tab-btn {
+    margin: 0;
+    padding: 9px 16px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #232a40, #171c2c);
+    color: #ffd9ad;
+    border: 1px solid #ffb34755;
+    box-shadow: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tab-btn:hover {
+    background: #2b3350;
+    transform: translateX(2px) scale(1);
+    box-shadow: 0 0 12px rgba(255,178,71,0.25);
+}
+
+.home-footer {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+#btn-start {
+    margin: 0;
+    padding: 12px 40px;
+    font-size: 22px;
+}
+.home-footer .levels-track {
+    margin-top: 0;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
+}
+.home-footer .level-chip {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 6px 8px;
+}
+.home-footer .chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+/* Table verrouillée : il faut battre le kaiju précédent pour y accéder */
+.level-chip.locked {
+    opacity: 0.4;
+    filter: grayscale(0.6);
+    cursor: not-allowed;
+}
+.level-chip.locked .chip-thumb { color: #6c7185; }
+.level-chip.next { cursor: pointer; }
+.level-chip.next:hover { transform: translateY(-1px); box-shadow: 0 0 14px rgba(255,178,71,0.4); }
+
 /* ---------- Bouton "Parc des Kaiju de Monarch" ---------- */
 #btn-park {
     background: linear-gradient(135deg, #2c3550, #171c2c);
@@ -508,6 +666,59 @@ button.secondary:hover { background: #ffb34718; }
     z-index: 2;
 }
 .park-cell.locked .cell-name { color: #9098b0; }
+
+/* ---------- Galerie des Médailles (rangs de Godzilla) ---------- */
+#medals-progress { font-size: 16px; margin-top: 4px; }
+.medal-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+    max-width: 920px;
+}
+.medal-core {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 6px 10px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,178,71,0.18);
+}
+.medal-orb {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    background: var(--orb-grad, radial-gradient(circle at 35% 30%, #4aa8ff, #17335c));
+    box-shadow: 0 0 16px var(--orb-glow, rgba(74,168,255,0.5)), inset 0 0 10px rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.25);
+}
+.medal-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #ffe6b0;
+    text-align: center;
+    line-height: 1.15;
+}
+.medal-threshold { font-size: 11px; color: #9098b0; }
+.medal-core.locked {
+    opacity: 0.45;
+    filter: grayscale(0.7);
+}
+.medal-core.locked .medal-orb {
+    background: #1a1e2c;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+}
+.medal-core.unlocked {
+    box-shadow: 0 0 14px rgba(255,178,71,0.15);
+    border-color: rgba(255,178,71,0.4);
+}
 
 /* ---------- Écran fin de niveau (menu / niveau suivant / recommencer) ---------- */
 #level-complete-screen .lvl-summary {
