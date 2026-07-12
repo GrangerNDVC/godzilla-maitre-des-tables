@@ -42,6 +42,7 @@
                 <span style="font-size:18px; color:#ff8888;">/5</span>
             </div>
             <div id="chrono-box">⏱️ 00.0s</div>
+            <div id="burning-badge" class="hidden">🔥 BURNING</div>
         </div>
 
         <div id="start-screen" class="screen">
@@ -51,7 +52,9 @@
                 Chaque bonne réponse fait cracher le rayon de Godzilla sur le bon cristal.<br>
                 🔥 5 erreurs sur un niveau = attaque repoussée.<br>
                 ⚡ Réponds vite pour un gros bonus de rapidité.<br>
-                🦋 3 bonnes réponses d'affilée en moins de 10s : Mothra efface une faute !
+                🦋 3 bonnes réponses d'affilée en moins de 10s : Mothra efface une faute !<br>
+                ❓ Les kaijus restent inconnus tant qu'ils n'ont pas été vaincus une première fois.<br>
+                🔥 En mode burning, chaque cristal détruit rapporte des points en plus !
             </p>
             <div class="levels-track" id="levels-track"></div>
             <button id="btn-start" disabled>🦖 Affronter le niveau 1</button>
@@ -65,6 +68,7 @@
                 <button id="btn-retry-level" class="hidden">🔁 Réessayer ce niveau</button>
                 <button id="btn-restart-all" class="secondary hidden">↩️ Repartir du niveau 1</button>
                 <button id="btn-play-again" class="hidden">✨ Rejouer</button>
+                <button id="btn-menu" class="secondary hidden">🏠 Menu</button>
             </div>
         </div>
     </div>
@@ -76,17 +80,9 @@
 </div>
 
 <script src="game.js"></script>
-<script>
-    // remplit la piste de niveaux sur l'écran de démarrage
-    (function () {
-        const track = document.getElementById("levels-track");
-        LEVELS.forEach((lvl, i) => {
-            const chip = document.createElement("div");
-            chip.className = "level-chip";
-            chip.textContent = `${i + 1}. ×${lvl.table} — ${lvl.nom}`;
-            track.appendChild(chip);
-        });
-    })();
-</script>
+<!-- La piste de niveaux (pastilles "?" tant que le kaiju n'est pas vaincu,
+     nom + vignette une fois révélé, cliquable pour rejouer) est maintenant
+     construite par renderLevelsTrack() dans game.js, appelée au chargement
+     et à chaque retour au menu — voir goToMenu(). -->
 </body>
 </html>

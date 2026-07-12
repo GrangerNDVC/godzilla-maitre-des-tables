@@ -123,16 +123,27 @@ canvas {
     color: transparent;
 }
 
+#burning-badge {
+    background: linear-gradient(135deg, #ff8a3c, #d8321a);
+    color: #1a0800;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(255,90,20,0.6);
+}
+
 #chrono-box {
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.5);
     padding: 6px 22px;
     border-radius: 12px;
     font-family: 'Bebas Neue', monospace;
-    font-size: 28px;
-    letter-spacing: 3px;
-    color: #4de3ff;
-    text-shadow: 0 0 10px #1ec8ff;
-    border: 1px solid rgba(77,227,255,0.3);
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: #9fd8de;
+    text-shadow: none;
+    border: 1px solid rgba(159,216,222,0.18);
 }
 
 /* ---------- Combo Mothra ---------- */
@@ -270,6 +281,9 @@ canvas {
     max-width: 700px;
 }
 .level-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 15px;
     letter-spacing: 1px;
@@ -278,6 +292,52 @@ canvas {
     background: #1c2130;
     border: 1px solid #ff6b3544;
     color: #ffb347;
+    cursor: default;
+}
+
+.chip-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #05070d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    font-size: 16px;
+}
+.chip-thumb canvas { width: 32px; height: 32px; }
+
+/* kaiju jamais vaincu : nom masqué, pastille "?" grisée, non cliquable */
+.level-chip.unknown {
+    opacity: 0.55;
+    filter: grayscale(0.4);
+}
+.level-chip.unknown .chip-thumb { color: #6c7185; }
+
+/* prochain défi : légèrement mis en avant, reste inconnu mais pas grisé */
+.level-chip.next {
+    opacity: 1;
+    border-color: #ffb347aa;
+    box-shadow: 0 0 10px rgba(255,178,71,0.25);
+}
+
+/* kaiju déjà vaincu : révélé et rejouable pour améliorer le score */
+.level-chip.known {
+    cursor: pointer;
+    border-color: #6fe08a88;
+    background: #182518;
+}
+.level-chip.known:hover {
+    background: #1f331f;
+    box-shadow: 0 0 12px rgba(111,224,138,0.35);
+    transform: translateY(-1px);
+}
+.level-chip.known .chip-label::after {
+    content: " · rejouer ↻";
+    color: #6fe08a;
+    font-size: 12px;
 }
 
 button {
