@@ -100,6 +100,61 @@ function getBurningDuration(isLongGap) {
     return base + bonus;
 }
 
+// ======================= GALERIE DES CŒURS DE RÉSONANCE (médailles) =======================
+// 10 paliers faciles à obtenir, avec des écarts de score volontairement petits
+// (renforcement positif). Basé sur masteryPoints, qui est déjà persistant et
+// augmente à chaque niveau rapide/propre (rejouer un niveau compte aussi).
+const MEDALS = [
+    { name: "Godzilla",           threshold: 0,  glow: "rgba(120,170,255,0.5)",  grad: "radial-gradient(circle at 35% 30%, #7db8ff, #1c3a63)" },
+    { name: "Godzilla Alpha",     threshold: 2,  glow: "rgba(90,150,255,0.55)",   grad: "radial-gradient(circle at 35% 30%, #5a9bff, #16305c)" },
+    { name: "Godzilla Burning",   threshold: 5,  glow: "rgba(255,140,60,0.6)",    grad: "radial-gradient(circle at 35% 30%, #ffb15c, #7a2a0a)" },
+    { name: "Shin Godzilla",      threshold: 8,  glow: "rgba(255,90,90,0.55)",    grad: "radial-gradient(circle at 35% 30%, #ff7a7a, #5c1414)" },
+    { name: "Godzilla Earth",     threshold: 12, glow: "rgba(150,90,255,0.55)",   grad: "radial-gradient(circle at 35% 30%, #a888ff, #2a1a4a)" },
+    { name: "Godzilla Ultima",    threshold: 16, glow: "rgba(255,214,102,0.6)",   grad: "radial-gradient(circle at 35% 30%, #ffe08a, #7a5a10)" },
+    { name: "MechaGodzilla",      threshold: 21, glow: "rgba(160,220,255,0.6)",   grad: "radial-gradient(circle at 35% 30%, #cdeeff, #2c4a5c)" },
+    { name: "SpaceGodzilla",      threshold: 27, glow: "rgba(200,120,255,0.6)",   grad: "radial-gradient(circle at 35% 30%, #d9a6ff, #3a1a4a)" },
+    { name: "Godzilla Evolved",   threshold: 34, glow: "rgba(120,255,190,0.6)",   grad: "radial-gradient(circle at 35% 30%, #8affca, #124a38)" },
+    { name: "Roi des Monstres",   threshold: 42, glow: "rgba(255,225,150,0.75)",  grad: "radial-gradient(circle at 35% 30%, #fff2c0, #a5731a)" },
+];
+
+function renderMedalsGallery() {
+    const grid = document.getElementById("medal-grid");
+    const progress = document.getElementById("medals-progress");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const pts = masteryPoints;
+    const next = MEDALS.find(m => pts < m.threshold);
+    if (progress) {
+        progress.textContent = next
+            ? `🔥 Maîtrise actuelle : ${pts} pts — encore ${next.threshold - pts} pt(s) pour débloquer « ${next.name} » !`
+            : `🔥 Maîtrise actuelle : ${pts} pts — toutes les médailles sont débloquées, bravo !`;
+    }
+    MEDALS.forEach((m) => {
+        const unlocked = pts >= m.threshold;
+        const cell = document.createElement("div");
+        cell.className = "medal-core " + (unlocked ? "unlocked" : "locked");
+
+        const orb = document.createElement("div");
+        orb.className = "medal-orb";
+        orb.style.setProperty("--orb-grad", m.grad);
+        orb.style.setProperty("--orb-glow", m.glow);
+        orb.textContent = unlocked ? "🦖" : "🔒";
+
+        const name = document.createElement("div");
+        name.className = "medal-name";
+        name.textContent = unlocked ? m.name : "???";
+
+        const thresh = document.createElement("div");
+        thresh.className = "medal-threshold";
+        thresh.textContent = unlocked ? "Débloqué" : `${m.threshold} pts`;
+
+        cell.appendChild(orb);
+        cell.appendChild(name);
+        cell.appendChild(thresh);
+        grid.appendChild(cell);
+    });
+}
+
 const DECOR_START = "assets/presentation.png"; // écran de démarrage (illustration Godzilla fournie par Julie)
 
 // Décor + barreaux de la prison Monarch (Parc des Kaijus) :
@@ -1368,8 +1423,10 @@ function renderLevelsTrack() {
     const frontier = getFrontierLevelIndex();
     LEVELS.forEach((lvl, i) => {
         const known = defeatedLevels.has(i);
+        const isNext = i === frontier;
+        const isLocked = !known && !isNext;
         const chip = document.createElement("div");
-        chip.className = "level-chip" + (known ? " known" : " unknown") + (i === frontier ? " next" : "");
+        chip.className = "level-chip" + (known ? " known" : isLocked ? " locked" : " next");
 
         const thumb = document.createElement("div");
         thumb.className = "chip-thumb";
@@ -1383,12 +1440,16 @@ function renderLevelsTrack() {
             mctx.drawImage(img, (56 - w) / 2, (56 - h) / 2, w, h);
             thumb.appendChild(mini);
         } else {
-            thumb.textContent = "❓";
+            thumb.textContent = isLocked ? "🔒" : "❓";
         }
 
         const label = document.createElement("div");
         label.className = "chip-label";
-        label.textContent = known ? `${i + 1}. ×${lvl.table} — ${lvl.nom}` : `${i + 1}. ×${lvl.table} — ???`;
+        label.textContent = known
+            ? `${i + 1}. ×${lvl.table} — ${lvl.nom}`
+            : isLocked
+                ? `${i + 1}. ×${lvl.table} — verrouillée`
+                : `${i + 1}. ×${lvl.table} — ???`;
 
         chip.appendChild(thumb);
         chip.appendChild(label);
@@ -1396,10 +1457,11 @@ function renderLevelsTrack() {
         if (known) {
             chip.title = `Rejouer ${lvl.nom} (×${lvl.table}) pour améliorer ton score`;
             chip.addEventListener("click", () => playSpecificLevel(i));
-        } else if (i === frontier) {
-            chip.title = "Prochain défi — clique sur le bouton ci-dessous pour l'affronter";
+        } else if (isNext) {
+            chip.title = "Prochain défi — clique ici ou sur le bouton pour l'affronter";
+            chip.addEventListener("click", () => playSpecificLevel(i));
         } else {
-            chip.title = "Kaiju encore inconnu";
+            chip.title = `Verrouillée — bats le niveau ${i} pour débloquer cette table`;
         }
         track.appendChild(chip);
     });
@@ -1547,52 +1609,62 @@ function drawMysterySilhouette(pctx, x, y, size) {
     pctx.fillText("?", x, y);
 }
 
-// Dessine la scène complète d'une cellule de prison sur un canvas donné :
+// Dessine la scène complète d'une cellule de prison sur un contexte 2D donné,
+// à n'importe quelle taille rectangulaire (width x height) :
 // 1) décor de prison en arrière-plan (cover-fit)
 // 2) le kaiju (image réelle si vaincu, silhouette "?" sinon) au centre
-// 3) les barreaux détourés en premier plan (cover-fit), par-dessus tout
-function drawPrisonCell(pctx, size, kaijuKey, known) {
+// 3) les barreaux détourés en premier plan (cover-fit), optionnels (showBars)
+function drawPrisonScene(pctx, width, height, kaijuKey, known, showBars) {
+    if (showBars === undefined) showBars = true;
     // 1) fond de cellule
     if (ASSETS.decorPrison) {
         const img = ASSETS.decorPrison;
-        const s = Math.max(size / img.width, size / img.height);
+        const s = Math.max(width / img.width, height / img.height);
         const w = img.width * s, h = img.height * s;
-        pctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+        pctx.drawImage(img, (width - w) / 2, (height - h) / 2, w, h);
     } else {
         pctx.fillStyle = "#0c0a10";
-        pctx.fillRect(0, 0, size, size);
+        pctx.fillRect(0, 0, width, height);
     }
     // voile sombre pour la lisibilité
     pctx.fillStyle = "rgba(0,0,0,0.28)";
-    pctx.fillRect(0, 0, size, size);
+    pctx.fillRect(0, 0, width, height);
 
     // 2) le kaiju capturé
-    const cx = size / 2, cy = size / 2 + size * 0.04;
+    const cx = width / 2, cy = height / 2 + height * 0.04;
+    const ref = Math.min(width, height);
     if (known && ASSETS.kaiju[kaijuKey]) {
         const img = ASSETS.kaiju[kaijuKey];
-        const kw = size * 0.72, kh = kw * (img.height / img.width);
+        const kw = ref * 0.72, kh = kw * (img.height / img.width);
         pctx.drawImage(img, cx - kw / 2, cy - kh / 2, kw, kh);
     } else if (!known) {
-        drawMysterySilhouette(pctx, cx, cy, size * 0.6);
+        drawMysterySilhouette(pctx, cx, cy, ref * 0.6);
     }
 
-    // 3) barreaux en premier plan
+    // 3) barreaux en premier plan (peuvent être masqués à la demande)
+    if (!showBars) return;
     if (ASSETS.barreauxPrison) {
         const img = ASSETS.barreauxPrison;
-        const s = Math.max(size / img.width, size / img.height);
+        const s = Math.max(width / img.width, height / img.height);
         const w = img.width * s, h = img.height * s;
-        pctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+        pctx.drawImage(img, (width - w) / 2, (height - h) / 2, w, h);
     } else {
         // secours : quelques barreaux dessinés en code si l'image manque encore
         pctx.save();
         pctx.strokeStyle = "rgba(210,210,220,0.9)";
-        pctx.lineWidth = size * 0.045;
+        pctx.lineWidth = ref * 0.045;
         for (let i = 1; i <= 5; i++) {
-            const bx = (size / 6) * i;
-            pctx.beginPath(); pctx.moveTo(bx, 0); pctx.lineTo(bx, size); pctx.stroke();
+            const bx = (width / 6) * i;
+            pctx.beginPath(); pctx.moveTo(bx, 0); pctx.lineTo(bx, height); pctx.stroke();
         }
         pctx.restore();
     }
+}
+
+// Version carrée (vignettes de la grille du parc) : garde le même nom qu'avant
+// pour ne rien casser ailleurs dans le code.
+function drawPrisonCell(pctx, size, kaijuKey, known) {
+    drawPrisonScene(pctx, size, size, kaijuKey, known, true);
 }
 
 function renderParkScreen() {
@@ -1603,7 +1675,7 @@ function renderParkScreen() {
     LEVELS.forEach((lvl, i) => {
         const known = defeatedLevels.has(i);
         const cell = document.createElement("div");
-        cell.className = "park-cell" + (known ? "" : " locked");
+        cell.className = "park-cell" + (known ? " clickable" : " locked");
 
         const thumb = document.createElement("div");
         thumb.className = "cell-thumb";
@@ -1618,9 +1690,47 @@ function renderParkScreen() {
 
         cell.appendChild(thumb);
         cell.appendChild(name);
+        if (known) {
+            cell.title = `Voir ${lvl.nom} en grand`;
+            cell.addEventListener("click", () => openParkDetail(i));
+        }
         grid.appendChild(cell);
     });
 }
+
+// ---------- Vue agrandie d'une cellule du parc (barreaux amovibles) ----------
+let parkDetailIndex = -1;
+let parkBarsVisible = true;
+
+function openParkDetail(idx) {
+    if (!defeatedLevels.has(idx)) return; // on ne zoome que sur un kaiju déjà capturé
+    parkDetailIndex = idx;
+    parkBarsVisible = true;
+    renderParkDetail();
+    document.getElementById("park-screen").classList.add("hidden");
+    document.getElementById("park-detail-screen").classList.remove("hidden");
+}
+
+function renderParkDetail() {
+    const lvl = LEVELS[parkDetailIndex];
+    if (!lvl) return;
+    const known = defeatedLevels.has(parkDetailIndex);
+    document.getElementById("park-detail-title").textContent = `🏛️ ${known ? lvl.nom : "???"}`;
+    const canvas = document.getElementById("park-detail-canvas");
+    drawPrisonScene(canvas.getContext("2d"), canvas.width, canvas.height, lvl.kaiju, known, parkBarsVisible);
+    document.getElementById("btn-toggle-bars").textContent = parkBarsVisible
+        ? "🔓 Enlever les barreaux"
+        : "🔒 Remettre les barreaux";
+}
+
+document.getElementById("btn-toggle-bars").addEventListener("click", () => {
+    parkBarsVisible = !parkBarsVisible;
+    renderParkDetail();
+});
+document.getElementById("btn-park-detail-back").addEventListener("click", () => {
+    document.getElementById("park-detail-screen").classList.add("hidden");
+    document.getElementById("park-screen").classList.remove("hidden");
+});
 
 document.getElementById("btn-park").addEventListener("click", () => {
     renderParkScreen();
@@ -1629,6 +1739,25 @@ document.getElementById("btn-park").addEventListener("click", () => {
 });
 document.getElementById("btn-park-back").addEventListener("click", () => {
     document.getElementById("park-screen").classList.add("hidden");
+    document.getElementById("start-screen").classList.remove("hidden");
+});
+
+document.getElementById("btn-rules").addEventListener("click", () => {
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("rules-screen").classList.remove("hidden");
+});
+document.getElementById("btn-rules-back").addEventListener("click", () => {
+    document.getElementById("rules-screen").classList.add("hidden");
+    document.getElementById("start-screen").classList.remove("hidden");
+});
+
+document.getElementById("btn-medals").addEventListener("click", () => {
+    renderMedalsGallery();
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("medals-screen").classList.remove("hidden");
+});
+document.getElementById("btn-medals-back").addEventListener("click", () => {
+    document.getElementById("medals-screen").classList.add("hidden");
     document.getElementById("start-screen").classList.remove("hidden");
 });
 
