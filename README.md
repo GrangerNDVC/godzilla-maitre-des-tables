@@ -1,5 +1,42 @@
 # Godzilla : Maître des Tables — README
 
+## 🔴 Mise à jour du 12/07/2026 (session 2) — transmission propre
+
+### Ce qui a été fait cette session
+1. **Mode burning progressif ("maîtrise")** : un compteur persistant (`localStorage`, `masteryPoints`) augmente à chaque niveau rapide/propre. Plus il grandit, moins il faut de niveaux rapides d'affilée pour activer le burning (2 → 1 après 6 points) et plus sa durée s'allonge (+2s par tranche de 3 points, jusqu'à +10s). Voir `getBurningStreakNeeded()` / `getBurningDuration()` dans `game.js`.
+2. **Adaptation tablette (iPad / Surface 10-11")** : le jeu est maintenant mis à l'échelle automatiquement via `fitGameToViewport()` (CSS `transform: scale()`), recalculé au redimensionnement et au changement d'orientation. Il ne dépasse jamais sa taille native (pas d'agrandissement flou) et tient toujours dans l'écran, portrait ou paysage.
+3. **Chrono verrouillable** : petit bouton ⚙️ en haut à droite ouvre un réglage "Afficher le chrono" — **désactivé par défaut** (persisté en `localStorage`). Le chrono continue de tourner en interne (bonus de rapidité inchangé), seul l'affichage est masqué.
+4. **Score total visible en temps réel** : nouvelle case "🏆 Points" dans la barre de stats, mise à jour immédiatement à chaque bonus (burning, fin de niveau), pour rendre les combos et le burning motivants visuellement.
+5. **Apparition de l'ennemi + burning forcé à 3 calculs restants** : quand il ne reste plus que 3 calculs à trouver (courant inclus), le kaiju du niveau apparaît partiellement derrière des rochers (dessinés en code) en haut à droite de l'écran, et Godzilla passe automatiquement en mode burning jusqu'à la fin du niveau (voir `drawEnemyPeeking()` / `ENEMY_REVEAL_REMAINING`).
+6. **Victoire "tête en bas" + phrase de capture Monarch** : le kaiju vaincu bascule maintenant à 180° (vraiment tête en bas) avant de s'effondrer, et le texte affiche d'abord "NOM EST VAINCU !" puis "Grâce à Godzilla, MONARCH a capturé NOM et le ramène en prison." (écran allongé à 2,8s pour laisser le temps de lire).
+7. **Nom du kaiju masqué pendant le combat tant qu'il n'a jamais été vaincu** : la case "KAIJU" de la barre de stats affiche "???" au lieu du nom en cours de partie pour un niveau jamais gagné (avant, le nom était visible pendant le combat même si le tableau d'accueil le masquait). En rejouant un niveau déjà vaincu, une phrase d'intro apparaît avant la première question : "NOM s'est échappé de sa prison, aide Monarch à le recapturer !"
+8. **Lore de départ** (Apex Cybernetics / pierres de résonance / Monarch) sur l'écran d'accueil, présenté en courtes lignes avec une icône par idée (pas de gros pavé de texte) pour rester facile à lire visuellement.
+9. **"Parc des Kaiju de Monarch"** : nouvel écran accessible depuis le menu d'accueil (bouton "🏛️ Parc des Kaiju de Monarch"). Chaque kaiju vaincu apparaît dans une cellule de prison composée des 3 calques demandés : `decors_prison.jpg` (fond) → image du kaiju → `barreaux_prison.png` (barreaux, premier plan, détourés). Les kaijus jamais vaincus affichent une silhouette "?" derrière les mêmes barreaux.
+10. **Fin de niveau : plus d'enchaînement automatique**. Un nouvel écran intermédiaire (`level-complete-screen`) propose 3 choix : ➡️ Niveau suivant / 🔁 Recommencer ce niveau / 🏠 Menu. (La victoire finale — tous les niveaux battus — garde son propre écran de fin de partie inchangé.)
+11. **3 nouvelles images intégrées** : `godzdilla_presentation.png` → `assets/presentation.png` (utilisée comme fond de l'écran d'accueil, remplace l'ancien `decors_start.jpg` qui n'a jamais existé), `decors_MONARCH.jpg` → `assets/decors_prison.jpg`, `barreaux_prison.png` → `assets/barreaux_prison.png` (détourée comme les personnages, fond bleu retiré).
+
+### Testé automatiquement cette session (Playwright headless)
+- Chargement complet sans erreur JS (`pageerror`), sur viewport bureau (1112×834) et tablette portrait (834×1112).
+- Écran d'accueil avec la nouvelle illustration de présentation.
+- Écran "Parc des Kaiju de Monarch" avec cellules à 3 calques (décor + kaiju + barreaux), y compris avec un kaiju marqué comme vaincu de force pour vérifier l'affichage réel.
+- Écran de fin de niveau (les 3 boutons apparaissent et sont bien reliés).
+- Apparition de l'ennemi derrière les rochers + passage automatique en burning à 3 calculs restants (déclenché en forçant `factsPool` à 2 éléments).
+
+### ⚠️ Ce qui manque encore côté images (bloquant partiellement, comme lors des sessions précédentes)
+**Aucune image de kaiju (`assets/kaiju_*.png`) ni de décor de niveau (`assets/decors_*.jpg`) n'est présente dans ce dossier.** Le jeu reste jouable (silhouettes de secours dessinées en code + fond sombre uni), mais pour l'expérience complète il faut déposer dans `assets/` :
+- `kaiju_rodan.png`, `kaiju_anguirus.png`, `kaiju_mechagodzilla.png`, `kaiju_gigan.png`, `kaiju_space_godzilla.png`, `kaiju_biollante.png`, `kaiju_destroyah.png`, `kaiju_ghidorah.png`, `kaiju_mothra.png` (fond bleu pur, détourage automatique)
+- `decors_rodan.jpg`, `decors_anguirus.jpg`, `decors_mechagodzilla.jpg`, `decors_gigan.jpg`, `decors_space_godzilla.jpg`, `decors_biollante.jpg`, `decors_destroyah.jpg`, `decors_ghidorah.jpg` (images plates, pas de détourage)
+- `rayon.png` (rayon normal hors mode burning — seul `rayon_burning.png` a été fourni jusqu'ici)
+
+Rien à changer dans le code : dès que ces fichiers sont déposés avec ces noms exacts, ils sont chargés et utilisés automatiquement.
+
+### Pistes pour une prochaine session (facultatif, pas bloquant)
+- Réutiliser `decors_prison.jpg` + `barreaux_prison.png` aussi sur l'écran de capture en fin de niveau (actuellement le kaiju vaincu bascule sur le décor du niveau, pas sur un fond de prison) — cosmétique, pas indispensable.
+- Si une image "Mothra" dédiée au combo est ajoutée, vérifier son détourage comme les autres.
+- Ajuster finement le timing/l'équilibrage de la maîtrise progressive du burning (nombre de points nécessaires, paliers de durée) une fois testé en classe.
+
+---
+
 ## Pour lancer / déployer
 Dossier autonome : `index.html` + `style.css` + `game.js` + `assets/`.
 - **Test local** : ouvre `index.html` dans un navigateur (double-clic) — tout fonctionne en local, pas de serveur requis.

@@ -14,16 +14,27 @@
 
 html, body {
     margin: 0;
+    height: 100%;
     min-height: 100vh;
     background: radial-gradient(ellipse at 50% 0%, #1a2438 0%, #05070d 70%);
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Rajdhani', 'Segoe UI', sans-serif;
-    padding: 20px;
+    padding: 10px;
     cursor: none;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: manipulation;
 }
 
+/* ---------- Mise à l'échelle tablette (iPad / Surface 10-11") ----------
+   Le jeu est dessiné à taille fixe (1100x700, tout le HUD est positionné en px
+   sur cette base) puis mis à l'échelle en bloc via transform: scale() (calculé
+   en JS, voir fitGameToViewport() dans game.js) pour tenir dans n'importe quel
+   écran sans jamais déformer ni décaler la mise en page. #game-wrapper est
+   redimensionné en même temps que le scale pour que la mise en page de la
+   page (centrage) reste correcte. */
 #game-wrapper {
     position: relative;
     border-radius: 28px;
@@ -33,6 +44,7 @@ html, body {
         inset 0 1px 2px rgba(255,255,255,0.08);
     background: #000000aa;
     padding: 8px;
+    overflow: hidden;
 }
 
 #game-container {
@@ -43,6 +55,7 @@ html, body {
     overflow: hidden;
     box-shadow: inset 0 0 40px rgba(0,0,0,0.75);
     background: #06080f;
+    transform-origin: top left;
 }
 
 canvas {
@@ -387,6 +400,121 @@ button.secondary:hover { background: #ffb34718; }
     border-radius: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 0 2px white;
+}
+
+/* ---------- Bouton réglages + panneau (afficher/masquer le chrono) ---------- */
+#settings-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(8,10,18,0.75);
+    border: 1px solid rgba(255,178,71,0.35);
+    color: #ffb347;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 80;
+    cursor: pointer;
+}
+#settings-panel {
+    position: absolute;
+    top: 60px;
+    right: 14px;
+    background: linear-gradient(135deg, rgba(10,14,24,0.97), rgba(30,14,10,0.97));
+    border: 1px solid rgba(255,178,71,0.35);
+    border-radius: 14px;
+    padding: 14px 18px;
+    z-index: 80;
+    font-size: 15px;
+    color: #e8e8ee;
+    min-width: 230px;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.6);
+}
+#settings-panel label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+#chrono-box.hidden-by-setting { visibility: hidden; }
+
+/* ---------- Encart lore (histoire), pensé pour être lu facilement ---------- */
+.lore-box {
+    max-width: 660px;
+    text-align: left;
+    background: rgba(0,0,0,0.35);
+    border-radius: 16px;
+    padding: 16px 22px;
+    margin-top: 6px;
+    border-left: 5px solid #ff6b35;
+}
+.lore-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #e3e6f2;
+    margin: 6px 0;
+}
+.lore-line .ico { font-size: 26px; flex-shrink: 0; width: 32px; text-align: center; }
+
+/* ---------- Bouton "Parc des Kaiju de Monarch" ---------- */
+#btn-park {
+    background: linear-gradient(135deg, #2c3550, #171c2c);
+    color: #ffb347;
+    border: 2px solid #ffb34766;
+}
+#btn-park:hover { background: #232a40; }
+
+/* ---------- Écran "Parc des Kaiju de Monarch" ---------- */
+.park-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+    max-width: 900px;
+}
+.park-cell {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    background: #0c0a10;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 22px rgba(0,0,0,0.8);
+}
+.park-cell .cell-thumb {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+}
+.park-cell .cell-thumb canvas { width: 100%; height: 100%; display: block; }
+.park-cell .cell-name {
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #ffe6b0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    z-index: 2;
+}
+.park-cell.locked .cell-name { color: #9098b0; }
+
+/* ---------- Écran fin de niveau (menu / niveau suivant / recommencer) ---------- */
+#level-complete-screen .lvl-summary {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #ffd966;
+    margin-bottom: 6px;
 }
 
 @keyframes confetti {

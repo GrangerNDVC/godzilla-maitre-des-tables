@@ -67,12 +67,47 @@ const BURNING_STREAK_NEEDED = 2;    // nb de niveaux rapides d'affilée pour act
 // (uniquement le badge "🔥 BURNING" allumé/éteint) afin de ne jamais créer de pression
 // chronométrée supplémentaire au-dessus du chrono de niveau déjà présent.
 const BURNING_GAP_BIG = 3;            // secondes d'écart sous le seuil pour obtenir le palier long
-const BURNING_DURATION_SHORT = 10000; // ms
-const BURNING_DURATION_LONG = 20000;  // ms
+const BURNING_DURATION_SHORT = 10000; // ms (base, avant bonus de maîtrise)
+const BURNING_DURATION_LONG = 20000;  // ms (base, avant bonus de maîtrise)
 const BURNING_KILL_BONUS = 5;             // points bonus immédiats par cristal correct pendant le burning
 const BURNING_LEVEL_BONUS_MULTIPLIER = 1.5; // multiplicateur sur le bonus de rapidité de fin de niveau pendant le burning
 
-const DECOR_START = "assets/decors_start.jpg"; // écran de démarrage / rencontre Mothra (sans ennemi)
+// ======================= MAÎTRISE PROGRESSIVE DU MODE BURNING =======================
+// Au début, le mode burning doit rester rare et court pour ne pas être acquis
+// tout de suite. Plus l'élève enchaîne de niveaux rapides et propres au fil
+// des parties (persistant via localStorage, indépendant d'un niveau précis),
+// plus il devient FACILE à déclencher (moins de niveaux rapides nécessaires
+// d'affilée) ET plus il dure LONGTEMPS une fois activé.
+const MASTERY_STORAGE_KEY = "gmt_mastery_points_v1";
+function loadMasteryPoints() {
+    try { return parseInt(localStorage.getItem(MASTERY_STORAGE_KEY) || "0", 10) || 0; } catch (e) { return 0; }
+}
+function saveMasteryPoints() {
+    try { localStorage.setItem(MASTERY_STORAGE_KEY, String(masteryPoints)); } catch (e) { /* tant pis */ }
+}
+let masteryPoints = loadMasteryPoints();
+
+// nb de niveaux rapides/propres d'affilée requis pour activer le burning :
+// commence à 2 (comme avant), descend à 1 après 6 points de maîtrise
+function getBurningStreakNeeded() {
+    return masteryPoints >= 6 ? 1 : BURNING_STREAK_NEEDED;
+}
+// durée du burning une fois activé : augmente progressivement avec la maîtrise
+// (jusqu'à +10s de bonus, atteint à 15 points de maîtrise)
+function getBurningDuration(isLongGap) {
+    const base = isLongGap ? BURNING_DURATION_LONG : BURNING_DURATION_SHORT;
+    const bonus = Math.min(10000, Math.floor(masteryPoints / 3) * 2000);
+    return base + bonus;
+}
+
+const DECOR_START = "assets/presentation.png"; // écran de démarrage (illustration Godzilla fournie par Julie)
+
+// Décor + barreaux de la prison Monarch (Parc des Kaijus) :
+// - decors_prison.jpg : fond de la cellule (image plate, pas de détourage)
+// - barreaux_prison.png : barreaux en premier plan, fond bleu pur -> détourés
+//   comme les personnages, pour laisser voir le kaiju capturé au travers.
+const DECOR_PRISON_FILE = "assets/decors_prison.jpg";
+const BARREAUX_PRISON_FILE = "assets/barreaux_prison.png";
 
 // ======================= PROGRESSION / KAIJUS INCONNUS =======================
 // Un kaiju est "inconnu" (❓, pas de nom ni d'image sur l'écran d'accueil) tant
@@ -181,6 +216,8 @@ const ASSETS = {
     rayonBurning: null,          // optionnel
     mothra: null,   // gardienne bienveillante (combo), pas un adversaire
     decorStart: null,
+    decorPrison: null,    // fond de cellule (Parc des Kaijus)
+    barreauxPrison: null, // barreaux en premier plan, détourés (Parc des Kaijus)
     kaiju: {},      // clé -> HTMLImageElement (détourée) ou null
     decors: {},     // niveau index -> HTMLImageElement
     ready: false,
@@ -214,6 +251,8 @@ function preloadAllAssets(onAllReady) {
         }, DECOR_START);
     });
     pending++; loadPlainImage(DECOR_START, (img) => { ASSETS.decorStart = img; tick(); });
+    pending++; loadPlainImage(DECOR_PRISON_FILE, (img) => { ASSETS.decorPrison = img; tick(); });
+    pending++; loadAndKeyImage(BARREAUX_PRISON_FILE, (img) => { ASSETS.barreauxPrison = img; tick(); });
 }
 
 // ======================= FAITS & LEURRES =======================
@@ -399,6 +438,13 @@ let mothraFlyby = null; // { t, duration } animation de survol bienveillant
 let burningStreak = 0;
 let burningMode = false;
 let burningExpiresAt = 0; // timestamp (performance.now()) auquel le mode burning s'éteint tout seul
+
+// apparition de l'ennemi derrière les pierres quand il ne reste plus que 3
+// calculs à trouver dans le niveau : Godzilla passe alors automatiquement
+// (et reste) en mode burning jusqu'à la fin du niveau.
+let enemyRevealed = false;
+let forcedBurning = false;
+const ENEMY_REVEAL_REMAINING = 3; // nb de calculs restants (dont le courant) déclenchant l'apparition
 
 // beam animation state
 let beam = null; // { x1,y1,x2,y2, progress, phase, targetCristal, hue }
@@ -692,6 +738,43 @@ function drawBackground() {
     }
 }
 
+// ======================= APPARITION DE L'ENNEMI (3 calculs restants) =======================
+// Le kaiju du niveau apparaît partiellement, comme caché derrière des rochers
+// (dessinés directement en canvas), en fond à droite de l'écran, pour prévenir
+// visuellement que la fin du niveau approche — en plus du passage automatique
+// en mode burning (voir nextFact()).
+function drawEnemyPeeking() {
+    if (!enemyRevealed) return;
+    const img = ASSETS.kaiju[LEVELS[currentLevelIndex].kaiju];
+    const cx = canvas.width - 175, cy = SAFE_TOP + 150;
+    const size = 260;
+    ctx.save();
+    ctx.globalAlpha = 0.92;
+    if (img) {
+        ctx.drawImage(img, cx - size / 2, cy - size / 2, size, size * (img.height / img.width));
+    } else {
+        drawKaijuSilhouette(cx, cy, size, 1);
+    }
+    ctx.restore();
+
+    // rochers du décor par-dessus le bas du kaiju, pour le cacher partiellement
+    ctx.save();
+    ctx.fillStyle = "#14100e";
+    const rockY = cy + size * 0.12;
+    ctx.beginPath();
+    ctx.moveTo(cx - size * 0.62, cy + size * 0.55);
+    ctx.lineTo(cx - size * 0.2, rockY);
+    ctx.lineTo(cx + size * 0.05, cy + size * 0.42);
+    ctx.lineTo(cx + size * 0.35, rockY + 10);
+    ctx.lineTo(cx + size * 0.65, cy + size * 0.5);
+    ctx.lineTo(cx + size * 0.68, cy + size * 0.62);
+    ctx.lineTo(cx - size * 0.65, cy + size * 0.62);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0,0,0,0.5)"; ctx.lineWidth = 3; ctx.stroke();
+    ctx.restore();
+}
+
 // ======================= GODZILLA + RAYON =======================
 // Position de Godzilla à l'écran (bas-gauche) et point de sortie du
 // rayon (bouche), en fraction de la largeur/hauteur de l'image.
@@ -798,9 +881,11 @@ function drawBeam() {
 function updateUI() {
     document.getElementById("lbl-level").innerText = currentLevelIndex + 1;
     document.getElementById("lbl-score").innerText = currentScore;
+    document.getElementById("lbl-points").innerText = totalTimeBonus;
     document.getElementById("lbl-errors").innerText = errors;
     document.getElementById("lbl-table").innerText = LEVELS[currentLevelIndex].table;
-    document.getElementById("lbl-kaiju").innerText = LEVELS[currentLevelIndex].nom;
+    document.getElementById("lbl-kaiju").innerText =
+        defeatedLevels.has(currentLevelIndex) ? LEVELS[currentLevelIndex].nom : "???";
     document.getElementById("burning-badge").classList.toggle("hidden", !burningMode);
 }
 
@@ -909,6 +994,16 @@ function nextFact() {
     document.getElementById("phrase-card").innerText = `${currentFact.table} × ${currentFact.factor} = ?`;
     const opts = buildOptionsForFact(currentFact);
     cristaux = opts.map((o, i) => new Cristal(o.val, o.correct, LEVELS[currentLevelIndex].kaiju, Math.floor(Math.random() * 4)));
+
+    // il ne reste plus que ENEMY_REVEAL_REMAINING calculs (celui-ci inclus) :
+    // le kaiju apparaît derrière les pierres du décor et Godzilla passe
+    // automatiquement (et reste) en mode burning jusqu'à la fin du niveau.
+    if (!enemyRevealed && factsPool.length + 1 <= ENEMY_REVEAL_REMAINING) {
+        enemyRevealed = true;
+        forcedBurning = true;
+        burningMode = true;
+        updateUI();
+    }
 }
 
 // Grand écran "boss vaincu" : le kaiju du niveau apparaît en entier,
@@ -920,12 +1015,13 @@ function playBossDefeatSequence(onDone) {
     initAudio();
     playImpactSound();
     const kaijuKey = LEVELS[currentLevelIndex].kaiju;
-    bossDefeat = { kaijuKey, start: performance.now(), duration: 1500 };
+    const duration = 2800;
+    bossDefeat = { kaijuKey, start: performance.now(), duration };
     setTimeout(() => {
         bossDefeat = null;
         shotLock = false;
         onDone();
-    }, 1500);
+    }, duration);
 }
 
 function drawBossDefeat() {
@@ -934,8 +1030,8 @@ function drawBossDefeat() {
     const t = Math.min(1, elapsed / bossDefeat.duration);
     const img = ASSETS.kaiju[bossDefeat.kaijuKey];
     const cx = canvas.width / 2, baseY = canvas.height / 2 - 20;
-    // bascule (0 -> 75°) et chute (léger déplacement vers le bas + fondu)
-    const rot = t * 1.3;
+    // bascule tête en bas (0 -> 180°) et chute (léger déplacement vers le bas + fondu)
+    const rot = t * Math.PI;
     const fall = t * 90;
     const alpha = 1 - Math.max(0, t - 0.65) / 0.35;
 
@@ -961,9 +1057,35 @@ function drawBossDefeat() {
     ctx.textAlign = "center";
     ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 8;
     ctx.globalAlpha = Math.min(1, t * 3);
-    ctx.fillText(`${LEVELS[currentLevelIndex].nom} EST VAINCU !`, cx, 70);
+    const nom = LEVELS[currentLevelIndex].nom;
+    ctx.font = "bold 30px 'Bebas Neue', sans-serif";
+    if (t < 0.55) {
+        ctx.fillText(`${nom} EST VAINCU !`, cx, 60);
+    } else {
+        ctx.font = "bold 26px 'Bebas Neue', sans-serif";
+        wrapCaptureText(`Grâce à Godzilla, MONARCH a capturé ${nom} et le ramène en prison.`, cx, 60, 780, 32);
+    }
     ctx.restore();
     ctx.globalAlpha = 1;
+}
+
+// petite fonction utilitaire pour retourner à la ligne un texte trop long
+// dans le canvas (nécessaire pour la phrase de capture Monarch)
+function wrapCaptureText(text, x, y, maxWidth, lineHeight) {
+    const words = text.split(" ");
+    let line = "";
+    let ly = y;
+    for (let i = 0; i < words.length; i++) {
+        const test = line + words[i] + " ";
+        if (ctx.measureText(test).width > maxWidth && line !== "") {
+            ctx.fillText(line, x, ly);
+            line = words[i] + " ";
+            ly += lineHeight;
+        } else {
+            line = test;
+        }
+    }
+    ctx.fillText(line, x, ly);
 }
 
 function handleShot(x, y) {
@@ -1081,15 +1203,17 @@ function stopLevelTimerAndComputeBonus() {
     // pendant le burning, le bonus de fin de niveau est majoré (voir BURNING_LEVEL_BONUS_MULTIPLIER)
     if (burningMode) levelBonus = Math.round(levelBonus * BURNING_LEVEL_BONUS_MULTIPLIER);
     totalTimeBonus += levelBonus;
+    updateUI();
 
     // mode burning : niveaux rapides enchaînés (voir BURNING_TIME_THRESHOLD).
     // La durée accordée dépend de l'écart ("gap") entre le temps réalisé et le seuil :
     // plus on est rapide, plus le mode dure longtemps une fois activé/relancé.
     if (finalTime <= BURNING_TIME_THRESHOLD && errors === 0) {
         burningStreak++;
-        if (burningStreak >= BURNING_STREAK_NEEDED) {
+        masteryPoints++; saveMasteryPoints(); // chaque niveau rapide/propre fait progresser la maîtrise
+        if (burningStreak >= getBurningStreakNeeded()) {
             const gap = BURNING_TIME_THRESHOLD - finalTime;
-            const duration = gap >= BURNING_GAP_BIG ? BURNING_DURATION_LONG : BURNING_DURATION_SHORT;
+            const duration = getBurningDuration(gap >= BURNING_GAP_BIG);
             burningMode = true;
             burningExpiresAt = performance.now() + duration; // relance le décompte à chaque niveau rapide/propre
         }
@@ -1105,7 +1229,7 @@ function stopLevelTimerAndComputeBonus() {
 
 // à appeler chaque frame : éteint le mode burning une fois son délai écoulé
 function updateBurningTimeout() {
-    if (burningMode && performance.now() >= burningExpiresAt) {
+    if (burningMode && !forcedBurning && performance.now() >= burningExpiresAt) {
         burningMode = false;
         const badge = document.getElementById("burning-badge");
         if (badge) badge.classList.add("hidden");
@@ -1115,6 +1239,7 @@ function updateBurningTimeout() {
 // ======================= NIVEAUX =======================
 function levelUp(bonus) {
     showCelebration(`+${bonus}pts !`);
+    const completedIndex = currentLevelIndex;
     const prevPalier = LEVELS[currentLevelIndex].palier;
     currentLevelIndex++;
     if (currentLevelIndex >= LEVELS.length) {
@@ -1125,7 +1250,39 @@ function levelUp(bonus) {
     currentScore = 0; errors = 0; comboTimestamps = [];
     playFanfare();
     if (LEVELS[currentLevelIndex].palier !== prevPalier) flashPalier();
-    initLevel();
+    gameActive = false;
+    showLevelCompleteScreen(completedIndex, bonus);
+}
+
+// Écran intermédiaire de fin de niveau : au lieu d'enchaîner automatiquement,
+// on laisse le joueur choisir entre continuer, recommencer ou retourner au menu.
+function showLevelCompleteScreen(completedIndex, bonus) {
+    const nom = LEVELS[completedIndex].nom;
+    const nextNom = LEVELS[currentLevelIndex].nom; // reste "???" si jamais vaincu, géré côté affichage
+    const nextKnown = defeatedLevels.has(currentLevelIndex);
+    document.getElementById("lvl-complete-title").innerHTML = `✅ ${nom} CAPTURÉ !`;
+    document.getElementById("lvl-complete-desc").innerHTML =
+        `Bonus de ce niveau : +${bonus} points ⚡<br>` +
+        `Prochain défi : ${nextKnown ? nextNom : "un nouveau kaiju mystère"} (table de ${LEVELS[currentLevelIndex].table}).`;
+
+    document.getElementById("btn-lvl-next").onclick = () => {
+        document.getElementById("level-complete-screen").classList.add("hidden");
+        gameActive = true;
+        initLevel();
+    };
+    document.getElementById("btn-lvl-retry").onclick = () => {
+        document.getElementById("level-complete-screen").classList.add("hidden");
+        currentLevelIndex = completedIndex;
+        currentScore = 0; errors = 0; comboTimestamps = [];
+        gameActive = true;
+        initLevel();
+    };
+    document.getElementById("btn-lvl-menu").onclick = () => {
+        document.getElementById("level-complete-screen").classList.add("hidden");
+        goToMenu();
+    };
+
+    document.getElementById("level-complete-screen").classList.remove("hidden");
 }
 
 function initLevel() {
@@ -1136,8 +1293,18 @@ function initLevel() {
     beam = null;
     godzillaMouthOpen = false;
     shotLock = false;
+    enemyRevealed = false;
+    forcedBurning = false;
     startLevelTimer();
-    nextFact();
+    if (defeatedLevels.has(currentLevelIndex)) {
+        // niveau déjà vaincu (on le rejoue) : petite phrase de rappel avant
+        // la première question, plutôt que de révéler le nom directement.
+        const nom = LEVELS[currentLevelIndex].nom;
+        document.getElementById("phrase-card").innerText = `${nom} s'est échappé de sa prison, aide Monarch à le recapturer !`;
+        setTimeout(nextFact, 2200);
+    } else {
+        nextFact();
+    }
 }
 
 function retryCurrentLevel() {
@@ -1286,6 +1453,7 @@ function startGame() {
 function gameLoop() {
     updateBurningTimeout();
     drawBackground();
+    if (gameActive) drawEnemyPeeking();
 
     if (gameActive || cristaux.length) {
         for (const c of cristaux) { if (gameActive) c.update(); c.draw(); }
@@ -1332,6 +1500,157 @@ canvas.addEventListener("mousedown", (e) => {
     my = Math.min(Math.max(SAFE_TOP + 10, my), canvas.height - 5);
     handleShot(mx, my);
 });
+
+// ======================= RÉGLAGES (chrono affiché ou non) =======================
+// Masqué par défaut pour ne pas ajouter de pression chronométrée visible ;
+// l'enseignant ou l'élève peut le réactiver via le petit engrenage ⚙️.
+const CHRONO_VISIBLE_KEY = "gmt_chrono_visible_v1";
+function loadChronoVisible() {
+    try { return localStorage.getItem(CHRONO_VISIBLE_KEY) === "1"; } catch (e) { return false; }
+}
+function saveChronoVisible(v) {
+    try { localStorage.setItem(CHRONO_VISIBLE_KEY, v ? "1" : "0"); } catch (e) { /* tant pis */ }
+}
+function applyChronoVisible(v) {
+    document.getElementById("chrono-box").classList.toggle("hidden-by-setting", !v);
+}
+let chronoVisible = loadChronoVisible();
+applyChronoVisible(chronoVisible);
+document.getElementById("chk-show-chrono").checked = chronoVisible;
+document.getElementById("chk-show-chrono").addEventListener("change", (e) => {
+    chronoVisible = e.target.checked;
+    saveChronoVisible(chronoVisible);
+    applyChronoVisible(chronoVisible);
+});
+document.getElementById("settings-btn").addEventListener("click", () => {
+    document.getElementById("settings-panel").classList.toggle("hidden");
+});
+
+// ======================= PARC DES KAIJUS DE MONARCH =======================
+// silhouette de secours pour une cellule dont le kaiju n'est pas encore vaincu
+// (variante utilisable avec n'importe quel contexte canvas, pas seulement le
+// canvas principal du jeu — voir drawKaijuSilhouette pour la version de jeu)
+function drawMysterySilhouette(pctx, x, y, size) {
+    pctx.save();
+    pctx.globalAlpha = 0.8;
+    pctx.fillStyle = "#0d0a12";
+    pctx.beginPath();
+    pctx.ellipse(x, y + size * 0.12, size * 0.3, size * 0.36, 0, 0, Math.PI * 2);
+    pctx.fill();
+    pctx.beginPath();
+    pctx.ellipse(x - size * 0.1, y - size * 0.26, size * 0.2, size * 0.18, -0.3, 0, Math.PI * 2);
+    pctx.fill();
+    pctx.restore();
+    pctx.font = `bold ${Math.floor(size * 0.3)}px 'Bebas Neue', sans-serif`;
+    pctx.fillStyle = "#ffb347";
+    pctx.textAlign = "center"; pctx.textBaseline = "middle";
+    pctx.fillText("?", x, y);
+}
+
+// Dessine la scène complète d'une cellule de prison sur un canvas donné :
+// 1) décor de prison en arrière-plan (cover-fit)
+// 2) le kaiju (image réelle si vaincu, silhouette "?" sinon) au centre
+// 3) les barreaux détourés en premier plan (cover-fit), par-dessus tout
+function drawPrisonCell(pctx, size, kaijuKey, known) {
+    // 1) fond de cellule
+    if (ASSETS.decorPrison) {
+        const img = ASSETS.decorPrison;
+        const s = Math.max(size / img.width, size / img.height);
+        const w = img.width * s, h = img.height * s;
+        pctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+    } else {
+        pctx.fillStyle = "#0c0a10";
+        pctx.fillRect(0, 0, size, size);
+    }
+    // voile sombre pour la lisibilité
+    pctx.fillStyle = "rgba(0,0,0,0.28)";
+    pctx.fillRect(0, 0, size, size);
+
+    // 2) le kaiju capturé
+    const cx = size / 2, cy = size / 2 + size * 0.04;
+    if (known && ASSETS.kaiju[kaijuKey]) {
+        const img = ASSETS.kaiju[kaijuKey];
+        const kw = size * 0.72, kh = kw * (img.height / img.width);
+        pctx.drawImage(img, cx - kw / 2, cy - kh / 2, kw, kh);
+    } else if (!known) {
+        drawMysterySilhouette(pctx, cx, cy, size * 0.6);
+    }
+
+    // 3) barreaux en premier plan
+    if (ASSETS.barreauxPrison) {
+        const img = ASSETS.barreauxPrison;
+        const s = Math.max(size / img.width, size / img.height);
+        const w = img.width * s, h = img.height * s;
+        pctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+    } else {
+        // secours : quelques barreaux dessinés en code si l'image manque encore
+        pctx.save();
+        pctx.strokeStyle = "rgba(210,210,220,0.9)";
+        pctx.lineWidth = size * 0.045;
+        for (let i = 1; i <= 5; i++) {
+            const bx = (size / 6) * i;
+            pctx.beginPath(); pctx.moveTo(bx, 0); pctx.lineTo(bx, size); pctx.stroke();
+        }
+        pctx.restore();
+    }
+}
+
+function renderParkScreen() {
+    const grid = document.getElementById("park-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const CELL_SIZE = 200;
+    LEVELS.forEach((lvl, i) => {
+        const known = defeatedLevels.has(i);
+        const cell = document.createElement("div");
+        cell.className = "park-cell" + (known ? "" : " locked");
+
+        const thumb = document.createElement("div");
+        thumb.className = "cell-thumb";
+        const mini = document.createElement("canvas");
+        mini.width = CELL_SIZE; mini.height = CELL_SIZE;
+        drawPrisonCell(mini.getContext("2d"), CELL_SIZE, lvl.kaiju, known);
+        thumb.appendChild(mini);
+
+        const name = document.createElement("div");
+        name.className = "cell-name";
+        name.textContent = known ? lvl.nom : "???";
+
+        cell.appendChild(thumb);
+        cell.appendChild(name);
+        grid.appendChild(cell);
+    });
+}
+
+document.getElementById("btn-park").addEventListener("click", () => {
+    renderParkScreen();
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("park-screen").classList.remove("hidden");
+});
+document.getElementById("btn-park-back").addEventListener("click", () => {
+    document.getElementById("park-screen").classList.add("hidden");
+    document.getElementById("start-screen").classList.remove("hidden");
+});
+
+// ======================= MISE À L'ÉCHELLE (iPad / Surface / tablettes) =======================
+// Calcule le facteur d'échelle pour que le jeu (dessiné à taille fixe 1100x700)
+// tienne toujours dans la fenêtre, quel que soit l'écran, sans jamais être
+// agrandi au-delà de sa taille native (pas de flou).
+function fitGameToViewport() {
+    const wrapper = document.getElementById("game-wrapper");
+    const container = document.getElementById("game-container");
+    if (!wrapper || !container) return;
+    const margin = 24;
+    const availW = window.innerWidth - margin;
+    const availH = window.innerHeight - margin;
+    const scale = Math.min(availW / 1100, availH / 700, 1);
+    container.style.transform = `scale(${scale})`;
+    wrapper.style.width = Math.round(1100 * scale + 16) + "px";
+    wrapper.style.height = Math.round(700 * scale + 16) + "px";
+}
+window.addEventListener("resize", fitGameToViewport);
+window.addEventListener("orientationchange", () => setTimeout(fitGameToViewport, 250));
+fitGameToViewport();
 
 document.getElementById("btn-start").addEventListener("click", () => {
     currentLevelIndex = getFrontierLevelIndex();
