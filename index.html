@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Godzilla : Maître des Tables</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 <div id="game-wrapper">
@@ -94,9 +94,18 @@
 
         <div id="park-screen" class="screen hidden">
             <h1>🏛️ Parc des Kaiju de Monarch</h1>
-            <p>Voici les kaijus que Godzilla a déjà capturés et ramenés en prison.</p>
+            <p>Voici les kaijus que Godzilla a déjà capturés et ramenés en prison. Clique sur un kaiju capturé pour le voir en grand.</p>
             <div class="park-grid" id="park-grid"></div>
             <button id="btn-park-back" class="secondary">↩️ Retour au menu</button>
+        </div>
+
+        <div id="park-detail-screen" class="screen hidden">
+            <h1 id="park-detail-title">🔒 ???</h1>
+            <canvas id="park-detail-canvas" class="park-detail-canvas" width="700" height="400"></canvas>
+            <div>
+                <button id="btn-toggle-bars" class="secondary">🔓 Enlever les barreaux</button>
+                <button id="btn-park-detail-back" class="secondary">↩️ Retour au parc</button>
+            </div>
         </div>
 
         <div id="rules-screen" class="screen hidden">
@@ -147,7 +156,7 @@
     <div class="crosshair-dot"></div>
 </div>
 
-<script src="game.js"></script>
+<script src="game.js?v=3"></script>
 <!-- La piste de niveaux (pastilles "?" tant que le kaiju n'est pas vaincu,
      nom + vignette une fois révélé, cliquable pour rejouer) est maintenant
      construite par renderLevelsTrack() dans game.js, appelée au chargement
