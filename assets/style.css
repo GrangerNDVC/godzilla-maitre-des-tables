@@ -1,0 +1,749 @@
+/* ============================================================
+   GODZILLA : MAÎTRE DES TABLES — styles
+   Thème "alerte kaiju" : panneaux HUD métalliques, accents
+   orange-rouge (dos de Godzilla) + cyan (rayon atomique)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 50% 0%, #1a2438 0%, #05070d 70%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    padding: 10px;
+    cursor: none;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+}
+
+/* ---------- Mise à l'échelle tablette (iPad / Surface 10-11") ----------
+   Le jeu est dessiné à taille fixe (1100x700, tout le HUD est positionné en px
+   sur cette base) puis mis à l'échelle en bloc via transform: scale() (calculé
+   en JS, voir fitGameToViewport() dans game.js) pour tenir dans n'importe quel
+   écran sans jamais déformer ni décaler la mise en page. #game-wrapper est
+   redimensionné en même temps que le scale pour que la mise en page de la
+   page (centrage) reste correcte. */
+#game-wrapper {
+    position: relative;
+    border-radius: 28px;
+    box-shadow:
+        0 0 0 2px rgba(255, 140, 60, 0.25),
+        0 25px 60px rgba(0,0,0,0.7),
+        inset 0 1px 2px rgba(255,255,255,0.08);
+    background: #000000aa;
+    padding: 8px;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 1100px;
+    height: 700px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.75);
+    background: #06080f;
+    transform-origin: top left;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------- Bandeau question ---------- */
+#phrase-area {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(10,14,24,0.92), rgba(30,14,10,0.92));
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 14px 30px;
+    text-align: center;
+    z-index: 10;
+    border: 2px solid #ff6b35;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.55), 0 0 18px rgba(255,107,53,0.25);
+    pointer-events: none;
+}
+
+#phrase-card {
+    font-family: 'Bebas Neue', 'Rajdhani', sans-serif;
+    font-size: 42px;
+    letter-spacing: 3px;
+    color: #fff3e0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 14px rgba(255,140,60,0.35);
+}
+
+/* ---------- Barre de stats ---------- */
+#stats-bar {
+    position: absolute;
+    bottom: 18px;
+    left: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(8,10,18,0.9), rgba(20,10,8,0.92));
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    padding: 10px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    border-top: 2px solid #ffb347;
+    border-bottom: 2px solid #ffb347;
+    pointer-events: none;
+    font-weight: 600;
+}
+
+.stat-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    background: rgba(0,0,0,0.45);
+    padding: 5px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,178,71,0.2);
+}
+
+.stat-label {
+    font-size: 15px;
+    color: #ffb347;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #ffd966, #ff6b35);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#burning-badge {
+    background: linear-gradient(135deg, #ff8a3c, #d8321a);
+    color: #1a0800;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    padding: 6px 16px;
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(255,90,20,0.6);
+}
+
+#chrono-box {
+    background: rgba(0,0,0,0.5);
+    padding: 6px 22px;
+    border-radius: 12px;
+    font-family: 'Bebas Neue', monospace;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: #9fd8de;
+    text-shadow: none;
+    border: 1px solid rgba(159,216,222,0.18);
+}
+
+/* ---------- Combo Mothra ---------- */
+#combo-indicator {
+    position: absolute;
+    top: 95px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    background: linear-gradient(135deg, rgba(255,178,20,0.95), rgba(255,110,20,0.95));
+    color: #221000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    padding: 8px 26px;
+    border-radius: 40px;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 0 22px rgba(255,178,20,0.7);
+    pointer-events: none;
+    white-space: nowrap;
+}
+#combo-indicator.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+/* ---------- Carte "Leçon express" ---------- */
+.help-card {
+    position: absolute;
+    right: -420px;
+    bottom: 100px;
+    width: 340px;
+    background: #10131c;
+    border-radius: 18px;
+    box-shadow: 0 14px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+    z-index: 150;
+    font-family: 'Rajdhani', sans-serif;
+    transition: right 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border-left: 6px solid #ff6b35;
+    cursor: pointer;
+    color: #e8e8ee;
+}
+.help-card:hover { background: #151a26; }
+
+.card-header {
+    background: #1c2130;
+    padding: 12px 18px;
+    border-radius: 18px 18px 0 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    color: #ff9a57;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ff6b3555;
+}
+.close-card {
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #8a8fa3;
+    width: 28px;
+    text-align: center;
+    border-radius: 20px;
+}
+.close-card:hover { color: #ff6b35; background: #ffffff11; }
+
+.card-body { padding: 16px 20px; }
+.card-body .correction {
+    background: #14261a;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-family: 'Bebas Neue', monospace;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #6fe08a;
+    margin-bottom: 12px;
+    border-left: 4px solid #3fae5c;
+}
+.card-body .explanation { font-size: 15px; line-height: 1.4; color: #cfd2df; margin: 10px 0; }
+.card-body .rule {
+    background: #2a1c0f;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-left: 4px solid #ffb347;
+    color: #ffdcae;
+    margin-top: 10px;
+}
+.card-footer {
+    font-size: 11px;
+    padding: 8px 18px 12px;
+    color: #6c7185;
+    border-top: 1px solid #ffffff10;
+    text-align: center;
+}
+
+/* ---------- Écrans start / end ---------- */
+.screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(4,6,12,0.93);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 30;
+    padding: 20px;
+}
+
+.screen h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffe6b0, #ff6b35);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(255,107,53,0.25);
+}
+
+.screen p { font-size: 20px; color: #c7cbdb; max-width: 640px; line-height: 1.5; }
+
+.screen .levels-track {
+    display: flex;
+    gap: 6px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 700px;
+}
+.level-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #1c2130;
+    border: 1px solid #ff6b3544;
+    color: #ffb347;
+    cursor: default;
+}
+
+.chip-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #05070d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    font-size: 16px;
+}
+.chip-thumb canvas { width: 32px; height: 32px; }
+
+/* kaiju jamais vaincu : nom masqué, pastille "?" grisée, non cliquable */
+.level-chip.unknown {
+    opacity: 0.55;
+    filter: grayscale(0.4);
+}
+.level-chip.unknown .chip-thumb { color: #6c7185; }
+
+/* prochain défi : légèrement mis en avant, reste inconnu mais pas grisé */
+.level-chip.next {
+    opacity: 1;
+    border-color: #ffb347aa;
+    box-shadow: 0 0 10px rgba(255,178,71,0.25);
+}
+
+/* kaiju déjà vaincu : révélé et rejouable pour améliorer le score */
+.level-chip.known {
+    cursor: pointer;
+    border-color: #6fe08a88;
+    background: #182518;
+}
+.level-chip.known:hover {
+    background: #1f331f;
+    box-shadow: 0 0 12px rgba(111,224,138,0.35);
+    transform: translateY(-1px);
+}
+.level-chip.known .chip-label::after {
+    content: " · rejouer ↻";
+    color: #6fe08a;
+    font-size: 12px;
+}
+
+button {
+    padding: 14px 42px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff9a3c, #ff5b1f);
+    border: none;
+    border-radius: 40px;
+    color: #1a0c00;
+    margin-top: 26px;
+    margin-right: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 8px 20px rgba(255,90,20,0.35);
+}
+button:hover { transform: scale(1.05); box-shadow: 0 12px 26px rgba(255,90,20,0.5); }
+button.secondary {
+    background: transparent;
+    color: #ffb347;
+    border: 2px solid #ffb34766;
+    box-shadow: none;
+}
+button.secondary:hover { background: #ffb34718; }
+
+.hidden { display: none !important; }
+
+/* ---------- Curseur viseur ---------- */
+#custom-cursor {
+    position: fixed;
+    width: 32px; height: 32px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+}
+.crosshair-ring {
+    position: absolute; width: 100%; height: 100%;
+    border: 3px solid rgba(255,130,60,0.85);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255,255,200,0.5), 0 0 10px rgba(255,110,30,0.5);
+}
+.crosshair-dot {
+    position: absolute; top: 50%; left: 50%;
+    width: 5px; height: 5px;
+    background: #ff6644;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 2px white;
+}
+
+/* ---------- Bouton réglages + panneau (afficher/masquer le chrono) ---------- */
+#settings-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(8,10,18,0.75);
+    border: 1px solid rgba(255,178,71,0.35);
+    color: #ffb347;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 80;
+    cursor: pointer;
+}
+#settings-panel {
+    position: absolute;
+    top: 60px;
+    right: 14px;
+    background: linear-gradient(135deg, rgba(10,14,24,0.97), rgba(30,14,10,0.97));
+    border: 1px solid rgba(255,178,71,0.35);
+    border-radius: 14px;
+    padding: 14px 18px;
+    z-index: 80;
+    font-size: 15px;
+    color: #e8e8ee;
+    min-width: 230px;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.6);
+}
+#settings-panel label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+#chrono-box.hidden-by-setting { visibility: hidden; }
+
+/* ---------- Encart lore (histoire), pensé pour être lu facilement ---------- */
+.lore-box {
+    max-width: 660px;
+    text-align: left;
+    background: rgba(0,0,0,0.35);
+    border-radius: 16px;
+    padding: 16px 22px;
+    margin-top: 6px;
+    border-left: 5px solid #ff6b35;
+}
+.lore-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #e3e6f2;
+    margin: 6px 0;
+}
+.lore-line .ico { font-size: 26px; flex-shrink: 0; width: 32px; text-align: center; }
+
+/* ============================================================
+   ÉCRAN D'ACCUEIL — mise en page compacte (tient dans 1100x700)
+   Header compact > (lore | image héro + onglets) > pied de page
+   (bouton d'action + tables à débloquer)
+   ============================================================ */
+.home-screen {
+    justify-content: flex-start;
+    align-items: stretch;
+    text-align: left;
+    gap: 10px;
+    padding: 18px 26px 16px;
+}
+
+.home-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+    margin-bottom: 2px;
+}
+.home-header h1 {
+    font-size: 40px;
+    margin: 0;
+    letter-spacing: 2px;
+}
+#loading-label {
+    font-size: 13px;
+    color: #ffb347;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+#loading-label.hidden { display: none; }
+
+.home-main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 22px;
+}
+
+.home-left {
+    flex: 1.35;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.home-left .lore-box.compact {
+    max-width: none;
+    margin-top: 0;
+}
+.home-left .lore-box.compact .lore-line { font-size: 18px; margin: 9px 0; }
+
+.home-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hero-frame {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(255,178,71,0.45);
+    box-shadow: 0 0 0 4px rgba(0,0,0,0.4), 0 14px 30px rgba(0,0,0,0.6), 0 0 34px rgba(80,170,255,0.18);
+    background: #05070d;
+}
+.hero-img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+}
+.hero-fade {
+    position: absolute;
+    left: 0; right: 0; bottom: 0; height: 55%;
+    background: linear-gradient(to top, rgba(4,6,12,0.85), transparent);
+    pointer-events: none;
+}
+
+.home-tabs {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.tab-btn {
+    margin: 0;
+    padding: 9px 16px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #232a40, #171c2c);
+    color: #ffd9ad;
+    border: 1px solid #ffb34755;
+    box-shadow: none;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tab-btn:hover {
+    background: #2b3350;
+    transform: translateX(2px) scale(1);
+    box-shadow: 0 0 12px rgba(255,178,71,0.25);
+}
+
+.home-footer {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+#btn-start {
+    margin: 0;
+    padding: 12px 40px;
+    font-size: 22px;
+}
+.home-footer .levels-track {
+    margin-top: 0;
+    width: 100%;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
+}
+.home-footer .level-chip {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 6px 8px;
+}
+.home-footer .chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+/* Table verrouillée : il faut battre le kaiju précédent pour y accéder */
+.level-chip.locked {
+    opacity: 0.4;
+    filter: grayscale(0.6);
+    cursor: not-allowed;
+}
+.level-chip.locked .chip-thumb { color: #6c7185; }
+.level-chip.next { cursor: pointer; }
+.level-chip.next:hover { transform: translateY(-1px); box-shadow: 0 0 14px rgba(255,178,71,0.4); }
+
+/* ---------- Bouton "Parc des Kaiju de Monarch" ---------- */
+#btn-park {
+    background: linear-gradient(135deg, #2c3550, #171c2c);
+    color: #ffb347;
+    border: 2px solid #ffb34766;
+}
+#btn-park:hover { background: #232a40; }
+
+/* ---------- Écran "Parc des Kaiju de Monarch" ---------- */
+.park-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+    max-width: 900px;
+}
+.park-cell {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    background: #0c0a10;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 22px rgba(0,0,0,0.8);
+}
+.park-cell .cell-thumb {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+}
+.park-cell .cell-thumb canvas { width: 100%; height: 100%; display: block; }
+.park-cell .cell-name {
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #ffe6b0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    z-index: 2;
+}
+.park-cell.locked .cell-name { color: #9098b0; }
+
+/* ---------- Galerie des Cœurs de Résonance (médailles) ---------- */
+#medals-progress { font-size: 16px; margin-top: 4px; }
+.medal-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 16px;
+    max-width: 920px;
+}
+.medal-core {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 6px 10px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,178,71,0.18);
+}
+.medal-orb {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    background: var(--orb-grad, radial-gradient(circle at 35% 30%, #4aa8ff, #17335c));
+    box-shadow: 0 0 16px var(--orb-glow, rgba(74,168,255,0.5)), inset 0 0 10px rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.25);
+}
+.medal-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #ffe6b0;
+    text-align: center;
+    line-height: 1.15;
+}
+.medal-threshold { font-size: 11px; color: #9098b0; }
+.medal-core.locked {
+    opacity: 0.45;
+    filter: grayscale(0.7);
+}
+.medal-core.locked .medal-orb {
+    background: #1a1e2c;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+}
+.medal-core.unlocked {
+    box-shadow: 0 0 14px rgba(255,178,71,0.15);
+    border-color: rgba(255,178,71,0.4);
+}
+
+/* ---------- Écran fin de niveau (menu / niveau suivant / recommencer) ---------- */
+#level-complete-screen .lvl-summary {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #ffd966;
+    margin-bottom: 6px;
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110px) rotate(720deg); opacity: 0; }
+}
+
+@keyframes paletteFlash {
+    0% { opacity: 0; }
+    15% { opacity: 0.55; }
+    100% { opacity: 0; }
+}
+#palier-flash {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,140,50,0.2) 60%, transparent 75%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 55;
+}
+#palier-flash.active { animation: paletteFlash 0.7s ease-out; }
