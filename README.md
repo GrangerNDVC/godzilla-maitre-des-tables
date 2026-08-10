@@ -1,63 +1,65 @@
-# Godzilla : Protocole Titan — README
+# Godzilla : Protocole Titan — README (v2)
+
+## ⚠️ Cette version remplace TOUT ce que tu avais avant
+`index.html` + `style.css` + `game.js` doivent venir ensemble, de ce livrable, tous les trois. Si un fichier "traîne" d'un envoi précédent dans ton dossier, remplace-le — c'est exactement ce qui a causé le bug de la grosse image Godzilla toute seule : le premier `index.html` que je t'avais envoyé référençait des éléments (accueil à 2 colonnes, écran de chapitre à 3 boutons, Dossiers Monarch...) qu'un `style.css` plus ancien ne connaissait pas encore. Désolée pour la confusion — c'est corrigé, les 3 fichiers ci-dessus sont cohérents entre eux et testés ensemble.
 
 ## Pour lancer / déployer
 Dossier autonome : `index.html` + `style.css` + `game.js` + `assets/`.
-- **Test local** : ouvre `index.html` dans un navigateur (double-clic) — tout fonctionne en local, pas de serveur requis.
+- **Test local** : double-clic sur `index.html`, aucun serveur requis.
 - **Netlify / GitHub** : glisse tout le dossier tel quel.
 
-## Assets nécessaires : AUCUNE nouvelle image
-Cette version réutilise entièrement les assets déjà déposés pour la version « tables de multiplication ». Copie simplement le dossier `assets/` de ce projet-là (ou tes fichiers d'origine) à côté de ces 3 fichiers :
+## Assets nécessaires
+Toujours aucune nouvelle image *obligatoire* : `godzilla.png`, `godzilla_ouvert.png`, `rayon.png`, `kaiju_mothra.png`, `kaiju_rodan.png`, `kaiju_gigan.png`, `kaiju_mechagodzilla.png`, `decors_1.jpg`, `decors_2.jpg`, `decors_4.jpg`, `decors_5.jpg`, `decors_1_bis.jpg` — les mêmes que ta v1.
 
-| Fichier attendu | Utilisé pour |
+Trois fichiers sont **optionnels**, avec repli automatique si absents :
+| Fichier optionnel | Si absent |
 |---|---|
-| `godzilla.png`, `godzilla_ouvert.png`, `rayon.png` | Godzilla + rayon (inchangés) |
-| `kaiju_mothra.png` | Chapitre 1 |
-| `kaiju_rodan.png` | Chapitre 2 |
-| `kaiju_gigan.png` | Chapitre 3 |
-| `kaiju_mechagodzilla.png` | Chapitre 4 (final) |
-| `decors_1.jpg`, `decors_2.jpg`, `decors_4.jpg`, `decors_5.jpg` | Décors des 4 chapitres |
-| `decors_1_bis.jpg` | Décor de secours |
+| `assets/presentation.png` | L'écran d'accueil retombe sur un fond uni (le cadre reste vide, rien ne casse) |
+| `assets/godzilla_burning.png`, `assets/godzilla_burning_ouvert.png` | Filtre rose/magenta appliqué en code sur `godzilla.png` / `godzilla_ouvert.png` |
+| `assets/rayon_burning.png` | `rayon.png` teinté en rose/magenta en code |
 
-`kaiju_anguirus.png`, `kaiju_biollante.png` (toujours absent), `kaiju_destroyah.png` (toujours absent), `kaiju_ghidorah.png` et `space_godzilla.png` ne sont pas utilisés dans cette version — voir « Pour la suite » plus bas.
+Rien à changer dans le code pour activer ces 3 fichiers : dépose-les avec ces noms exacts dans `assets/`, ils prennent le relais automatiquement.
 
-## Pourquoi 4 chapitres et pas 8 ?
-Le fascicule fourni (« Groupe de besoins 6ème ») donne, en combinant les leçons 1 et 3 comme demandé, exactement **4 duos d'homophones** : à/a, ou/où, son/sont, on/ont. C'est ce nombre qui fixe le nombre de chapitres — pas l'inverse. Ils sont rangés de la difficulté la plus simple à la plus complexe :
+## Ce que j'ai porté depuis ta v2 du jeu de tables, et comment je l'ai adapté
 
-1. **à / a** (Mothra) — la distinction la plus intuitive (le test « avait » saute aux yeux).
-2. **ou / où** (Rodan) — même mécanisme de test, mais l'alternative « lieu / question » demande un peu plus de recul.
-3. **son / sont** (Gigan) — introduit l'accord sujet-verbe (déterminant vs verbe pluriel).
-4. **on / ont** (+ la nuance *on n'*) (Mechagodzilla) — le plus piégeux : pronom vs verbe, avec en prime l'élision de la négation devant une voyelle (« on n'a pas vu »).
+**Maîtrise progressive du Burning** — portée quasi telle quelle, recalibrée pour 8 phrases/chapitre au lieu de 10 calculs : un chapitre est "rapide" sous 30s (au lieu de 10s), 2 chapitres rapides/propres d'affilée déclenchent le mode (1 seul après 6 points de maîtrise), pour une durée qui grandit avec la maîtrise — toujours persistée en `localStorage`, toujours indépendante d'une partie précise. Popup "+5🔥" à chaque cristal touché pendant le mode, ×1.5 sur le bonus de fin de chapitre.
 
-## Le récit (cohérent avec le Monsterverse)
-Fil narratif : d'anciens ingénieurs d'Apex Cybernetics (et non la société elle-même, dissoute après le scandale de *Godzilla vs Kong*) relancent en sous-main le programme Mechagodzilla. Chaque chapitre est une phrase du combat, **dans l'ordre du récit** — les phrases ne sont jamais mélangées, sinon l'histoire perdrait son fil.
+**Couleur du mode Burning : rose/magenta, pas orange.** J'ai gardé mon choix initial (celui de "Godzilla Évolué" dans *Godzilla x Kong: The New Empire*, 2024) plutôt que ton filtre orange de secours — mais toute la mécanique (déclenchement, durée, bonus) vient bien de ta v2. Si tu fournis un jour `godzilla_burning.png`, il prendra le relais du filtre automatiquement, comme chez toi.
 
-- **Ch.1 Mothra** — un Titan gardien manipulé malgré lui ; Godzilla ne le combat pas pour le tuer, il le libère.
-- **Ch.2 Rodan** — la piste remonte à un fournisseur ; premiers indices d'« augmentation biomécanique ».
-- **Ch.3 Gigan** — premier prototype cybernétique d'Apex ; découverte d'une taupe à l'intérieur de Monarch.
-- **Ch.4 Mechagodzilla** — révélation finale, combat le plus dur, mode Burning.
+**Apparition du Titan avant la fin du chapitre** — porté avec le même principe (3 phrases restantes = le Titan apparaît derrière les rochers + Burning forcé), adapté à mes 8 phrases/chapitre.
 
-Gigan et Mechagodzilla (version Toho classique) ne sont pas des Titans officiellement apparus dans les films Legendary — je les ai traités comme des Titans capturés puis augmentés par Apex, ce qui reste cohérent avec l'univers sans contredire aucun film. Si tu préfères t'en tenir strictement aux Titans déjà vus à l'écran, dis-le-moi.
+**Séquence de victoire cinématique** (bascule + texte) — portée, avec un texte différent par Titan cohérent avec MON histoire : "MOTHRA EST LIBÉRÉE !" pour un Titan secouru, "GIGAN EST NEUTRALISÉ !" pour une vraie menace vaincue. Le flip fonctionne visuellement dans les deux cas (fin de combat), même quand le Titan n'est pas un méchant.
 
-## Mécaniques nouvelles
-- **Cristaux-mots** : au lieu d'un nombre, chaque cristal affiche un mot (2 cristaux pour la plupart des duos, 3 pour on/ont/on n'). Taille de police recalculée automatiquement selon la longueur du mot.
-- **Chrono** : bonus de rapidité recalibré pour la lecture de phrases (≤25s = 100 pts, ≤35s = 70, ≤50s = 45, ≤70s = 25, sinon 10), pénalité de -5 par faute — inchangé dans l'esprit, juste réajusté pour 8 phrases/chapitre au lieu de 10 calculs.
-- **Mode Burning** : bascule automatiquement si la moyenne des 3 derniers temps de réponse CORRECTS passe sous 6 secondes (seuils réglables via `BURNING_WINDOW` / `BURNING_THRESHOLD_SEC` en haut de `game.js`). Rayon et halo passent en **rose/magenta** — la vraie couleur de Godzilla « Évolué » dans *Godzilla x Kong: The New Empire* (2024), pas le rouge classique. +5 points bonus par bonne réponse pendant le mode.
-- **Écrans de chapitre** : un écran narratif s'affiche avant chaque combat (texte du fascicule-histoire) et un court texte de transition après chaque victoire, avant le chapitre suivant.
-- **Échec + nouvelle tentative** : à 5 fautes, le Titan « s'échappe » — 2 variantes de texte par chapitre, qui alternent à chaque nouvel échec pour ne pas répéter le même texte.
-- **Combo Mothra** : identique à la version précédente (3 bonnes réponses en moins de 10s retirent 1 faute), actif à tous les chapitres — j'ai justifié narrativement sa persistance après le chapitre 1 (Mothra libérée continue de veiller).
+**Chrono masquable, tablette, Rangs de Godzilla (médailles)** — portés directement, ils ne dépendaient pas du contenu multiplication/grammaire.
 
-## Ce qui a été testé automatiquement
-- Script Node : structure des 4 niveaux (8 phrases chacun, réponses valides, pas de double-espace, majuscule/ponctuation correctes) — **0 anomalie sur 32 phrases**.
-- Vérification manuelle ligne par ligne : chaque phrase testée avec le test de substitution du fascicule (« avait », « ou bien », « étaient », « avaient ») contre la bonne réponse ET les distracteurs, pour confirmer qu'une seule réponse est grammaticalement possible.
-- `node --check` : syntaxe JavaScript valide.
-- Tous les `getElementById` de `game.js` correspondent à un `id` existant dans `index.html` (28/28).
+## Ce que j'ai volontairement adapté (pas juste copié)
 
-## Non testé (impossible dans cet environnement)
-Impossible d'installer un navigateur headless ici (le CDN de Playwright n'est pas accessible depuis ce sandbox), donc — comme pour la version précédente — **aucun test visuel réel n'a été fait**. À vérifier toi-même avant la classe :
-- Calage du rayon sur la bouche de Godzilla (inchangé, mais à revérifier).
-- Lisibilité des phrases longues dans le bandeau du haut (police réduite à 25px, sur 1-2 lignes).
-- Ressenti du rythme du mode Burning (6s de moyenne sur 3 bonnes réponses — peut-être à assouplir si c'est trop dur à déclencher).
-- Le fait que Gigan/Mechagodzilla ne soient pas des Titans « officiels » du Monsterverse — voir plus haut.
+**"Parc des Kaijus" → "Dossiers Monarch", sans barreaux de prison.** Dans ton jeu, tous les kaijus sont des ennemis capturés : la prison a du sens. Dans le mien, Mothra et Rodan sont *libérés* (pas emprisonnés) — les montrer derrière des barreaux aurait contredit l'histoire qu'ils viennent de lire. J'ai gardé l'esprit (galerie des Titans rencontrés, verrouillée tant qu'on ne les a pas atteints) mais sous forme de dossiers d'enquête Monarch, avec un tampon "DOSSIER CLASSIFIÉ" dessiné en code pour les chapitres non atteints — aucune image supplémentaire requise.
 
-## Pour la suite
-Les leçons 2, 4, 5, 6, 7, 8, 9 du fascicule ne sont pas exploitées ici (seulement 1 et 3, comme demandé). Anguirus, King Ghidorah et `space_godzilla.png` restent disponibles pour d'éventuels chapitres futurs — et un clin d'œil amusant : SpaceGodzilla vient d'être confirmé au casting du prochain film Monsterverse (*Godzilla x Kong: Supernova*, mars 2027), ce qui pourrait faire un joli teaser en épilogue si ça t'intéresse un jour.
+**Pas d'écran de zoom séparé — et c'est volontaire (voir le bug ci-dessous).**
+
+**Le nom du Titan n'est pas caché "???" pendant le combat.** Chez toi c'est un ressort de surprise (8 niveaux indépendants). Chez moi, l'histoire nomme Mothra/Rodan/Gigan/Mechagodzilla dans le texte narratif dès le début du chapitre — cacher le nom dans la barre de stats juste en dessous aurait été incohérent avec ce qu'on vient de lire. Le mystère reste entier pour les chapitres **pas encore atteints** (accueil et Dossiers Monarch affichent bien "???" pour ceux-là).
+
+## Les 2 bugs que tu as signalés
+
+**« Cliquer sur un kaiju pour le voir bloque le jeu, impossible de revenir en arrière »**
+En repassant sur ton code, chaque écran gérait son propre `classList.add("hidden")` / `remove("hidden")`, bouton par bouton — un pattern qui devient vite fragile à mesure qu'on ajoute des écrans (facile d'oublier d'en cacher un). Deux corrections :
+1. Une seule fonction `showScreen(id)` centralise tous les changements d'écran (elle cache TOUS les écrans puis affiche seulement celui demandé) — utilisée partout, sans exception, donc plus aucun écran ne peut rester coincé.
+2. J'ai supprimé l'écran de zoom séparé ("cliquer pour agrandir") : les Dossiers Monarch affichent tout directement dans la grille. Une navigation en moins, c'est toute une classe de bugs de navigation en moins. Si tu veux récupérer le zoom plus tard, je peux le rajouter en le construisant sur `showScreen()` dès le départ.
+
+**« En fin de partie, l'ennemi apparaît parfois alors qu'il ne devrait pas »**
+Trouvé : `drawEnemyPeeking()` (mon `drawTitanLooming()`) n'était coupée nulle part pendant la séquence de victoire — qui affiche déjà le même kaiju en grand, en train de basculer. Les deux se dessinaient en même temps, d'où l'impression de doublon/de bug visuel juste à la fin d'un niveau. Corrigé : `drawTitanLooming()` ne s'exécute plus jamais tant que la séquence de victoire (`bossDefeat`) est active.
+
+## Testé automatiquement
+- `node --check` : syntaxe JS valide.
+- Tous les `getElementById()` de `game.js` correspondent à un `id` du HTML (44/44), y compris les 6 écrans gérés via `showScreen()`.
+- Toutes les classes CSS utilisées par le JS/HTML ont une règle de style définie.
+- Les 4 niveaux / 32 phrases repassés dans le script de vérification structurelle (réponses valides, pas de double-espace, majuscule/ponctuation) + les nouveaux champs v2 (`defeatCaption`, `defeatDetail`, `statusLabel`) — 0 anomalie.
+- Grep de contrôle : plus aucune trace de l'ancien écran de zoom, plus aucun écran caché/affiché en dehors de `showScreen()`.
+
+## Non testé (toujours pas de navigateur disponible ici)
+Comme la dernière fois, impossible d'installer Chromium dans cet environnement (le réseau est restreint) pour une vraie capture d'écran. Cette fois, croise les doigts avec moi et teste en premier avant de faire quoi que ce soit d'autre — en particulier :
+- L'accueil à deux colonnes (lore à gauche, image + onglets à droite) sur ton écran.
+- Le redimensionnement tablette (`fitGameToViewport`) si tu as un iPad sous la main.
+- Le rythme du mode Burning (seuil 30s, palier long à -10s en dessous) — à ajuster si besoin, ce sont juste des constantes en haut de `game.js`.
+- Un réglage "🗑️ Réinitialiser la progression" a été ajouté dans le panneau ⚙️ (utile entre deux classes qui utiliseraient le même navigateur) — vérifie qu'il fait bien ce qu'il annonce.
