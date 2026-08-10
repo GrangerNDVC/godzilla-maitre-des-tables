@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Godzilla : Maître des Tables</title>
+    <title>Godzilla : Protocole Titan</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,28 +13,29 @@
 
         <div id="palier-flash"></div>
         <div id="combo-indicator"></div>
+        <div id="burning-indicator">🔥 GODZILLA EN MODE BURNING</div>
 
         <div id="phrase-area">
-            <div id="phrase-card">🦖 Chargement des kaijus...</div>
+            <div id="phrase-card">🦖 Chargement des Titans...</div>
         </div>
 
         <div id="stats-bar">
             <div class="stat-item">
-                <span class="stat-label">🌋 Niveau</span>
+                <span class="stat-label">📖 Chapitre</span>
                 <span class="stat-value" id="lbl-level">1</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">✖️ Table</span>
-                <span class="stat-value" id="lbl-table">2</span>
+                <span class="stat-label">⚔️ Duel</span>
+                <span class="stat-value" id="lbl-table" style="font-size:22px;">à / a</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">👹 Kaiju</span>
+                <span class="stat-label">👹 Titan</span>
                 <span class="stat-value" id="lbl-kaiju" style="font-size:20px;">Mothra</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">🎯 Score</span>
                 <span class="stat-value" id="lbl-score">0</span>
-                <span style="font-size:18px; color:#ffb347;">/10</span>
+                <span id="lbl-score-max" style="font-size:18px; color:#ffb347;">/8</span>
             </div>
             <div class="stat-item">
                 <span class="stat-label">💥 Fautes</span>
@@ -45,25 +46,31 @@
         </div>
 
         <div id="start-screen" class="screen">
-            <h1>🦖 GODZILLA : MAÎTRE DES TABLES</h1>
+            <h1>🦖 GODZILLA : PROTOCOLE TITAN</h1>
             <p>
-                Réponds aux multiplications avant que le kaiju ne se cache trop longtemps !<br>
-                Chaque bonne réponse fait cracher le rayon de Godzilla sur le bon cristal.<br>
-                🔥 5 erreurs sur un niveau = attaque repoussée.<br>
-                ⚡ Réponds vite pour un gros bonus de rapidité.<br>
-                🦋 3 bonnes réponses d'affilée en moins de 10s : Mothra efface une faute !
+                D'anciens agents d'Apex Cybernetics ont libéré des Titans à travers le monde. Monarch envoie Godzilla les neutraliser — mais pour guider le rayon, il faut d'abord démêler les homophones qui racontent chaque combat.<br>
+                🔥 5 erreurs sur un chapitre : le Titan s'échappe, il faudra le retrouver.<br>
+                ⚡ Réponds vite et sans faute pour faire entrer Godzilla en mode Burning.<br>
+                🦋 3 bonnes réponses d'affilée en moins de 10s : Mothra efface une faute — même après son propre combat !
             </p>
             <div class="levels-track" id="levels-track"></div>
-            <button id="btn-start" disabled>🦖 Affronter le niveau 1</button>
+            <button id="btn-start" disabled>🦖 Commencer le chapitre 1</button>
             <div id="loading-label" style="margin-top:14px; font-size:14px; color:#ffb347; letter-spacing:1px;">Chargement des images...</div>
+        </div>
+
+        <div id="chapter-screen" class="screen hidden">
+            <div class="chapter-eyebrow" id="chapter-eyebrow">Chapitre 1 · Mothra</div>
+            <h1 id="chapter-title">Titre du chapitre</h1>
+            <p id="chapter-text"></p>
+            <button id="btn-chapter-continue">Continuer</button>
         </div>
 
         <div id="end-screen" class="screen hidden">
             <h1 id="end-title">Fin de partie</h1>
             <p id="end-desc"></p>
             <div>
-                <button id="btn-retry-level" class="hidden">🔁 Réessayer ce niveau</button>
-                <button id="btn-restart-all" class="secondary hidden">↩️ Repartir du niveau 1</button>
+                <button id="btn-retry-level" class="hidden">🔁 Réessayer ce chapitre</button>
+                <button id="btn-restart-all" class="secondary hidden">↩️ Repartir du chapitre 1</button>
                 <button id="btn-play-again" class="hidden">✨ Rejouer</button>
             </div>
         </div>
@@ -77,13 +84,13 @@
 
 <script src="game.js"></script>
 <script>
-    // remplit la piste de niveaux sur l'écran de démarrage
+    // remplit la piste de chapitres sur l'écran de démarrage
     (function () {
         const track = document.getElementById("levels-track");
         LEVELS.forEach((lvl, i) => {
             const chip = document.createElement("div");
             chip.className = "level-chip";
-            chip.textContent = `${i + 1}. ×${lvl.table} — ${lvl.nom}`;
+            chip.textContent = `${i + 1}. ${lvl.pairLabel} — ${lvl.nom}`;
             track.appendChild(chip);
         });
     })();
