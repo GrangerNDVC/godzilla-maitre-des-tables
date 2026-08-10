@@ -1,202 +1,156 @@
 /* ============================================================
-   GODZILLA : MAÎTRE DES TABLES — moteur de jeu
-   Tables de multiplication 2 à 9, kaijus cachés dans des
-   cristaux de camouflage, Godzilla tire le rayon final.
+   GODZILLA : PROTOCOLE TITAN — moteur de jeu
+   Homophones grammaticaux (leçons 1 et 3 du fascicule "Groupe de
+   besoins 6ème") racontés comme un affrontement du Monsterverse :
+   d'anciens agents d'Apex Cybernetics libèrent des Titans, Monarch
+   envoie Godzilla les neutraliser.
    ============================================================ */
 
 // ======================= CONFIG NIVEAUX =======================
-// decor: fichier dans assets/ (jpg, nommé par kaiju). kaiju: clé dans KAIJU_IMAGES.
-// NOTE JULIE : Mothra n'est PAS un adversaire caché dans un cristal — elle
-// reste la gardienne bienveillante (voir combo plus bas), donc elle est
-// sortie de cette liste. Space Godzilla la remplace comme 8e adversaire,
-// juste avant Biollante comme demandé.
+// Chaque niveau = un duo d'homophones + un chapitre de l'histoire.
+// pairWords : les mots proposés sur les cristaux.
+// sentences : phrases du combat, DANS L'ORDRE DU RÉCIT (jamais
+// mélangées, sinon l'histoire perd son sens d'une phrase à l'autre).
 const LEVELS = [
-    { table: 2, kaiju: "rodan",         nom: "Rodan",          decor: "decors_rodan.jpg",         palier: 1 },
-    { table: 3, kaiju: "anguirus",      nom: "Anguirus",       decor: "decors_anguirus.jpg",      palier: 1 },
-    { table: 4, kaiju: "mechagodzilla", nom: "Mechagodzilla",  decor: "decors_mechagodzilla.jpg", palier: 2 },
-    { table: 5, kaiju: "gigan",         nom: "Gigan",          decor: "decors_gigan.jpg",         palier: 2 },
-    { table: 6, kaiju: "spacegodzilla", nom: "Space Godzilla", decor: "decors_space_godzilla.jpg", palier: 3 },
-    { table: 7, kaiju: "biollante",     nom: "Biollante",      decor: "decors_biollante.jpg",     palier: 3 },
-    { table: 8, kaiju: "destroyah",     nom: "Destoroyah",     decor: "decors_destroyah.jpg",     palier: 4 },
-    { table: 9, kaiju: "ghidorah",      nom: "King Ghidorah",  decor: "decors_ghidorah.jpg",      palier: 4 },
+    {
+        kaiju: "mothra",
+        nom: "Mothra",
+        decor: "decors_1.jpg",
+        palier: 1,
+        pairWords: ["a", "à"],
+        pairLabel: "à / a",
+        astuce: "Remplace le mot par « avait » : si la phrase garde son sens, c'est a (le verbe avoir). Sinon, c'est à (la préposition, qui ne change jamais).",
+        chapterTitle: "Une alerte sur l'île Infant",
+        chapterIntro: "Aux abords de l'île Infant, un capteur sismique de Monarch s'affole en pleine nuit. Depuis des années, Mothra veille sur ce sanctuaire sans jamais en sortir — mais cette fois, quelque chose l'a réveillée, et ce n'est pas naturel. Monarch n'a qu'une solution : envoyer Godzilla avant que la panique n'atteigne les côtes habitées.",
+        victoryBeat: "Le boîtier détruit, Mothra retrouve son calme et s'envole vers les nuages, comme pour remercier Godzilla d'un battement d'aile. À terre, les techniciens de Monarch récupèrent les restes de l'appareil : un numéro de série, à moitié fondu, mais lisible. L'enquête ne fait que commencer.",
+        retryVariants: [
+            "Un nuage de spores phosphorescentes aveugle Godzilla une seconde de trop : Mothra s'échappe dans la brume et retourne se cacher près de la grotte. Il va falloir la retrouver.",
+            "Le boîtier crépite encore et brouille les capteurs de Godzilla : Mothra, toujours sous influence, plonge dans les vagues et disparaît. Le combat doit reprendre depuis le début.",
+        ],
+        sentences: [
+            { before: "Un capteur sismique ", correct: "a", after: " enregistré une secousse inhabituelle près de l'île Infant." },
+            { before: "L'anomalie provient d'une grotte ", correct: "à", after: " flanc de la falaise, là où dort Mothra." },
+            { before: "Or, la déesse-insecte n'", correct: "a", after: " plus quitté son sanctuaire depuis des mois." },
+            { before: "Cette nuit, un éclair électrique bleuté ", correct: "a", after: " jailli du fond de la grotte." },
+            { before: "Prise de panique, Mothra fonce ", correct: "à", after: " tire-d'aile vers le village voisin." },
+            { before: "Monarch envoie aussitôt un message codé ", correct: "à", after: " Godzilla, seul assez puissant pour la calmer." },
+            { before: "Il plonge sans hésiter et nage ", correct: "à", after: " pleine puissance vers l'île." },
+            { before: "Sous un rocher fendu, il découvre un boîtier qui n'", correct: "a", after: " rien de naturel." },
+        ],
+    },
+    {
+        kaiju: "rodan",
+        nom: "Rodan",
+        decor: "decors_2.jpg",
+        palier: 2,
+        pairWords: ["ou", "où"],
+        pairLabel: "ou / où",
+        astuce: "Remplace le mot par « ou bien » : si la phrase garde son sens, c'est ou (qui relie deux choix). Sinon, c'est où (un lieu ou une question).",
+        chapterTitle: "La piste de l'archipel volcanique",
+        chapterIntro: "Le numéro de série gravé sur le boîtier de Mothra renvoie à un fournisseur discret basé près d'un archipel volcanique — là où, justement, Rodan sommeille depuis des décennies. Avant même que Monarch n'ait localisé l'entrepôt exact, une colonne de fumée noire s'élève au-dessus du cratère : le fournisseur d'armes a déjà un nouveau client, et Rodan vient de se réveiller en hurlant.",
+        victoryBeat: "Libéré de l'appareil qui le rendait fou de rage, Rodan incline la tête devant Godzilla — un geste de soumission que Monarch connaît bien depuis leur premier affrontement. Mais dans l'entrepôt encore fumant, les agents découvrent des plans qui ne parlent plus de simples émetteurs : il est question d'« augmentation biomécanique ».",
+        retryVariants: [
+            "Une explosion de cendres volcaniques masque sa fuite : Rodan replonge dans le cratère fumant avant que Godzilla ne puisse l'atteindre.",
+            "Rodan profite d'un courant ascendant brûlant pour s'élever hors de portée. Il faudra l'attirer à nouveau au sol.",
+        ],
+        sentences: [
+            { before: "Personne ne sait encore ", correct: "où", after: " Rodan a établi son nouveau nid depuis son réveil." },
+            { before: "Est-ce sur un pic isolé ", correct: "ou", after: " dans une caldeira profonde qu'il s'est réfugié ?" },
+            { before: "Les vibrations proviennent-elles d'un appareil ", correct: "ou", after: " d'un phénomène naturel ?" },
+            { before: "Un analyste de Monarch cherche ", correct: "où", after: " le boîtier de Mothra a été fabriqué." },
+            { before: "Le numéro de série mène à un entrepôt, mais ", correct: "où", after: " se trouve-t-il exactement ?" },
+            { before: "Doit-il attaquer par les airs ", correct: "ou", after: " foncer directement dans le cratère ?" },
+            { before: "Impossible de savoir ", correct: "où", after: " Rodan va frapper ensuite." },
+            { before: "Va-t-il falloir raisonner Rodan ", correct: "ou", after: " le combattre de force ?" },
+        ],
+    },
+    {
+        kaiju: "gigan",
+        nom: "Gigan",
+        decor: "decors_5.jpg",
+        palier: 3,
+        pairWords: ["son", "sont"],
+        pairLabel: "son / sont",
+        astuce: "Remplace le mot par « étaient » : si la phrase garde son sens, c'est sont (le verbe être). Sinon, c'est son (comme sa ou ses), toujours suivi d'un nom.",
+        chapterTitle: "Le prototype d'Apex",
+        chapterIntro: "Le mot « augmentation » glace le sang des analystes de Monarch : ces plans ressemblent à ceux, classés secret-défense, du programme Mechagodzilla — officiellement enterré depuis le désastre de Hong Kong. Deux anciens ingénieurs d'Apex Cybernetics, disparus des radars depuis des années, semblent en être les auteurs. Leur premier « prototype » vient de surgir dans une métropole côtière : un titan bardé de lames et de plaques de métal que la presse surnomme déjà Gigan.",
+        victoryBeat: "Gigan s'effondre parmi les décombres, ses systèmes hors service. En fouillant l'épave, un agent de Monarch découvre un détail troublant : les autorisations d'accès au site de test remontent... à l'intérieur même de Monarch. Quelqu'un, en interne, couvre les deux ingénieurs depuis le début.",
+        retryVariants: [
+            "Ses lames rétractables tranchent un pan d'immeuble : Gigan s'enfuit dans le nuage de poussière avant que Godzilla ne referme la prise.",
+            "Ses réacteurs dorsaux crachent un jet brûlant : Gigan s'échappe par les airs, laissant Godzilla les mains vides.",
+        ],
+        sentences: [
+            { before: "Les analystes ", correct: "sont", after: " formels : les composants du boîtier viennent d'un ancien laboratoire Apex." },
+            { before: "Gigan aiguise ", correct: "son", after: " dard rétractable contre la carcasse d'un cargo échoué." },
+            { before: "Deux ex-employés d'Apex ", correct: "sont", after: " à l'origine du programme d'augmentation." },
+            { before: "Le blindage de Gigan reflète ", correct: "son", after: " éclat métallique sous les projecteurs de la ville." },
+            { before: "Les preuves ", correct: "sont", after: " accablantes : quelqu'un, au sein de Monarch, a couvert ces essais." },
+            { before: "Godzilla évite de justesse ", correct: "son", after: " premier coup de faux et riposte aussitôt." },
+            { before: "Les stabilisateurs de Gigan ", correct: "sont", after: " à bout de charge après ce combat prolongé." },
+            { before: "Vaincu, Gigan replie ", correct: "son", after: " bras articulé et s'effondre sur les décombres." },
+        ],
+    },
+    {
+        kaiju: "mechagodzilla",
+        nom: "Mechagodzilla",
+        decor: "decors_4.jpg",
+        palier: 4,
+        pairWords: ["on", "ont", "on n'"],
+        pairLabel: "on / ont",
+        astuce: "Remplace le mot par « avaient » : si la phrase garde son sens, c'est ont (le verbe avoir). Sinon, c'est on (qu'on peut remplacer par il). Devant une négation qui commence par une voyelle, cela donne on n' — comme dans « on n'a pas vu ».",
+        chapterTitle: "Le fantôme d'Apex",
+        chapterIntro: "La taupe est démasquée à temps — mais trop tard pour empêcher l'inévitable. Sous une ancienne base futuriste d'Apex Cybernetics, un fragment du crâne de Ghidorah, cru détruit depuis des années, a servi de cœur à une nouvelle machine. Mechagodzilla se relève, plus silencieux et plus rapide que jamais. Depuis leurs derniers combats, Godzilla accumule de l'énergie dans ses écailles : cette fois, il ne pourra pas se contenter de briser un boîtier. Il va devoir puiser dans toutes ses forces.",
+        victoryBeat: "Dans un dernier assaut incandescent, Godzilla perce le blindage de Mechagodzilla et met fin à des années de mensonges. La division fantôme d'Apex Cybernetics est démantelée, la taupe arrêtée. Sur l'île Infant, loin des caméras, Mothra observe le ciel s'éclaircir — et quelque chose dans son regard semble dire que cette histoire n'est pas tout à fait terminée.",
+        retryVariants: [
+            "Un bouclier d'urgence encaisse le coup final : Mechagodzilla recule dans l'ombre de la base, ses systèmes déjà en train de se réparer.",
+            "Une décharge électromagnétique aveugle un instant les capteurs de Godzilla : Mechagodzilla profite de la confusion pour se replier plus profondément sous la base.",
+        ],
+        sentences: [
+            { before: "Un rapport confidentiel confirme qu'", correct: "on", after: " détecte une signature thermique anormale sous l'ancien complexe Apex." },
+            { before: "Les archives d'Apex ", correct: "ont", after: " été scellées après le scandale de Hong Kong." },
+            { before: "D'après le dossier, ", correct: "on n'", after: "a jamais retrouvé les plans complets du prototype." },
+            { before: "Deux ingénieurs ", correct: "ont", after: " repris en secret les recherches abandonnées." },
+            { before: "Au sein de Monarch, ", correct: "on", after: " pensait le programme Mechagodzilla définitivement arrêté." },
+            { before: "Les capteurs de Monarch ", correct: "ont", after: " localisé une activité électrique sous la base." },
+            { before: "Jusqu'ici, ", correct: "on n'", after: "imaginait pas qu'un fragment du crâne de Ghidorah avait survécu." },
+            { before: "Dans les couloirs de Monarch, ", correct: "on", after: " raconte que la machine s'est réveillée seule, sans commande humaine." },
+        ],
+    },
 ];
 
-// Couleur du rayon / halo par palier (teinte appliquée en code,
-// pas besoin d'images Godzilla différentes par palier)
+// Couleur du rayon / halo par palier (une couleur par chapitre)
 const PALIER_TINT = {
-    1: { beam: "rgba(140,220,255,0.0)", glow: "#8fdcff", particle: [190, 60] }, // bleu-blanc
-    2: { beam: "rgba(70,160,255,0.0)",  glow: "#4aa8ff", particle: [205, 70] }, // bleu intense
-    3: { beam: "rgba(150,110,255,0.0)", glow: "#a066ff", particle: [265, 70] }, // bleu-violet
-    4: { beam: "rgba(255,110,50,0.0)",  glow: "#ff6a2e", particle: [15, 85]  }, // rouge-orangé incandescent
+    1: { glow: "#8fdcff", particle: [190, 60] },  // blanc-bleu
+    2: { glow: "#4aa8ff", particle: [205, 70] },  // bleu intense
+    3: { glow: "#a066ff", particle: [265, 70] },  // bleu-violet
+    4: { glow: "#ff6a2e", particle: [15, 85] },   // rouge-orangé incandescent
 };
 
+// Mode "Burning" (Godzilla Évolué) : rose/magenta, comme dans
+// Godzilla x Kong: The New Empire (2024) après absorption de
+// radiations. Déclenché par la VITESSE de réponse, pas par le palier.
+const BURNING_TINT = { glow: "#ff2fb0", particle: [322, 90] };
+const BURNING_WINDOW = 3;        // nb de bonnes réponses consécutives prises en compte
+const BURNING_THRESHOLD_SEC = 6; // temps moyen (s) sous lequel le mode s'active
+const BURNING_BONUS_POINTS = 5;  // bonus par bonne réponse pendant le mode Burning
+
 const KAIJU_FILES = {
+    mothra: "assets/kaiju_mothra.png",
     rodan: "assets/kaiju_rodan.png",
     anguirus: "assets/kaiju_anguirus.png",
     mechagodzilla: "assets/kaiju_mechagodzilla.png",
     gigan: "assets/kaiju_gigan.png",
-    spacegodzilla: "assets/kaiju_space_godzilla.png",
-    biollante: "assets/kaiju_biollante.png",
-    destroyah: "assets/kaiju_destroyah.png",
+    biollante: null,
+    destroyah: null,
     ghidorah: "assets/kaiju_ghidorah.png",
 };
 
-// Mothra n'est PAS un adversaire : elle apparaît uniquement lors du
-// combo bienveillant (voir registerCorrectForCombo). Chargée à part.
-const MOTHRA_FILE = "assets/kaiju_mothra.png";
-
-// Mode "burning" (Godzilla incandescent) : déclenché quand plusieurs
-// niveaux sont enchaînés rapidement (voir BURNING_TIME_THRESHOLD).
-// Les 3 fichiers ci-dessous sont optionnels : tant qu'ils ne sont pas
-// fournis, un filtre orange est appliqué en code sur les images
-// normales pour simuler l'effet "en feu" (voir drawGodzilla / drawBeam).
-const GODZILLA_BURNING_FILE = "assets/godzilla_burning.png";
-const GODZILLA_BURNING_OUVERT_FILE = "assets/godzilla_burning_ouvert.png";
-const RAYON_BURNING_FILE = "assets/rayon_burning.png";
-const BURNING_TIME_THRESHOLD = 10; // secondes : niveau bouclé sous ce temps = "rapide"
-const BURNING_STREAK_NEEDED = 2;    // nb de niveaux rapides d'affilée pour activer le mode
-
-// Durée du mode burning : dépend de l'écart ("gap") entre le temps réalisé et le seuil.
-// Choix (non précisé par Julie, fixé ici — modifiable librement) :
-//   - petit écart (gap < BURNING_GAP_BIG) -> 10s de mode burning
-//   - gros écart (gap >= BURNING_GAP_BIG)  -> 20s de mode burning
-// Le burning est un vrai décompte en temps réel (pas seulement "jusqu'au prochain raté") :
-// il s'éteint tout seul après ce délai, et chaque niveau rapide/propre supplémentaire
-// pendant que le mode est actif RELANCE le décompte (voir stopLevelTimerAndComputeBonus).
-// Volontairement AUCUN chiffre de compte à rebours n'est affiché à l'écran pour ce mode
-// (uniquement le badge "🔥 BURNING" allumé/éteint) afin de ne jamais créer de pression
-// chronométrée supplémentaire au-dessus du chrono de niveau déjà présent.
-const BURNING_GAP_BIG = 3;            // secondes d'écart sous le seuil pour obtenir le palier long
-const BURNING_DURATION_SHORT = 10000; // ms (base, avant bonus de maîtrise)
-const BURNING_DURATION_LONG = 20000;  // ms (base, avant bonus de maîtrise)
-const BURNING_KILL_BONUS = 5;             // points bonus immédiats par cristal correct pendant le burning
-const BURNING_LEVEL_BONUS_MULTIPLIER = 1.5; // multiplicateur sur le bonus de rapidité de fin de niveau pendant le burning
-
-// ======================= MAÎTRISE PROGRESSIVE DU MODE BURNING =======================
-// Au début, le mode burning doit rester rare et court pour ne pas être acquis
-// tout de suite. Plus l'élève enchaîne de niveaux rapides et propres au fil
-// des parties (persistant via localStorage, indépendant d'un niveau précis),
-// plus il devient FACILE à déclencher (moins de niveaux rapides nécessaires
-// d'affilée) ET plus il dure LONGTEMPS une fois activé.
-const MASTERY_STORAGE_KEY = "gmt_mastery_points_v1";
-function loadMasteryPoints() {
-    try { return parseInt(localStorage.getItem(MASTERY_STORAGE_KEY) || "0", 10) || 0; } catch (e) { return 0; }
-}
-function saveMasteryPoints() {
-    try { localStorage.setItem(MASTERY_STORAGE_KEY, String(masteryPoints)); } catch (e) { /* tant pis */ }
-}
-let masteryPoints = loadMasteryPoints();
-
-// nb de niveaux rapides/propres d'affilée requis pour activer le burning :
-// commence à 2 (comme avant), descend à 1 après 6 points de maîtrise
-function getBurningStreakNeeded() {
-    return masteryPoints >= 6 ? 1 : BURNING_STREAK_NEEDED;
-}
-// durée du burning une fois activé : augmente progressivement avec la maîtrise
-// (jusqu'à +10s de bonus, atteint à 15 points de maîtrise)
-function getBurningDuration(isLongGap) {
-    const base = isLongGap ? BURNING_DURATION_LONG : BURNING_DURATION_SHORT;
-    const bonus = Math.min(10000, Math.floor(masteryPoints / 3) * 2000);
-    return base + bonus;
-}
-
-// ======================= GALERIE DES CŒURS DE RÉSONANCE (médailles) =======================
-// 10 paliers faciles à obtenir, avec des écarts de score volontairement petits
-// (renforcement positif). Basé sur masteryPoints, qui est déjà persistant et
-// augmente à chaque niveau rapide/propre (rejouer un niveau compte aussi).
-const MEDALS = [
-    { name: "Godzilla",           threshold: 0,  glow: "rgba(120,170,255,0.5)",  grad: "radial-gradient(circle at 35% 30%, #7db8ff, #1c3a63)" },
-    { name: "Godzilla Alpha",     threshold: 2,  glow: "rgba(90,150,255,0.55)",   grad: "radial-gradient(circle at 35% 30%, #5a9bff, #16305c)" },
-    { name: "Godzilla Burning",   threshold: 5,  glow: "rgba(255,140,60,0.6)",    grad: "radial-gradient(circle at 35% 30%, #ffb15c, #7a2a0a)" },
-    { name: "Shin Godzilla",      threshold: 8,  glow: "rgba(255,90,90,0.55)",    grad: "radial-gradient(circle at 35% 30%, #ff7a7a, #5c1414)" },
-    { name: "Godzilla Earth",     threshold: 12, glow: "rgba(150,90,255,0.55)",   grad: "radial-gradient(circle at 35% 30%, #a888ff, #2a1a4a)" },
-    { name: "Godzilla Ultima",    threshold: 16, glow: "rgba(255,214,102,0.6)",   grad: "radial-gradient(circle at 35% 30%, #ffe08a, #7a5a10)" },
-    { name: "MechaGodzilla",      threshold: 21, glow: "rgba(160,220,255,0.6)",   grad: "radial-gradient(circle at 35% 30%, #cdeeff, #2c4a5c)" },
-    { name: "SpaceGodzilla",      threshold: 27, glow: "rgba(200,120,255,0.6)",   grad: "radial-gradient(circle at 35% 30%, #d9a6ff, #3a1a4a)" },
-    { name: "Godzilla Evolved",   threshold: 34, glow: "rgba(120,255,190,0.6)",   grad: "radial-gradient(circle at 35% 30%, #8affca, #124a38)" },
-    { name: "Roi des Monstres",   threshold: 42, glow: "rgba(255,225,150,0.75)",  grad: "radial-gradient(circle at 35% 30%, #fff2c0, #a5731a)" },
-];
-
-function renderMedalsGallery() {
-    const grid = document.getElementById("medal-grid");
-    const progress = document.getElementById("medals-progress");
-    if (!grid) return;
-    grid.innerHTML = "";
-    const pts = masteryPoints;
-    const next = MEDALS.find(m => pts < m.threshold);
-    if (progress) {
-        progress.textContent = next
-            ? `🔥 Maîtrise actuelle : ${pts} pts — encore ${next.threshold - pts} pt(s) pour débloquer « ${next.name} » !`
-            : `🔥 Maîtrise actuelle : ${pts} pts — toutes les médailles sont débloquées, bravo !`;
-    }
-    MEDALS.forEach((m) => {
-        const unlocked = pts >= m.threshold;
-        const cell = document.createElement("div");
-        cell.className = "medal-core " + (unlocked ? "unlocked" : "locked");
-
-        const orb = document.createElement("div");
-        orb.className = "medal-orb";
-        orb.style.setProperty("--orb-grad", m.grad);
-        orb.style.setProperty("--orb-glow", m.glow);
-        orb.textContent = unlocked ? "🦖" : "🔒";
-
-        const name = document.createElement("div");
-        name.className = "medal-name";
-        name.textContent = unlocked ? m.name : "???";
-
-        const thresh = document.createElement("div");
-        thresh.className = "medal-threshold";
-        thresh.textContent = unlocked ? "Débloqué" : `${m.threshold} pts`;
-
-        cell.appendChild(orb);
-        cell.appendChild(name);
-        cell.appendChild(thresh);
-        grid.appendChild(cell);
-    });
-}
-
-const DECOR_START = "assets/presentation.png"; // écran de démarrage (illustration Godzilla fournie par Julie)
-
-// Décor + barreaux de la prison Monarch (Parc des Kaijus) :
-// - decors_prison.jpg : fond de la cellule (image plate, pas de détourage)
-// - barreaux_prison.png : barreaux en premier plan, fond bleu pur -> détourés
-//   comme les personnages, pour laisser voir le kaiju capturé au travers.
-const DECOR_PRISON_FILE = "assets/decors_prison.jpg";
-const BARREAUX_PRISON_FILE = "assets/barreaux_prison.png";
-
-// ======================= PROGRESSION / KAIJUS INCONNUS =======================
-// Un kaiju est "inconnu" (❓, pas de nom ni d'image sur l'écran d'accueil) tant
-// qu'il n'a jamais été vaincu une première fois. Une fois vaincu, il est révélé
-// définitivement (sauvegardé en local) ET son niveau redevient rejouable
-// librement depuis l'écran d'accueil pour augmenter son score, sans avoir à
-// retraverser les niveaux précédents.
-const DEFEATED_STORAGE_KEY = "gmt_defeated_levels_v1";
-
-function loadDefeatedLevels() {
-    try {
-        const raw = localStorage.getItem(DEFEATED_STORAGE_KEY);
-        const arr = raw ? JSON.parse(raw) : [];
-        return new Set(Array.isArray(arr) ? arr : []);
-    } catch (e) {
-        return new Set();
-    }
-}
-function saveDefeatedLevels() {
-    try { localStorage.setItem(DEFEATED_STORAGE_KEY, JSON.stringify([...defeatedLevels])); } catch (e) { /* stockage indisponible, tant pis */ }
-}
-let defeatedLevels = loadDefeatedLevels();
-function markLevelDefeated(idx) {
-    if (!defeatedLevels.has(idx)) { defeatedLevels.add(idx); saveDefeatedLevels(); }
-}
-// premier niveau jamais vaincu = prochain défi ; si tout est vaincu, reste sur le dernier
-function getFrontierLevelIndex() {
-    for (let i = 0; i < LEVELS.length; i++) if (!defeatedLevels.has(i)) return i;
-    return LEVELS.length - 1;
-}
+const DECOR_FALLBACK = "assets/decors_1_bis.jpg";
 
 // ======================= CHARGEMENT + CHROMA KEY =======================
-// Toutes les images "personnages" (Godzilla, kaijus, rayon) sont sur
-// fond bleu pur #0000FF. On les détoure automatiquement au chargement.
+// Toutes les images "personnages" sont sur fond bleu pur #0000FF,
+// détourées automatiquement au chargement (inchangé par rapport à
+// la version tables de multiplication).
 function loadAndKeyImage(src, onReady) {
     const img = new Image();
     img.onload = () => {
@@ -210,33 +164,22 @@ function loadAndKeyImage(src, onReady) {
             const px = data.data;
             for (let i = 0; i < px.length; i += 4) {
                 const r = px[i], g = px[i + 1], b = px[i + 2];
-                // Bleu pur dominant -> transparent. Zones limitrophes -> alpha réduit (anti-frange).
                 const blueness = b - Math.max(r, g);
                 if (b > 140 && blueness > 60) {
                     const alpha = Math.max(0, 1 - blueness / 170);
                     px[i + 3] = Math.min(px[i + 3], Math.round(alpha * 255));
-                    // suppression du "spill" bleu sur les pixels de bord restants
                     if (px[i + 3] > 0) {
                         px[i + 2] = Math.min(b, Math.max(r, g) + 25);
                     }
                 }
             }
             octx.putImageData(data, 0, 0);
-            // IMPORTANT : toDataURL() peut lui-même lever une SecurityError (canvas
-            // "taint" par certains navigateurs en file:// / double-clic sans serveur,
-            // voir README) même quand getImageData a réussi juste au-dessus. Sans ce
-            // second try/catch, une erreur ici n'était jamais rattrapée : onReady()
-            // n'était jamais appelé et le chargement restait bloqué indéfiniment
-            // (bouton "Affronter" qui ne s'active jamais). On retombe alors sur
-            // l'image d'origine (fond bleu visible, mais le jeu reste jouable).
-            const keyed = new Image();
-            keyed.onload = () => onReady(keyed);
-            keyed.onerror = () => onReady(img);
-            keyed.src = off.toDataURL();
         } catch (e) {
-            console.warn("Chroma-key impossible pour", src, "— image utilisée telle quelle (fond bleu visible).", e);
-            onReady(img);
+            console.warn("Chroma-key impossible pour", src, e);
         }
+        const keyed = new Image();
+        keyed.onload = () => onReady(keyed);
+        keyed.src = off.toDataURL();
     };
     img.onerror = () => {
         console.warn("Image manquante :", src);
@@ -261,20 +204,12 @@ function loadPlainImage(src, onReady, fallbackSrc) {
     img.src = src;
 }
 
-// Assets chargés (remplis de façon asynchrone), lecture directe dans le jeu
 const ASSETS = {
     godzilla: null,
     godzillaOuvert: null,
-    godzillaBurning: null,       // optionnel
-    godzillaBurningOuvert: null, // optionnel
     rayon: null,
-    rayonBurning: null,          // optionnel
-    mothra: null,   // gardienne bienveillante (combo), pas un adversaire
-    decorStart: null,
-    decorPrison: null,    // fond de cellule (Parc des Kaijus)
-    barreauxPrison: null, // barreaux en premier plan, détourés (Parc des Kaijus)
-    kaiju: {},      // clé -> HTMLImageElement (détourée) ou null
-    decors: {},     // niveau index -> HTMLImageElement
+    kaiju: {},
+    decors: {},
     ready: false,
 };
 
@@ -286,39 +221,28 @@ function preloadAllAssets(onAllReady) {
     pending++; loadAndKeyImage("assets/godzilla.png", (img) => { ASSETS.godzilla = img; tick(); });
     pending++; loadAndKeyImage("assets/godzilla_ouvert.png", (img) => { ASSETS.godzillaOuvert = img; tick(); });
     pending++; loadAndKeyImage("assets/rayon.png", (img) => { ASSETS.rayon = img; tick(); });
-    pending++; loadAndKeyImage(MOTHRA_FILE, (img) => { ASSETS.mothra = img; tick(); });
-    // assets "burning" optionnels : pas d'erreur si absents, juste null -> filtre de secours
-    pending++; loadAndKeyImage(GODZILLA_BURNING_FILE, (img) => { ASSETS.godzillaBurning = img; tick(); });
-    pending++; loadAndKeyImage(GODZILLA_BURNING_OUVERT_FILE, (img) => { ASSETS.godzillaBurningOuvert = img; tick(); });
-    pending++; loadAndKeyImage(RAYON_BURNING_FILE, (img) => { ASSETS.rayonBurning = img; tick(); });
 
-    for (const key in KAIJU_FILES) {
+    // Ne précharge que les kaijus réellement utilisés par LEVELS. Les
+    // autres clés de KAIJU_FILES restent définies pour une future
+    // extension (leçons 2, 4, 5... du fascicule = d'autres chapitres).
+    const neededKaiju = new Set(LEVELS.map((l) => l.kaiju));
+    neededKaiju.forEach((key) => {
         const file = KAIJU_FILES[key];
         pending++;
-        if (!file) { ASSETS.kaiju[key] = null; tick(); continue; }
+        if (!file) { ASSETS.kaiju[key] = null; tick(); return; }
         loadAndKeyImage(file, (img) => { ASSETS.kaiju[key] = img; tick(); });
-    }
+    });
 
     LEVELS.forEach((lvl, idx) => {
         pending++;
         loadPlainImage("assets/" + lvl.decor.replace(/^assets\//, ""), (img) => {
             ASSETS.decors[idx] = img; tick();
-        }, DECOR_START);
+        }, DECOR_FALLBACK);
     });
-    pending++; loadPlainImage(DECOR_START, (img) => { ASSETS.decorStart = img; tick(); });
-    pending++; loadPlainImage(DECOR_PRISON_FILE, (img) => { ASSETS.decorPrison = img; tick(); });
-    pending++; loadAndKeyImage(BARREAUX_PRISON_FILE, (img) => { ASSETS.barreauxPrison = img; tick(); });
+    pending++; loadPlainImage(DECOR_FALLBACK, (img) => { ASSETS.decors.bis = img; tick(); });
 }
 
-// ======================= FAITS & LEURRES =======================
-function buildFactsPool(table) {
-    const facts = [];
-    for (let factor = 1; factor <= 10; factor++) {
-        facts.push({ table, factor, produit: table * factor });
-    }
-    return facts;
-}
-
+// ======================= OUTILS =======================
 function shuffle(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -328,42 +252,14 @@ function shuffle(arr) {
     return a;
 }
 
-function buildOptionsForFact(fact) {
-    const { table, factor, produit } = fact;
-    const candidates = new Set();
-    const add = (v) => { if (v > 0 && v !== produit) candidates.add(v); };
-
-    add((table - 1) * factor);
-    add((table + 1) * factor);
-    add(table * (factor - 1));
-    add(table * (factor + 1));
-    add(produit - table);
-    add(produit + table);
-    add(produit - 1);
-    add(produit + 1);
-    add((table + 1) * (factor - 1));
-    add((table - 1) * (factor + 1));
-
-    let pool = shuffle([...candidates]);
-    const leurres = pool.slice(0, 3);
-    let guard = 0;
-    while (leurres.length < 3 && guard < 50) {
-        guard++;
-        const v = produit + Math.floor(Math.random() * 21) - 10;
-        if (v > 0 && v !== produit && !leurres.includes(v)) leurres.push(v);
-    }
-    const options = shuffle([produit, ...leurres]);
-    return options.map((val) => ({ val, correct: val === produit }));
+function hashString(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return h;
 }
 
-function getAstuce(table, factor, produit) {
-    if (factor === 1) return `${table} × 1 = ${table} (un nombre multiplié par 1 ne change pas).`;
-    if (factor === 10) return `${table} × 10 = ${produit} (on ajoute simplement un 0).`;
-    if (factor === 9) return `${table} × 9 = ${table} × 10 − ${table} = ${table * 10} − ${table} = ${produit}.`;
-    if (factor === 5 && table % 2 === 0) return `${table} × 5 = ${table} ÷ 2 × 10 = ${table / 2}0.`;
-    let a, b;
-    if (factor > 5) { a = 5; b = factor - 5; } else { a = Math.ceil(factor / 2); b = Math.floor(factor / 2); }
-    return `${table} × ${factor} = ${table}×${a} + ${table}×${b} = ${table * a} + ${table * b} = ${produit}.`;
+function escapeHtml(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // ======================= AUDIO (synthétisé, ton "impact kaiju") =======================
@@ -461,10 +357,25 @@ function playComboChime() {
     });
 }
 
+function playBurningSwell() {
+    initAudio();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(660, now + 0.4);
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.linearRampToValueAtTime(0.25, now + 0.15);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+    osc.start(now); osc.stop(now + 0.5);
+}
+
 // ======================= CANVAS / ÉTAT GLOBAL =======================
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const SAFE_TOP = 110;
+const SAFE_TOP = 170;   // agrandi : les phrases prennent plus de place que "6 × 7 = ?"
 const SAFE_BOTTOM = 100;
 
 let currentLevelIndex = 0;
@@ -475,7 +386,7 @@ let animationId = null;
 let cristaux = [];
 let particles = [];
 let fireworks = [];
-let factsPool = [];
+let currentSentenceIndex = 0;
 let currentFact = null;
 let mouseXPos = 550, mouseYPos = 400;
 let levelStartTime = 0, currentLevelTime = 0, totalTimeBonus = 0;
@@ -483,28 +394,22 @@ let chronoInterval = null;
 let victoryFireworks = false;
 let activeCard = null;
 let cardTimeout = null;
-let shotLock = false; // verrouille les clics pendant l'animation du rayon
+let shotLock = false;
+let pendingVictoryBonus = 0;
+let chapterScreenMode = "intro"; // "intro" | "victory"
+let retryAttempts = {};          // index de niveau -> nb de tentatives ratées
 
 // combo Mothra
 let comboTimestamps = [];
-let mothraFlyby = null; // { t, duration } animation de survol bienveillant
 
-// mode burning (Godzilla incandescent après plusieurs niveaux rapides)
-let burningStreak = 0;
+// mode Burning (vitesse d'exécution)
+let responseTimeHistory = [];
+let questionStartTime = 0;
 let burningMode = false;
-let burningExpiresAt = 0; // timestamp (performance.now()) auquel le mode burning s'éteint tout seul
-
-// apparition de l'ennemi derrière les pierres quand il ne reste plus que 3
-// calculs à trouver dans le niveau : Godzilla passe alors automatiquement
-// (et reste) en mode burning jusqu'à la fin du niveau.
-let enemyRevealed = false;
-let forcedBurning = false;
-const ENEMY_REVEAL_REMAINING = 3; // nb de calculs restants (dont le courant) déclenchant l'apparition
 
 // beam animation state
-let beam = null; // { x1,y1,x2,y2, progress, phase, targetCristal, hue }
+let beam = null;
 let godzillaMouthOpen = false;
-let palierFlashTimer = 0;
 
 // ======================= PARTICULES =======================
 class Particle {
@@ -520,7 +425,6 @@ class Particle {
     draw() { ctx.fillStyle = this.color; ctx.globalAlpha = this.life; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
 }
 
-// éclats de roche (mauvaise réponse -> cristal éclate à vide)
 class DustParticle {
     constructor(x, y) {
         this.x = x; this.y = y;
@@ -551,31 +455,6 @@ class DustParticle {
     }
 }
 
-// petit texte flottant "+5🔥" affiché au point d'impact pendant le mode burning.
-// Purement décoratif / feedback immédiat — ne remplace pas et n'ajoute pas de
-// minuteur ou de chiffre de compte à rebours du mode burning lui-même.
-class FloatingText {
-    constructor(x, y, text) {
-        this.x = x; this.y = y; this.text = text; this.life = 1;
-    }
-    update() { this.y -= 1.1; this.life -= 0.018; return this.life > 0; }
-    draw() {
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, this.life);
-        ctx.font = "bold 24px 'Bebas Neue', sans-serif";
-        ctx.fillStyle = "#ffb347";
-        ctx.textAlign = "center";
-        ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 6;
-        ctx.fillText(this.text, this.x, this.y);
-        ctx.restore();
-        ctx.globalAlpha = 1;
-    }
-}
-let floatingTexts = [];
-function spawnBurningBonusPopup(x, y) {
-    floatingTexts.push(new FloatingText(x, y, `+${BURNING_KILL_BONUS} 🔥`));
-}
-
 class Firework {
     constructor(x, y) {
         this.x = x; this.y = y;
@@ -595,20 +474,20 @@ class Firework {
 }
 
 // ======================= CRISTAL DE CAMOUFLAGE =======================
-// Remplace les ballons. Rocher/cristal semi-translucide ; identique en
-// apparence entre cristaux d'une même manche (seul le chiffre change).
-// La teinte de base varie aléatoirement (alien/tech) sans corréler
-// avec la bonne réponse.
+// Affiche désormais un MOT (homophone) plutôt qu'un nombre. Le nombre
+// de cristaux suit le nombre de candidats du duo (2, ou 3 pour on/ont
+// + la nuance "on n'").
 class Cristal {
     constructor(value, isCorrect, kaijuKey, variant = null) {
         this.value = value;
         this.isCorrect = isCorrect;
         this.kaijuKey = kaijuKey;
-        this.radius = 50;
-        this.state = "idle"; // idle | cracking | revealing | exploding | dead
+        this.radius = 58;
+        this.state = "idle";
         this.stateT = 0;
-        this.hue = 185 + Math.random() * 110; // 185-295 : cyan -> violet (alien)
+        this.hue = 185 + Math.random() * 110;
         this.facets = this.generateFacets();
+        this.fontSize = this.computeFontSize();
 
         let side = variant !== null ? variant : Math.floor(Math.random() * 4);
         if (side === 0) { this.x = this.radius + 5; this.y = rand(SAFE_TOP + this.radius, canvas.height - this.radius - SAFE_BOTTOM); this.vx = rand(1.0, 2.2); this.vy = rand(-0.8, 0.8); }
@@ -620,8 +499,21 @@ class Cristal {
         this.floatSpeed = 0.02 + Math.random() * 0.015;
     }
 
+    computeFontSize() {
+        const text = String(this.value);
+        const maxWidth = this.radius * 1.5;
+        let size = 30;
+        ctx.save();
+        while (size > 14) {
+            ctx.font = `bold ${size}px 'Bebas Neue', sans-serif`;
+            if (ctx.measureText(text).width <= maxWidth) break;
+            size -= 2;
+        }
+        ctx.restore();
+        return size;
+    }
+
     generateFacets() {
-        // polygone irrégulier façon cristal (8 points, rayon variable)
         const pts = [];
         const n = 8;
         for (let i = 0; i < n; i++) {
@@ -677,7 +569,6 @@ class Cristal {
         ctx.stroke();
         ctx.restore();
 
-        // lignes de facettes internes
         ctx.save();
         this.clipPath(); ctx.clip();
         ctx.strokeStyle = `hsla(${this.hue}, 90%, 90%, ${0.25 * alpha})`;
@@ -692,8 +583,6 @@ class Cristal {
     }
 
     drawKaijuInside(revealT) {
-        // dessine l'image du kaiju (ou silhouette de secours) à l'intérieur
-        // du cristal, teintée de rouge (touché)
         ctx.save();
         this.clipPath(); ctx.clip();
         const img = ASSETS.kaiju[this.kaijuKey];
@@ -704,9 +593,8 @@ class Cristal {
         } else {
             drawKaijuSilhouette(this.x, this.y, size, revealT);
         }
-        // teinte rouge "touché" (légère, pour ne pas cacher le kaiju)
         ctx.globalCompositeOperation = "source-atop";
-        ctx.fillStyle = `rgba(255,40,30,${0.22 * revealT})`;
+        ctx.fillStyle = `rgba(255,40,30,${0.45 * revealT})`;
         ctx.fillRect(this.x - size, this.y - size, size * 2, size * 2);
         ctx.restore();
         ctx.globalAlpha = 1;
@@ -716,11 +604,11 @@ class Cristal {
         if (this.state === "idle") {
             this.drawRock(1);
             ctx.save();
-            ctx.font = `bold ${Math.floor(this.radius * 0.62)}px 'Bebas Neue', sans-serif`;
+            ctx.font = `bold ${this.fontSize}px 'Bebas Neue', sans-serif`;
             ctx.fillStyle = "#f4fbff";
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
             ctx.shadowColor = "rgba(0,0,0,0.6)"; ctx.shadowBlur = 4;
-            ctx.fillText(this.value, this.x, this.y + 1);
+            ctx.fillText(String(this.value), this.x, this.y + 1);
             ctx.restore();
         } else if (this.state === "cracking") {
             const t = Math.min(1, this.stateT / 0.22);
@@ -729,7 +617,7 @@ class Cristal {
         } else if (this.state === "revealing") {
             const t = Math.min(1, this.stateT / 0.5);
             this.drawKaijuInside(t);
-            this.drawRock(0.1);
+            this.drawRock(0.22);
             this.drawCracks(1);
         }
     }
@@ -738,7 +626,7 @@ class Cristal {
         ctx.save();
         ctx.strokeStyle = `rgba(255,255,255,${0.7 * t})`;
         ctx.lineWidth = 1.5;
-        const seed = this.value; // cracks stables
+        const seed = hashString(String(this.value));
         for (let i = 0; i < 5; i++) {
             const a = (seed * 13 + i * 71) % 360 * Math.PI / 180;
             const len = this.radius * (0.5 + (i % 3) * 0.15) * t;
@@ -753,7 +641,6 @@ class Cristal {
 
 function rand(a, b) { return a + Math.random() * (b - a); }
 
-// silhouette de secours pour kaijus sans image (Biollante / Destoroyah en attendant)
 function drawKaijuSilhouette(x, y, size, alpha) {
     ctx.save();
     ctx.globalAlpha = alpha;
@@ -764,7 +651,6 @@ function drawKaijuSilhouette(x, y, size, alpha) {
     ctx.beginPath();
     ctx.ellipse(x - size * 0.12, y - size * 0.28, size * 0.22, size * 0.2, -0.3, 0, Math.PI * 2);
     ctx.fill();
-    // yeux lumineux
     ctx.fillStyle = "#ff4433";
     ctx.beginPath(); ctx.arc(x - size * 0.18, y - size * 0.3, size * 0.03, 0, Math.PI * 2); ctx.fill();
     ctx.restore();
@@ -773,13 +659,12 @@ function drawKaijuSilhouette(x, y, size, alpha) {
 
 // ======================= DÉCOR (cover-fit) =======================
 function drawBackground() {
-    const img = ASSETS.decors[currentLevelIndex] || ASSETS.decorStart;
+    const img = ASSETS.decors[currentLevelIndex] || ASSETS.decors.bis;
     if (img) {
         const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
         const w = img.width * scale, h = img.height * scale;
         const dx = (canvas.width - w) / 2, dy = (canvas.height - h) / 2;
         ctx.drawImage(img, dx, dy, w, h);
-        // léger voile pour la lisibilité du HUD
         const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
         grad.addColorStop(0, "rgba(0,0,0,0.35)");
         grad.addColorStop(0.25, "rgba(0,0,0,0.05)");
@@ -793,62 +678,13 @@ function drawBackground() {
     }
 }
 
-// ======================= APPARITION DE L'ENNEMI (3 calculs restants) =======================
-// Le kaiju du niveau apparaît partiellement, comme caché derrière des rochers
-// (dessinés directement en canvas), en fond à droite de l'écran, pour prévenir
-// visuellement que la fin du niveau approche — en plus du passage automatique
-// en mode burning (voir nextFact()).
-function drawEnemyPeeking() {
-    if (!enemyRevealed) return;
-    const img = ASSETS.kaiju[LEVELS[currentLevelIndex].kaiju];
-    const cx = canvas.width - 175, cy = SAFE_TOP + 150;
-    const size = 260;
-    ctx.save();
-    ctx.globalAlpha = 0.92;
-    if (img) {
-        ctx.drawImage(img, cx - size / 2, cy - size / 2, size, size * (img.height / img.width));
-    } else {
-        drawKaijuSilhouette(cx, cy, size, 1);
-    }
-    ctx.restore();
-
-    // rochers du décor par-dessus le bas du kaiju, pour le cacher partiellement
-    ctx.save();
-    ctx.fillStyle = "#14100e";
-    const rockY = cy + size * 0.12;
-    ctx.beginPath();
-    ctx.moveTo(cx - size * 0.62, cy + size * 0.55);
-    ctx.lineTo(cx - size * 0.2, rockY);
-    ctx.lineTo(cx + size * 0.05, cy + size * 0.42);
-    ctx.lineTo(cx + size * 0.35, rockY + 10);
-    ctx.lineTo(cx + size * 0.65, cy + size * 0.5);
-    ctx.lineTo(cx + size * 0.68, cy + size * 0.62);
-    ctx.lineTo(cx - size * 0.65, cy + size * 0.62);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = "rgba(0,0,0,0.5)"; ctx.lineWidth = 3; ctx.stroke();
-    ctx.restore();
-}
-
 // ======================= GODZILLA + RAYON =======================
-// Position de Godzilla à l'écran (bas-gauche) et point de sortie du
-// rayon (bouche), en fraction de la largeur/hauteur de l'image.
-// -> AJUSTER ICI si le cadrage ne correspond pas exactement à la bouche.
 const GODZILLA_DRAW_WIDTH = 430;
-const GODZILLA_ANCHOR = { x: 170, y: canvas.height - 60 }; // point "pieds" à l'écran
-// Recalibré le 12/07/2026 sur les nouveaux fichiers godzilla.png / godzilla_ouvert.png
-// (Godzilla tourné pour faire face à droite, vers l'arène). Mesuré automatiquement par
-// détection des pixels rouges/roses de l'intérieur de la bouche sur godzilla_ouvert.png
-// (centroïde ≈ 78.8% largeur / 15.3% hauteur). Le cadrage (bounding box hors fond bleu)
-// est identique à 1-2px près entre godzilla.png, godzilla_ouvert.png, godzilla_burning.png
-// et godzilla_burning_ouvert.png : une seule valeur suffit pour les 4 variantes.
-const GODZILLA_MOUTH_REL = { x: 0.788, y: 0.153 }; // position bouche dans l'image (fraction w/h)
+const GODZILLA_ANCHOR = { x: 170, y: canvas.height - 60 };
+const GODZILLA_MOUTH_REL = { x: 0.175, y: 0.155 };
 
 function godzillaDrawRect() {
-    let img;
-    if (burningMode && godzillaMouthOpen && ASSETS.godzillaBurningOuvert) img = ASSETS.godzillaBurningOuvert;
-    else if (burningMode && !godzillaMouthOpen && ASSETS.godzillaBurning) img = ASSETS.godzillaBurning;
-    else img = godzillaMouthOpen ? ASSETS.godzillaOuvert : ASSETS.godzilla;
+    const img = godzillaMouthOpen ? ASSETS.godzillaOuvert : ASSETS.godzilla;
     if (!img) return null;
     const w = GODZILLA_DRAW_WIDTH;
     const h = w * (img.height / img.width);
@@ -863,44 +699,17 @@ function getMouthPosition() {
     return { x: rect.x + rect.w * GODZILLA_MOUTH_REL.x, y: rect.y + rect.h * GODZILLA_MOUTH_REL.y };
 }
 
-// true si on utilise le filtre de secours (pas encore de vraie image "burning")
-function usingBurningFallback() {
-    return burningMode && !((godzillaMouthOpen && ASSETS.godzillaBurningOuvert) || (!godzillaMouthOpen && ASSETS.godzillaBurning));
-}
-
 function drawGodzilla() {
     const rect = godzillaDrawRect();
     if (!rect) return;
     const safeIdx = Math.min(currentLevelIndex, LEVELS.length - 1);
     const palier = LEVELS[safeIdx].palier;
-    const tint = burningMode ? { glow: "#ff6a2e" } : PALIER_TINT[palier];
+    const tint = burningMode ? BURNING_TINT : PALIER_TINT[palier];
+    const pulse = burningMode ? 8 * Math.sin(Date.now() / 80) : 0;
     ctx.save();
     ctx.shadowColor = tint.glow;
-    ctx.shadowBlur = godzillaMouthOpen ? 26 : 10;
+    ctx.shadowBlur = (godzillaMouthOpen ? 26 : 10) + (burningMode ? 14 + pulse : 0);
     ctx.drawImage(rect.img, rect.x, rect.y, rect.w, rect.h);
-    if (usingBurningFallback()) {
-        // filtre orange "en attendant les vraies images burning"
-        ctx.globalCompositeOperation = "source-atop";
-        ctx.fillStyle = "rgba(255,90,20,0.4)";
-        ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
-        ctx.globalCompositeOperation = "source-over";
-    }
-    ctx.restore();
-}
-
-function drawMothraFlyby() {
-    if (!mothraFlyby || !ASSETS.mothra) return;
-    const elapsed = performance.now() - mothraFlyby.start;
-    const t = elapsed / mothraFlyby.duration;
-    if (t >= 1) { mothraFlyby = null; return; }
-    const w = 260, h = w * (ASSETS.mothra.height / ASSETS.mothra.width);
-    const x = -w + t * (canvas.width + w * 2);
-    const y = SAFE_TOP + 40 + Math.sin(t * Math.PI * 3) * 30;
-    ctx.save();
-    ctx.globalAlpha = Math.sin(Math.min(t, 1) * Math.PI); // fondu entrée/sortie
-    ctx.shadowColor = "#ffe08a";
-    ctx.shadowBlur = 25;
-    ctx.drawImage(ASSETS.mothra, x, y, w, h);
     ctx.restore();
 }
 
@@ -911,7 +720,7 @@ function drawBeam() {
     const cy = y1 + (y2 - y1) * progress;
     const dist = Math.hypot(cx - x1, cy - y1);
     const angle = Math.atan2(y2 - y1, x2 - x1);
-    const img = (burningMode && ASSETS.rayonBurning) ? ASSETS.rayonBurning : ASSETS.rayon;
+    const img = ASSETS.rayon;
     ctx.save();
     ctx.translate(x1, y1);
     ctx.rotate(angle);
@@ -934,14 +743,18 @@ function drawBeam() {
 
 // ======================= UI HELPERS =======================
 function updateUI() {
+    const lvl = LEVELS[currentLevelIndex];
     document.getElementById("lbl-level").innerText = currentLevelIndex + 1;
     document.getElementById("lbl-score").innerText = currentScore;
-    document.getElementById("lbl-points").innerText = totalTimeBonus;
+    document.getElementById("lbl-score-max").innerText = "/" + lvl.sentences.length;
     document.getElementById("lbl-errors").innerText = errors;
-    document.getElementById("lbl-table").innerText = LEVELS[currentLevelIndex].table;
-    document.getElementById("lbl-kaiju").innerText =
-        defeatedLevels.has(currentLevelIndex) ? LEVELS[currentLevelIndex].nom : "???";
-    document.getElementById("burning-badge").classList.toggle("hidden", !burningMode);
+    document.getElementById("lbl-table").innerText = lvl.pairLabel;
+    document.getElementById("lbl-kaiju").innerText = lvl.nom;
+}
+
+function renderSentence(fact) {
+    document.getElementById("phrase-card").innerHTML =
+        escapeHtml(fact.before) + '<span class="blank-gap">?</span>' + escapeHtml(fact.after);
 }
 
 function showCelebration(emojiSet) {
@@ -964,17 +777,27 @@ function showCelebration(emojiSet) {
 function flashPalier() {
     const el = document.getElementById("palier-flash");
     el.classList.remove("active");
-    void el.offsetWidth; // relance l'animation
+    void el.offsetWidth;
     el.classList.add("active");
+}
+
+function updateBurningIndicator(justActivated) {
+    const el = document.getElementById("burning-indicator");
+    if (!el) return;
+    if (burningMode) {
+        el.classList.add("show");
+        if (justActivated) playBurningSwell();
+    } else {
+        el.classList.remove("show");
+    }
 }
 
 // ======================= CARTE "LEÇON EXPRESS" =======================
 function showHelpCard(fact, wrongVal) {
     if (activeCard) { if (cardTimeout) clearTimeout(cardTimeout); activeCard.remove(); activeCard = null; }
-    const { table, factor, produit } = fact;
-    const correction = `${table} × ${factor} = ${produit}`;
-    const explanation = `Tu as répondu ${wrongVal}, ce n'est pas le bon résultat.`;
-    const rule = getAstuce(table, factor, produit);
+    const correction = escapeHtml(fact.before) + "<u>" + escapeHtml(fact.correct) + "</u>" + escapeHtml(fact.after);
+    const explanation = `Tu as choisi « ${escapeHtml(wrongVal)} », ce n'est pas le bon mot ici.`;
+    const rule = LEVELS[currentLevelIndex].astuce;
 
     const card = document.createElement("div");
     card.className = "help-card";
@@ -1008,9 +831,9 @@ function showHelpCard(fact, wrongVal) {
 }
 
 // ======================= COMBO MOTHRA =======================
-// 3 bonnes réponses d'affilée en moins de 10s -> Mothra rend 1 vie
-// (retire 1 au compteur d'erreurs du niveau en cours). Mécanisme
-// actif à tous les niveaux (pas seulement celui de Mothra).
+// 3 bonnes réponses d'affilée en moins de 10s -> Mothra rend 1 vie.
+// Reste actif à tous les chapitres : même vaincue au chapitre 1, sa
+// présence protectrice continue de veiller sur Godzilla.
 function registerCorrectForCombo() {
     const now = Date.now();
     comboTimestamps.push(now);
@@ -1025,122 +848,30 @@ function registerCorrectForCombo() {
             el.textContent = "🦋 MOTHRA VEILLE SUR TOI ! −1 FAUTE";
             el.classList.add("show");
             setTimeout(() => el.classList.remove("show"), 1800);
-            mothraFlyby = { start: performance.now(), duration: 2200 };
         }
     }
 }
 function registerWrongForCombo() { comboTimestamps = []; }
 
 // ======================= BOUCLE DE JEU =======================
-function nextFact() {
+function loadCurrentSentence() {
     if (!gameActive) return;
-    if (factsPool.length === 0) {
-        // pioche vide -> niveau terminé (10/10) : le kaiju apparaît en
-        // entier et s'écroule avant de passer au niveau suivant.
-        let bonus = stopLevelTimerAndComputeBonus();
-        markLevelDefeated(currentLevelIndex);
-        playBossDefeatSequence(() => {
-            showCelebration("✨💥🦖");
-            levelUp(bonus);
-        });
+    const lvl = LEVELS[currentLevelIndex];
+    if (currentSentenceIndex >= lvl.sentences.length) {
+        finishLevel();
         return;
     }
-    currentFact = factsPool.pop();
-    document.getElementById("phrase-card").innerText = `${currentFact.table} × ${currentFact.factor} = ?`;
-    const opts = buildOptionsForFact(currentFact);
-    cristaux = opts.map((o, i) => new Cristal(o.val, o.correct, LEVELS[currentLevelIndex].kaiju, Math.floor(Math.random() * 4)));
-
-    // il ne reste plus que ENEMY_REVEAL_REMAINING calculs (celui-ci inclus) :
-    // le kaiju apparaît derrière les pierres du décor et Godzilla passe
-    // automatiquement (et reste) en mode burning jusqu'à la fin du niveau.
-    if (!enemyRevealed && factsPool.length + 1 <= ENEMY_REVEAL_REMAINING) {
-        enemyRevealed = true;
-        forcedBurning = true;
-        burningMode = true;
-        updateUI();
-    }
+    currentFact = lvl.sentences[currentSentenceIndex];
+    questionStartTime = Date.now();
+    renderSentence(currentFact);
+    const opts = shuffle(lvl.pairWords.map((w) => ({ val: w, correct: w === currentFact.correct })));
+    cristaux = opts.map((o) => new Cristal(o.val, o.correct, lvl.kaiju, Math.floor(Math.random() * 4)));
 }
 
-// Grand écran "boss vaincu" : le kaiju du niveau apparaît en entier,
-// bascule et s'écroule, pour une vraie sensation de victoire.
-let bossDefeat = null; // { kaijuKey, start, duration }
-function playBossDefeatSequence(onDone) {
-    shotLock = true;
-    cristaux = [];
-    initAudio();
-    playImpactSound();
-    const kaijuKey = LEVELS[currentLevelIndex].kaiju;
-    const duration = 2800;
-    bossDefeat = { kaijuKey, start: performance.now(), duration };
-    setTimeout(() => {
-        bossDefeat = null;
-        shotLock = false;
-        onDone();
-    }, duration);
-}
-
-function drawBossDefeat() {
-    if (!bossDefeat) return;
-    const elapsed = performance.now() - bossDefeat.start;
-    const t = Math.min(1, elapsed / bossDefeat.duration);
-    const img = ASSETS.kaiju[bossDefeat.kaijuKey];
-    const cx = canvas.width / 2, baseY = canvas.height / 2 - 20;
-    // bascule tête en bas (0 -> 180°) et chute (léger déplacement vers le bas + fondu)
-    const rot = t * Math.PI;
-    const fall = t * 90;
-    const alpha = 1 - Math.max(0, t - 0.65) / 0.35;
-
-    ctx.save();
-    ctx.fillStyle = `rgba(0,0,0,${0.45 * (1 - t * 0.5)})`;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.translate(cx, baseY + fall);
-    ctx.rotate(rot);
-    ctx.globalAlpha = Math.max(0, alpha);
-    const size = 460;
-    if (img) {
-        ctx.drawImage(img, -size / 2, -size * (img.height / img.width) / 2, size, size * (img.height / img.width));
-    } else {
-        drawKaijuSilhouette(0, 0, size, 1);
-    }
-    ctx.restore();
-    ctx.globalAlpha = 1;
-
-    ctx.save();
-    ctx.font = "bold 34px 'Bebas Neue', sans-serif";
-    ctx.fillStyle = "#ffd966";
-    ctx.textAlign = "center";
-    ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 8;
-    ctx.globalAlpha = Math.min(1, t * 3);
-    const nom = LEVELS[currentLevelIndex].nom;
-    ctx.font = "bold 30px 'Bebas Neue', sans-serif";
-    if (t < 0.55) {
-        ctx.fillText(`${nom} EST VAINCU !`, cx, 60);
-    } else {
-        ctx.font = "bold 26px 'Bebas Neue', sans-serif";
-        wrapCaptureText(`Grâce à Godzilla, MONARCH a capturé ${nom} et le ramène en prison.`, cx, 60, 780, 32);
-    }
-    ctx.restore();
-    ctx.globalAlpha = 1;
-}
-
-// petite fonction utilitaire pour retourner à la ligne un texte trop long
-// dans le canvas (nécessaire pour la phrase de capture Monarch)
-function wrapCaptureText(text, x, y, maxWidth, lineHeight) {
-    const words = text.split(" ");
-    let line = "";
-    let ly = y;
-    for (let i = 0; i < words.length; i++) {
-        const test = line + words[i] + " ";
-        if (ctx.measureText(test).width > maxWidth && line !== "") {
-            ctx.fillText(line, x, ly);
-            line = words[i] + " ";
-            ly += lineHeight;
-        } else {
-            line = test;
-        }
-    }
-    ctx.fillText(line, x, ly);
+function finishLevel() {
+    pendingVictoryBonus = stopLevelTimerAndComputeBonus();
+    showCelebration("✨💥🦖");
+    showChapterVictory();
 }
 
 function handleShot(x, y) {
@@ -1165,32 +896,46 @@ function missCristal(c) {
 
     errors++;
     registerWrongForCombo();
+    responseTimeHistory = [];
+    burningMode = false;
+    updateBurningIndicator(false);
     updateUI();
-    showHelpCard(currentFact, c.value);
-    // le fait retourne dans la pioche pour être retenté plus tard
-    factsPool.unshift(currentFact);
-    factsPool = shuffle(factsPool);
+    showHelpCard(currentFact, String(c.value));
 
     if (errors >= 5) {
         stopLevelTimerAndComputeBonus();
         gameActive = false;
         showGameOver();
     } else {
-        nextFact();
+        // La même phrase revient : l'histoire n'avance pas tant
+        // qu'elle n'est pas résolue correctement.
+        loadCurrentSentence();
     }
 }
 
 function fireAtCristal(c) {
-    shotLock = true; // les clics sont verrouillés pendant l'animation du rayon
+    shotLock = true;
     initAudio();
     playBeamSound();
     godzillaMouthOpen = true;
+
+    const elapsed = (Date.now() - questionStartTime) / 1000;
+    responseTimeHistory.push(elapsed);
+    if (responseTimeHistory.length > BURNING_WINDOW) responseTimeHistory.shift();
+    const wasBurning = burningMode;
+    if (responseTimeHistory.length === BURNING_WINDOW) {
+        const avg = responseTimeHistory.reduce((a, b) => a + b, 0) / responseTimeHistory.length;
+        burningMode = avg <= BURNING_THRESHOLD_SEC;
+    }
+    updateBurningIndicator(burningMode && !wasBurning);
+    if (burningMode) totalTimeBonus += BURNING_BONUS_POINTS;
+
     const mouth = getMouthPosition();
     const palier = LEVELS[currentLevelIndex].palier;
-    const hue = burningMode ? 18 : PALIER_TINT[palier].particle[0];
+    const hue = burningMode ? BURNING_TINT.particle[0] : PALIER_TINT[palier].particle[0];
     beam = { x1: mouth.x, y1: mouth.y, x2: c.x, y2: c.y, progress: 0, hue };
 
-    const beamDuration = 260; // ms
+    const beamDuration = 260;
     const start = performance.now();
     function animateBeam(t) {
         const p = Math.min(1, (t - start) / beamDuration);
@@ -1222,27 +967,22 @@ function impactCristal(c, hue) {
             shotLock = false;
 
             currentScore++;
-            if (burningMode) {
-                totalTimeBonus += BURNING_KILL_BONUS;
-                spawnBurningBonusPopup(c.x, c.y);
-            }
+            currentSentenceIndex++;
             registerCorrectForCombo();
             updateUI();
-            if (currentScore >= 10) {
-                nextFact(); // déclenchera la fin de niveau (pioche vide)
-            } else {
-                nextFact();
-            }
+            loadCurrentSentence();
         }, 550);
     }, 220);
 }
 
 // ======================= CHRONO / BONUS =======================
+// Seuils recalibrés pour la lecture de phrases (plus longue qu'un
+// calcul mental) et pour 8 phrases par chapitre (au lieu de 10 faits).
 function startLevelTimer() {
     if (chronoInterval) clearInterval(chronoInterval);
     levelStartTime = Date.now();
     chronoInterval = setInterval(() => {
-        if (gameActive && currentScore < 10) {
+        if (gameActive && currentSentenceIndex < LEVELS[currentLevelIndex].sentences.length) {
             currentLevelTime = (Date.now() - levelStartTime) / 1000;
             document.getElementById("chrono-box").innerHTML = `⏱️ ${currentLevelTime.toFixed(1)}s`;
         }
@@ -1251,51 +991,53 @@ function startLevelTimer() {
 function stopLevelTimerAndComputeBonus() {
     if (chronoInterval) clearInterval(chronoInterval);
     const finalTime = currentLevelTime;
-    const bonus = finalTime <= 8 ? 100 : finalTime <= 12 ? 70 : finalTime <= 18 ? 45 : finalTime <= 25 ? 25 : 10;
+    const bonus = finalTime <= 25 ? 100 : finalTime <= 35 ? 70 : finalTime <= 50 ? 45 : finalTime <= 70 ? 25 : 10;
     const penalty = errors * 5;
-    let levelBonus = Math.max(0, bonus - penalty);
-
-    // pendant le burning, le bonus de fin de niveau est majoré (voir BURNING_LEVEL_BONUS_MULTIPLIER)
-    if (burningMode) levelBonus = Math.round(levelBonus * BURNING_LEVEL_BONUS_MULTIPLIER);
+    const levelBonus = Math.max(0, bonus - penalty);
     totalTimeBonus += levelBonus;
-    updateUI();
-
-    // mode burning : niveaux rapides enchaînés (voir BURNING_TIME_THRESHOLD).
-    // La durée accordée dépend de l'écart ("gap") entre le temps réalisé et le seuil :
-    // plus on est rapide, plus le mode dure longtemps une fois activé/relancé.
-    if (finalTime <= BURNING_TIME_THRESHOLD && errors === 0) {
-        burningStreak++;
-        masteryPoints++; saveMasteryPoints(); // chaque niveau rapide/propre fait progresser la maîtrise
-        if (burningStreak >= getBurningStreakNeeded()) {
-            const gap = BURNING_TIME_THRESHOLD - finalTime;
-            const duration = getBurningDuration(gap >= BURNING_GAP_BIG);
-            burningMode = true;
-            burningExpiresAt = performance.now() + duration; // relance le décompte à chaque niveau rapide/propre
-        }
-    } else {
-        // un niveau raté/lent casse la série, mais on laisse le burning déjà acquis
-        // s'éteindre naturellement (à son échéance) plutôt que de le couper net —
-        // pour ne jamais punir brutalement une petite erreur.
-        burningStreak = 0;
-    }
-
     return levelBonus;
 }
 
-// à appeler chaque frame : éteint le mode burning une fois son délai écoulé
-function updateBurningTimeout() {
-    if (burningMode && !forcedBurning && performance.now() >= burningExpiresAt) {
-        burningMode = false;
-        const badge = document.getElementById("burning-badge");
-        if (badge) badge.classList.add("hidden");
+// ======================= CHAPITRES / NIVEAUX =======================
+function showChapterIntro() {
+    const lvl = LEVELS[currentLevelIndex];
+    chapterScreenMode = "intro";
+    document.getElementById("chapter-eyebrow").innerText = `Chapitre ${currentLevelIndex + 1} · ${lvl.nom}`;
+    document.getElementById("chapter-title").innerText = lvl.chapterTitle;
+    document.getElementById("chapter-text").innerText = lvl.chapterIntro;
+    document.getElementById("btn-chapter-continue").innerText = "⚔️ Affronter " + lvl.nom;
+    document.getElementById("chapter-screen").classList.remove("hidden");
+}
+
+function showChapterVictory() {
+    const lvl = LEVELS[currentLevelIndex];
+    if (currentLevelIndex >= LEVELS.length - 1) {
+        // Dernier chapitre : l'épilogue s'affiche directement sur
+        // l'écran de victoire finale, pas besoin d'écran intermédiaire.
+        levelUp();
+        return;
+    }
+    chapterScreenMode = "victory";
+    document.getElementById("chapter-eyebrow").innerText = `${lvl.nom} neutralisé !`;
+    document.getElementById("chapter-title").innerText = "L'enquête continue...";
+    document.getElementById("chapter-text").innerText = lvl.victoryBeat;
+    document.getElementById("btn-chapter-continue").innerText = "Continuer l'histoire";
+    document.getElementById("chapter-screen").classList.remove("hidden");
+}
+
+function onChapterContinue() {
+    document.getElementById("chapter-screen").classList.add("hidden");
+    if (chapterScreenMode === "intro") {
+        startLevelTimer();
+        loadCurrentSentence();
+    } else {
+        levelUp();
     }
 }
 
-// ======================= NIVEAUX =======================
-function levelUp(bonus) {
+function levelUp() {
+    const bonus = pendingVictoryBonus;
     showCelebration(`+${bonus}pts !`);
-    const completedIndex = currentLevelIndex;
-    const prevPalier = LEVELS[currentLevelIndex].palier;
     currentLevelIndex++;
     if (currentLevelIndex >= LEVELS.length) {
         gameActive = false;
@@ -1303,63 +1045,21 @@ function levelUp(bonus) {
         return;
     }
     currentScore = 0; errors = 0; comboTimestamps = [];
+    responseTimeHistory = []; burningMode = false; updateBurningIndicator(false);
     playFanfare();
-    if (LEVELS[currentLevelIndex].palier !== prevPalier) flashPalier();
-    gameActive = false;
-    showLevelCompleteScreen(completedIndex, bonus);
-}
-
-// Écran intermédiaire de fin de niveau : au lieu d'enchaîner automatiquement,
-// on laisse le joueur choisir entre continuer, recommencer ou retourner au menu.
-function showLevelCompleteScreen(completedIndex, bonus) {
-    const nom = LEVELS[completedIndex].nom;
-    const nextNom = LEVELS[currentLevelIndex].nom; // reste "???" si jamais vaincu, géré côté affichage
-    const nextKnown = defeatedLevels.has(currentLevelIndex);
-    document.getElementById("lvl-complete-title").innerHTML = `✅ ${nom} CAPTURÉ !`;
-    document.getElementById("lvl-complete-desc").innerHTML =
-        `Bonus de ce niveau : +${bonus} points ⚡<br>` +
-        `Prochain défi : ${nextKnown ? nextNom : "un nouveau kaiju mystère"} (table de ${LEVELS[currentLevelIndex].table}).`;
-
-    document.getElementById("btn-lvl-next").onclick = () => {
-        document.getElementById("level-complete-screen").classList.add("hidden");
-        gameActive = true;
-        initLevel();
-    };
-    document.getElementById("btn-lvl-retry").onclick = () => {
-        document.getElementById("level-complete-screen").classList.add("hidden");
-        currentLevelIndex = completedIndex;
-        currentScore = 0; errors = 0; comboTimestamps = [];
-        gameActive = true;
-        initLevel();
-    };
-    document.getElementById("btn-lvl-menu").onclick = () => {
-        document.getElementById("level-complete-screen").classList.add("hidden");
-        goToMenu();
-    };
-
-    document.getElementById("level-complete-screen").classList.remove("hidden");
+    flashPalier();
+    initLevel();
 }
 
 function initLevel() {
-    updateUI();
-    factsPool = shuffle(buildFactsPool(LEVELS[currentLevelIndex].table));
+    currentSentenceIndex = 0;
     currentLevelTime = 0;
     cristaux = [];
     beam = null;
     godzillaMouthOpen = false;
     shotLock = false;
-    enemyRevealed = false;
-    forcedBurning = false;
-    startLevelTimer();
-    if (defeatedLevels.has(currentLevelIndex)) {
-        // niveau déjà vaincu (on le rejoue) : petite phrase de rappel avant
-        // la première question, plutôt que de révéler le nom directement.
-        const nom = LEVELS[currentLevelIndex].nom;
-        document.getElementById("phrase-card").innerText = `${nom} s'est échappé de sa prison, aide Monarch à le recapturer !`;
-        setTimeout(nextFact, 2200);
-    } else {
-        nextFact();
-    }
+    updateUI();
+    showChapterIntro();
 }
 
 function retryCurrentLevel() {
@@ -1367,9 +1067,18 @@ function retryCurrentLevel() {
     if (cardTimeout) clearTimeout(cardTimeout);
     document.getElementById("end-screen").classList.add("hidden");
     currentScore = 0; errors = 0; comboTimestamps = [];
+    responseTimeHistory = []; burningMode = false; updateBurningIndicator(false);
     gameActive = true;
-    victoryFireworks = false; fireworks = []; particles = []; floatingTexts = [];
-    initLevel();
+    victoryFireworks = false; fireworks = []; particles = [];
+    currentSentenceIndex = 0;
+    currentLevelTime = 0;
+    cristaux = [];
+    beam = null;
+    godzillaMouthOpen = false;
+    shotLock = false;
+    updateUI();
+    startLevelTimer();
+    loadCurrentSentence();
 }
 
 function restartFromLevel1() {
@@ -1377,106 +1086,20 @@ function restartFromLevel1() {
     startGame();
 }
 
-// Lance directement un niveau déjà vaincu (rejouable depuis l'accueil pour
-// augmenter son score), sans repasser par les niveaux précédents.
-function playSpecificLevel(idx) {
-    if (idx < 0 || idx >= LEVELS.length) return;
-    if (activeCard) { activeCard.remove(); activeCard = null; }
-    if (cardTimeout) clearTimeout(cardTimeout);
-    document.getElementById("start-screen").classList.add("hidden");
-    document.getElementById("end-screen").classList.add("hidden");
-    currentLevelIndex = idx;
-    currentScore = 0; errors = 0; comboTimestamps = [];
-    // le mode burning ne se transporte pas d'une session de rejeu à l'autre
-    burningStreak = 0; burningMode = false; burningExpiresAt = 0;
-    victoryFireworks = false; fireworks = []; particles = []; floatingTexts = [];
-    gameActive = true;
-    updateUI();
-    initLevel();
-    if (!animationId) animationId = requestAnimationFrame(gameLoop);
-}
-
-// Retour à l'écran d'accueil depuis l'écran de fin, pour choisir un niveau
-// déjà vaincu à rejouer (sans forcer un redémarrage complet).
-function goToMenu() {
-    document.getElementById("end-screen").classList.add("hidden");
-    renderLevelsTrack();
-    updateStartButtonLabel();
-    document.getElementById("start-screen").classList.remove("hidden");
-}
-
-function updateStartButtonLabel() {
-    const btn = document.getElementById("btn-start");
-    if (!btn) return;
-    const frontier = getFrontierLevelIndex();
-    btn.textContent = `🦖 Affronter le niveau ${frontier + 1}`;
-    btn.dataset.frontier = frontier;
-}
-
-// Construit les pastilles de niveau de l'écran d'accueil : "?" pour les
-// kaijus jamais vaincus (inconnus), nom + vignette révélée pour les kaijus
-// déjà vaincus (cliquables pour rejouer et augmenter le score).
-function renderLevelsTrack() {
-    const track = document.getElementById("levels-track");
-    if (!track) return;
-    track.innerHTML = "";
-    const frontier = getFrontierLevelIndex();
-    LEVELS.forEach((lvl, i) => {
-        const known = defeatedLevels.has(i);
-        const isNext = i === frontier;
-        const isLocked = !known && !isNext;
-        const chip = document.createElement("div");
-        chip.className = "level-chip" + (known ? " known" : isLocked ? " locked" : " next");
-
-        const thumb = document.createElement("div");
-        thumb.className = "chip-thumb";
-        if (known && ASSETS.ready && ASSETS.kaiju[lvl.kaiju]) {
-            const mini = document.createElement("canvas");
-            mini.width = 56; mini.height = 56;
-            const mctx = mini.getContext("2d");
-            const img = ASSETS.kaiju[lvl.kaiju];
-            const s = Math.max(56 / img.width, 56 / img.height);
-            const w = img.width * s, h = img.height * s;
-            mctx.drawImage(img, (56 - w) / 2, (56 - h) / 2, w, h);
-            thumb.appendChild(mini);
-        } else {
-            thumb.textContent = isLocked ? "🔒" : "❓";
-        }
-
-        const label = document.createElement("div");
-        label.className = "chip-label";
-        label.textContent = known
-            ? `${i + 1}. ×${lvl.table} — ${lvl.nom}`
-            : isLocked
-                ? `${i + 1}. ×${lvl.table} — verrouillée`
-                : `${i + 1}. ×${lvl.table} — ???`;
-
-        chip.appendChild(thumb);
-        chip.appendChild(label);
-
-        if (known) {
-            chip.title = `Rejouer ${lvl.nom} (×${lvl.table}) pour améliorer ton score`;
-            chip.addEventListener("click", () => playSpecificLevel(i));
-        } else if (isNext) {
-            chip.title = "Prochain défi — clique ici ou sur le bouton pour l'affronter";
-            chip.addEventListener("click", () => playSpecificLevel(i));
-        } else {
-            chip.title = `Verrouillée — bats le niveau ${i} pour débloquer cette table`;
-        }
-        track.appendChild(chip);
-    });
-}
-
 // ======================= ÉCRANS =======================
 function showGameOver() {
-    document.getElementById("end-title").innerHTML = "💥 ATTAQUE REPOUSSÉE";
+    const lvl = LEVELS[currentLevelIndex];
+    const idx = currentLevelIndex;
+    retryAttempts[idx] = retryAttempts[idx] || 0;
+    const variant = lvl.retryVariants[retryAttempts[idx] % lvl.retryVariants.length];
+    retryAttempts[idx]++;
+
+    document.getElementById("end-title").innerHTML = "💥 " + lvl.nom.toUpperCase() + " S'ÉCHAPPE";
     document.getElementById("end-desc").innerHTML =
-        `${LEVELS[currentLevelIndex].nom} a résisté ! 5 erreurs sur la table de ${LEVELS[currentLevelIndex].table}.<br>` +
-        `Bonus cumulé : ${totalTimeBonus} points ⚡<br>Retente ce niveau, Godzilla compte sur toi.`;
+        `${variant}<br><br>Bonus cumulé : ${totalTimeBonus} points ⚡<br>Retente ce chapitre, Godzilla compte sur toi.`;
     document.getElementById("btn-retry-level").classList.remove("hidden");
     document.getElementById("btn-restart-all").classList.remove("hidden");
     document.getElementById("btn-play-again").classList.add("hidden");
-    document.getElementById("btn-menu").classList.remove("hidden");
     document.getElementById("end-screen").classList.remove("hidden");
 }
 
@@ -1487,13 +1110,13 @@ function showVictory() {
         setTimeout(() => fireworks.push(new Firework(Math.random() * canvas.width, Math.random() * (canvas.height - 150) + 100)), i * 180);
     }
     showCelebration("🏆🦖✨");
-    document.getElementById("end-title").innerHTML = "🏆 TOUS LES KAIJUS SONT VAINCUS";
+    const lastLevel = LEVELS[LEVELS.length - 1];
+    document.getElementById("end-title").innerHTML = "🏆 PROTOCOLE TITAN ACCOMPLI";
     document.getElementById("end-desc").innerHTML =
-        `Bravo, Maître des Tables ! Tu as dominé les tables de 2 à 9.<br>Bonus rapidité cumulé : ${totalTimeBonus} points ! 🏆`;
+        `${lastLevel.victoryBeat}<br><br>Bonus rapidité cumulé : ${totalTimeBonus} points ! 🏆`;
     document.getElementById("btn-retry-level").classList.add("hidden");
     document.getElementById("btn-restart-all").classList.add("hidden");
     document.getElementById("btn-play-again").classList.remove("hidden");
-    document.getElementById("btn-menu").classList.remove("hidden");
     document.getElementById("end-screen").classList.remove("hidden");
 }
 
@@ -1502,9 +1125,11 @@ function startGame() {
     if (cardTimeout) clearTimeout(cardTimeout);
     document.getElementById("start-screen").classList.add("hidden");
     document.getElementById("end-screen").classList.add("hidden");
+    document.getElementById("chapter-screen").classList.add("hidden");
     currentScore = 0; errors = 0; totalTimeBonus = 0; comboTimestamps = [];
-    burningStreak = 0; burningMode = false; burningExpiresAt = 0;
-    victoryFireworks = false; fireworks = []; particles = []; floatingTexts = [];
+    responseTimeHistory = []; burningMode = false; updateBurningIndicator(false);
+    retryAttempts = {};
+    victoryFireworks = false; fireworks = []; particles = [];
     gameActive = true;
     updateUI();
     initLevel();
@@ -1513,9 +1138,7 @@ function startGame() {
 
 // ======================= BOUCLE DE RENDU =======================
 function gameLoop() {
-    updateBurningTimeout();
     drawBackground();
-    if (gameActive) drawEnemyPeeking();
 
     if (gameActive || cristaux.length) {
         for (const c of cristaux) { if (gameActive) c.update(); c.draw(); }
@@ -1523,16 +1146,12 @@ function gameLoop() {
 
     drawGodzilla();
     if (beam) drawBeam();
-    if (mothraFlyby) drawMothraFlyby();
-    if (bossDefeat) drawBossDefeat();
 
     if (victoryFireworks && fireworks.length) {
         for (let i = fireworks.length - 1; i >= 0; i--) if (!fireworks[i].update()) fireworks.splice(i, 1); else fireworks[i].draw();
     }
     for (let i = particles.length - 1; i >= 0; i--) if (!particles[i].update()) particles.splice(i, 1); else particles[i].draw();
-    for (let i = floatingTexts.length - 1; i >= 0; i--) if (!floatingTexts[i].update()) floatingTexts.splice(i, 1); else floatingTexts[i].draw();
 
-    // viseur (dessiné aussi en canvas pour rester visible au-dessus du décor)
     ctx.beginPath(); ctx.arc(mouseXPos, mouseYPos, 14, 0, Math.PI * 2);
     ctx.strokeStyle = "rgba(255,120,60,0.7)"; ctx.lineWidth = 2; ctx.stroke();
     ctx.beginPath(); ctx.arc(mouseXPos, mouseYPos, 5, 0, Math.PI * 2);
@@ -1563,259 +1182,19 @@ canvas.addEventListener("mousedown", (e) => {
     handleShot(mx, my);
 });
 
-// ======================= RÉGLAGES (chrono affiché ou non) =======================
-// Masqué par défaut pour ne pas ajouter de pression chronométrée visible ;
-// l'enseignant ou l'élève peut le réactiver via le petit engrenage ⚙️.
-const CHRONO_VISIBLE_KEY = "gmt_chrono_visible_v1";
-function loadChronoVisible() {
-    try { return localStorage.getItem(CHRONO_VISIBLE_KEY) === "1"; } catch (e) { return false; }
-}
-function saveChronoVisible(v) {
-    try { localStorage.setItem(CHRONO_VISIBLE_KEY, v ? "1" : "0"); } catch (e) { /* tant pis */ }
-}
-function applyChronoVisible(v) {
-    document.getElementById("chrono-box").classList.toggle("hidden-by-setting", !v);
-}
-let chronoVisible = loadChronoVisible();
-applyChronoVisible(chronoVisible);
-document.getElementById("chk-show-chrono").checked = chronoVisible;
-document.getElementById("chk-show-chrono").addEventListener("change", (e) => {
-    chronoVisible = e.target.checked;
-    saveChronoVisible(chronoVisible);
-    applyChronoVisible(chronoVisible);
-});
-document.getElementById("settings-btn").addEventListener("click", () => {
-    document.getElementById("settings-panel").classList.toggle("hidden");
-});
-
-// ======================= PARC DES KAIJUS DE MONARCH =======================
-// silhouette de secours pour une cellule dont le kaiju n'est pas encore vaincu
-// (variante utilisable avec n'importe quel contexte canvas, pas seulement le
-// canvas principal du jeu — voir drawKaijuSilhouette pour la version de jeu)
-function drawMysterySilhouette(pctx, x, y, size) {
-    pctx.save();
-    pctx.globalAlpha = 0.8;
-    pctx.fillStyle = "#0d0a12";
-    pctx.beginPath();
-    pctx.ellipse(x, y + size * 0.12, size * 0.3, size * 0.36, 0, 0, Math.PI * 2);
-    pctx.fill();
-    pctx.beginPath();
-    pctx.ellipse(x - size * 0.1, y - size * 0.26, size * 0.2, size * 0.18, -0.3, 0, Math.PI * 2);
-    pctx.fill();
-    pctx.restore();
-    pctx.font = `bold ${Math.floor(size * 0.3)}px 'Bebas Neue', sans-serif`;
-    pctx.fillStyle = "#ffb347";
-    pctx.textAlign = "center"; pctx.textBaseline = "middle";
-    pctx.fillText("?", x, y);
-}
-
-// Dessine la scène complète d'une cellule de prison sur un contexte 2D donné,
-// à n'importe quelle taille rectangulaire (width x height) :
-// 1) décor de prison en arrière-plan (cover-fit)
-// 2) le kaiju (image réelle si vaincu, silhouette "?" sinon) au centre
-// 3) les barreaux détourés en premier plan (cover-fit), optionnels (showBars)
-function drawPrisonScene(pctx, width, height, kaijuKey, known, showBars) {
-    if (showBars === undefined) showBars = true;
-    // 1) fond de cellule
-    if (ASSETS.decorPrison) {
-        const img = ASSETS.decorPrison;
-        const s = Math.max(width / img.width, height / img.height);
-        const w = img.width * s, h = img.height * s;
-        pctx.drawImage(img, (width - w) / 2, (height - h) / 2, w, h);
-    } else {
-        pctx.fillStyle = "#0c0a10";
-        pctx.fillRect(0, 0, width, height);
-    }
-    // voile sombre pour la lisibilité
-    pctx.fillStyle = "rgba(0,0,0,0.28)";
-    pctx.fillRect(0, 0, width, height);
-
-    // 2) le kaiju capturé
-    const cx = width / 2, cy = height / 2 + height * 0.04;
-    const ref = Math.min(width, height);
-    if (known && ASSETS.kaiju[kaijuKey]) {
-        const img = ASSETS.kaiju[kaijuKey];
-        const kw = ref * 0.72, kh = kw * (img.height / img.width);
-        pctx.drawImage(img, cx - kw / 2, cy - kh / 2, kw, kh);
-    } else if (!known) {
-        drawMysterySilhouette(pctx, cx, cy, ref * 0.6);
-    }
-
-    // 3) barreaux en premier plan (peuvent être masqués à la demande)
-    if (!showBars) return;
-    if (ASSETS.barreauxPrison) {
-        const img = ASSETS.barreauxPrison;
-        const s = Math.max(width / img.width, height / img.height);
-        const w = img.width * s, h = img.height * s;
-        pctx.drawImage(img, (width - w) / 2, (height - h) / 2, w, h);
-    } else {
-        // secours : quelques barreaux dessinés en code si l'image manque encore
-        pctx.save();
-        pctx.strokeStyle = "rgba(210,210,220,0.9)";
-        pctx.lineWidth = ref * 0.045;
-        for (let i = 1; i <= 5; i++) {
-            const bx = (width / 6) * i;
-            pctx.beginPath(); pctx.moveTo(bx, 0); pctx.lineTo(bx, height); pctx.stroke();
-        }
-        pctx.restore();
-    }
-}
-
-// Version carrée (vignettes de la grille du parc) : garde le même nom qu'avant
-// pour ne rien casser ailleurs dans le code.
-function drawPrisonCell(pctx, size, kaijuKey, known) {
-    drawPrisonScene(pctx, size, size, kaijuKey, known, true);
-}
-
-function renderParkScreen() {
-    const grid = document.getElementById("park-grid");
-    if (!grid) return;
-    grid.innerHTML = "";
-    const CELL_SIZE = 200;
-    LEVELS.forEach((lvl, i) => {
-        const known = defeatedLevels.has(i);
-        const cell = document.createElement("div");
-        cell.className = "park-cell" + (known ? " clickable" : " locked");
-
-        const thumb = document.createElement("div");
-        thumb.className = "cell-thumb";
-        const mini = document.createElement("canvas");
-        mini.width = CELL_SIZE; mini.height = CELL_SIZE;
-        drawPrisonCell(mini.getContext("2d"), CELL_SIZE, lvl.kaiju, known);
-        thumb.appendChild(mini);
-
-        const name = document.createElement("div");
-        name.className = "cell-name";
-        name.textContent = known ? lvl.nom : "???";
-
-        cell.appendChild(thumb);
-        cell.appendChild(name);
-        if (known) {
-            cell.title = `Voir ${lvl.nom} en grand`;
-            cell.addEventListener("click", () => openParkDetail(i));
-        }
-        grid.appendChild(cell);
-    });
-}
-
-// ---------- Vue agrandie d'une cellule du parc (barreaux amovibles) ----------
-let parkDetailIndex = -1;
-let parkBarsVisible = true;
-
-function openParkDetail(idx) {
-    if (!defeatedLevels.has(idx)) return; // on ne zoome que sur un kaiju déjà capturé
-    parkDetailIndex = idx;
-    parkBarsVisible = true;
-    renderParkDetail();
-    document.getElementById("park-screen").classList.add("hidden");
-    document.getElementById("park-detail-screen").classList.remove("hidden");
-}
-
-function renderParkDetail() {
-    const lvl = LEVELS[parkDetailIndex];
-    if (!lvl) return;
-    const known = defeatedLevels.has(parkDetailIndex);
-    document.getElementById("park-detail-title").textContent = `🏛️ ${known ? lvl.nom : "???"}`;
-    const canvas = document.getElementById("park-detail-canvas");
-    drawPrisonScene(canvas.getContext("2d"), canvas.width, canvas.height, lvl.kaiju, known, parkBarsVisible);
-    document.getElementById("btn-toggle-bars").textContent = parkBarsVisible
-        ? "🔓 Enlever les barreaux"
-        : "🔒 Remettre les barreaux";
-}
-
-document.getElementById("btn-toggle-bars").addEventListener("click", () => {
-    parkBarsVisible = !parkBarsVisible;
-    renderParkDetail();
-});
-document.getElementById("btn-park-detail-back").addEventListener("click", () => {
-    document.getElementById("park-detail-screen").classList.add("hidden");
-    document.getElementById("park-screen").classList.remove("hidden");
-});
-
-document.getElementById("btn-park").addEventListener("click", () => {
-    renderParkScreen();
-    document.getElementById("start-screen").classList.add("hidden");
-    document.getElementById("park-screen").classList.remove("hidden");
-});
-document.getElementById("btn-park-back").addEventListener("click", () => {
-    document.getElementById("park-screen").classList.add("hidden");
-    document.getElementById("start-screen").classList.remove("hidden");
-});
-
-document.getElementById("btn-rules").addEventListener("click", () => {
-    document.getElementById("start-screen").classList.add("hidden");
-    document.getElementById("rules-screen").classList.remove("hidden");
-});
-document.getElementById("btn-rules-back").addEventListener("click", () => {
-    document.getElementById("rules-screen").classList.add("hidden");
-    document.getElementById("start-screen").classList.remove("hidden");
-});
-
-document.getElementById("btn-medals").addEventListener("click", () => {
-    renderMedalsGallery();
-    document.getElementById("start-screen").classList.add("hidden");
-    document.getElementById("medals-screen").classList.remove("hidden");
-});
-document.getElementById("btn-medals-back").addEventListener("click", () => {
-    document.getElementById("medals-screen").classList.add("hidden");
-    document.getElementById("start-screen").classList.remove("hidden");
-});
-
-// ======================= MISE À L'ÉCHELLE (iPad / Surface / tablettes) =======================
-// Calcule le facteur d'échelle pour que le jeu (dessiné à taille fixe 1100x700)
-// tienne toujours dans la fenêtre, quel que soit l'écran, sans jamais être
-// agrandi au-delà de sa taille native (pas de flou).
-function fitGameToViewport() {
-    const wrapper = document.getElementById("game-wrapper");
-    const container = document.getElementById("game-container");
-    if (!wrapper || !container) return;
-    const margin = 24;
-    const availW = window.innerWidth - margin;
-    const availH = window.innerHeight - margin;
-    const scale = Math.min(availW / 1100, availH / 700, 1);
-    container.style.transform = `scale(${scale})`;
-    wrapper.style.width = Math.round(1100 * scale + 16) + "px";
-    wrapper.style.height = Math.round(700 * scale + 16) + "px";
-}
-window.addEventListener("resize", fitGameToViewport);
-window.addEventListener("orientationchange", () => setTimeout(fitGameToViewport, 250));
-fitGameToViewport();
-
-document.getElementById("btn-start").addEventListener("click", () => {
-    currentLevelIndex = getFrontierLevelIndex();
-    startGame();
-});
+document.getElementById("btn-start").addEventListener("click", startGame);
 document.getElementById("btn-retry-level").addEventListener("click", retryCurrentLevel);
 document.getElementById("btn-restart-all").addEventListener("click", restartFromLevel1);
 document.getElementById("btn-play-again").addEventListener("click", restartFromLevel1);
-document.getElementById("btn-menu").addEventListener("click", goToMenu);
+document.getElementById("btn-chapter-continue").addEventListener("click", onChapterContinue);
 
 // ======================= INIT =======================
 window.onload = () => {
     const loadingLabel = document.getElementById("loading-label");
-    currentLevelIndex = getFrontierLevelIndex();
-    renderLevelsTrack();
-    updateStartButtonLabel();
     preloadAllAssets(() => {
         if (loadingLabel) loadingLabel.classList.add("hidden");
         document.getElementById("btn-start").disabled = false;
-        drawStartScreenBackdrop();
-        renderLevelsTrack(); // relance avec les vraies vignettes désormais chargées
+        drawBackground();
+        drawGodzilla();
     });
 };
-
-function drawStartScreenBackdrop() {
-    const img = ASSETS.decorStart;
-    if (img) {
-        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const w = img.width * scale, h = img.height * scale;
-        ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
-    } else {
-        ctx.fillStyle = "#0a0e18";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    if (ASSETS.mothra) {
-        const w = 300, h = w * (ASSETS.mothra.height / ASSETS.mothra.width);
-        ctx.drawImage(ASSETS.mothra, canvas.width - w - 60, 90, w, h);
-    }
-}
