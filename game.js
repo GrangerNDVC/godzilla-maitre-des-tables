@@ -28,67 +28,67 @@
 // affichée juste après la dernière bonne réponse du chapitre.
 const LEVELS = [
     {
-        kaiju: "mothra",
-        nom: "Mothra",
-        decor: "decors_1.jpg",
+        kaiju: "rodan",
+        nom: "Rodan",
+        decor: "decors_rodan.jpg",
         palier: 1,
         pairWords: ["a", "à"],
         pairLabel: "à / a",
         astuce: "Remplace le mot par « avait » : si la phrase garde son sens, c'est a (le verbe avoir). Sinon, c'est à (la préposition, qui ne change jamais).",
-        chapterTitle: "Une alerte sur l'île Infant",
-        chapterIntro: "Aux abords de l'île Infant, un capteur sismique de Monarch s'affole en pleine nuit. Depuis des années, Mothra veille sur ce sanctuaire sans jamais en sortir — mais cette fois, quelque chose l'a réveillée, et ce n'est pas naturel. Monarch n'a qu'une solution : envoyer Godzilla avant que la panique n'atteigne les côtes habitées.",
-        victoryBeat: "Le boîtier détruit, Mothra retrouve son calme et s'envole vers les nuages, comme pour remercier Godzilla d'un battement d'aile. À terre, les techniciens de Monarch récupèrent les restes de l'appareil : un numéro de série, à moitié fondu, mais lisible. L'enquête ne fait que commencer.",
-        defeatCaption: "MOTHRA EST LIBÉRÉE !",
-        defeatDetail: "Débarrassée du boîtier, Mothra retrouve ses esprits. MONARCH commence l'enquête sur l'appareil qui l'a manipulée.",
-        statusLabel: "Libérée",
+        chapterTitle: "Une alerte sur l'archipel volcanique",
+        chapterIntro: "Près d'un archipel volcanique isolé, un capteur sismique de Monarch s'affole en pleine nuit. Depuis des décennies, Rodan sommeille au fond de son cratère sans jamais en sortir — mais cette fois, quelque chose l'a réveillé, et ce n'est pas naturel. Monarch n'a qu'une solution : envoyer Godzilla avant que la panique n'atteigne les côtes habitées.",
+        victoryBeat: "Le boîtier détruit, Rodan retrouve son calme et incline la tête devant Godzilla — un geste de soumission que Monarch connaît bien depuis leur premier affrontement. À terre, les techniciens récupèrent les restes de l'appareil : un numéro de série, à moitié fondu, mais lisible. L'enquête ne fait que commencer.",
+        defeatCaption: "RODAN SE SOUMET !",
+        defeatDetail: "Débarrassé du boîtier, Rodan retrouve ses esprits. MONARCH commence l'enquête sur l'appareil qui l'a manipulé.",
+        statusLabel: "Libéré",
         retryVariants: [
-            "Un nuage de spores phosphorescentes aveugle Godzilla une seconde de trop : Mothra s'échappe dans la brume et retourne se cacher près de la grotte. Il va falloir la retrouver.",
-            "Le boîtier crépite encore et brouille les capteurs de Godzilla : Mothra, toujours sous influence, plonge dans les vagues et disparaît. Le combat doit reprendre depuis le début.",
+            "Une explosion de cendres volcaniques aveugle Godzilla une seconde de trop : Rodan s'échappe dans la fumée et replonge dans son cratère. Il va falloir le retrouver.",
+            "Le boîtier crépite encore et brouille les capteurs de Godzilla : Rodan, toujours sous influence, s'élève hors de portée. Le combat doit reprendre depuis le début.",
         ],
         sentences: [
-            { before: "Un capteur sismique ", correct: "a", after: " enregistré une secousse inhabituelle près de l'île Infant." },
-            { before: "L'anomalie provient d'une grotte ", correct: "à", after: " flanc de la falaise, là où dort Mothra." },
-            { before: "Or, la déesse-insecte n'", correct: "a", after: " plus quitté son sanctuaire depuis des mois." },
-            { before: "Cette nuit, un éclair électrique bleuté ", correct: "a", after: " jailli du fond de la grotte." },
-            { before: "Prise de panique, Mothra fonce ", correct: "à", after: " tire-d'aile vers le village voisin." },
-            { before: "Monarch envoie aussitôt un message codé ", correct: "à", after: " Godzilla, seul assez puissant pour la calmer." },
-            { before: "Il plonge sans hésiter et nage ", correct: "à", after: " pleine puissance vers l'île." },
-            { before: "Sous un rocher fendu, il découvre un boîtier qui n'", correct: "a", after: " rien de naturel." },
+            { before: "Un capteur sismique ", correct: "a", after: " enregistré une secousse inhabituelle près d'un archipel volcanique." },
+            { before: "L'anomalie provient d'une caldeira ", correct: "à", after: " flanc du plus haut sommet, là où sommeille Rodan." },
+            { before: "Or, le titan de feu n'", correct: "a", after: " plus quitté son cratère depuis des décennies." },
+            { before: "Cette nuit, une lueur orangée ", correct: "a", after: " jailli du sommet, plus vive que d'habitude." },
+            { before: "Pris d'une rage soudaine, Rodan fonce ", correct: "à", after: " tire-d'aile vers les installations côtières." },
+            { before: "Monarch envoie aussitôt un message codé ", correct: "à", after: " Godzilla, seul assez puissant pour l'intercepter." },
+            { before: "Il plonge sans hésiter et nage ", correct: "à", after: " pleine puissance vers l'archipel." },
+            { before: "Sous la roche volcanique fendue, il découvre un boîtier qui n'", correct: "a", after: " rien de naturel." },
         ],
     },
     {
-        kaiju: "rodan",
-        nom: "Rodan",
-        decor: "decors_2.jpg",
+        kaiju: "anguirus",
+        nom: "Anguirus",
+        decor: "decors_anguirus.jpg",
         palier: 2,
         pairWords: ["ou", "où"],
         pairLabel: "ou / où",
         astuce: "Remplace le mot par « ou bien » : si la phrase garde son sens, c'est ou (qui relie deux choix). Sinon, c'est où (un lieu ou une question).",
-        chapterTitle: "La piste de l'archipel volcanique",
-        chapterIntro: "Le numéro de série gravé sur le boîtier de Mothra renvoie à un fournisseur discret basé près d'un archipel volcanique — là où, justement, Rodan sommeille depuis des décennies. Avant même que Monarch n'ait localisé l'entrepôt exact, une colonne de fumée noire s'élève au-dessus du cratère : le fournisseur d'armes a déjà un nouveau client, et Rodan vient de se réveiller en hurlant.",
-        victoryBeat: "Libéré de l'appareil qui le rendait fou de rage, Rodan incline la tête devant Godzilla — un geste de soumission que Monarch connaît bien depuis leur premier affrontement. Mais dans l'entrepôt encore fumant, les agents découvrent des plans qui ne parlent plus de simples émetteurs : il est question d'« augmentation biomécanique ».",
-        defeatCaption: "RODAN SE SOUMET !",
-        defeatDetail: "Libéré à son tour, Rodan incline la tête devant Godzilla. Dans l'entrepôt fumant, MONARCH découvre des plans inquiétants.",
-        statusLabel: "Libéré",
+        chapterTitle: "Deuxième signal, même méthode",
+        chapterIntro: "Le numéro de série gravé sur le boîtier de Rodan renvoie à un fournisseur discret. Avant même que Monarch n'ait pu localiser son entrepôt, un second signal se déclenche à des milliers de kilomètres : dans une carrière rocheuse abandonnée, Anguirus — un Titan quadrupède que Monarch croyait inoffensif — se réveille en poussant un rugissement de rage. Même méthode, même mystère : quelqu'un réveille délibérément des Titans endormis, et personne ne sait encore pourquoi.",
+        victoryBeat: "Anguirus, libéré de l'appareil, se calme aussitôt et retourne se terrer dans les rochers, comme si de rien n'était. Mais dans l'entrepôt repéré par Monarch, les agents découvrent des plans qui ne parlent plus de simples émetteurs : il est question d'« augmentation biomécanique ».",
+        defeatCaption: "ANGUIRUS EST CALMÉ !",
+        defeatDetail: "Libéré à son tour, Anguirus retourne se terrer dans les rochers. Dans l'entrepôt repéré, MONARCH découvre des plans inquiétants.",
+        statusLabel: "Calmé",
         retryVariants: [
-            "Une explosion de cendres volcaniques masque sa fuite : Rodan replonge dans le cratère fumant avant que Godzilla ne puisse l'atteindre.",
-            "Rodan profite d'un courant ascendant brûlant pour s'élever hors de portée. Il faudra l'attirer à nouveau au sol.",
+            "Un éboulis provoqué par Anguirus masque sa fuite : il s'enfonce dans un tunnel de la carrière avant que Godzilla ne puisse l'atteindre.",
+            "Anguirus se roule en boule et dévale la pente rocheuse, hors de portée du rayon. Il faudra l'attirer à nouveau à découvert.",
         ],
         sentences: [
-            { before: "Personne ne sait encore ", correct: "où", after: " Rodan a établi son nouveau nid depuis son réveil." },
-            { before: "Est-ce sur un pic isolé ", correct: "ou", after: " dans une caldeira profonde qu'il s'est réfugié ?" },
+            { before: "Personne ne sait encore ", correct: "où", after: " Anguirus a établi son nouveau repaire depuis son réveil." },
+            { before: "Est-ce dans cette carrière ", correct: "ou", after: " dans la forêt voisine qu'il s'est réfugié ?" },
             { before: "Les vibrations proviennent-elles d'un appareil ", correct: "ou", after: " d'un phénomène naturel ?" },
-            { before: "Un analyste de Monarch cherche ", correct: "où", after: " le boîtier de Mothra a été fabriqué." },
+            { before: "Un analyste de Monarch cherche ", correct: "où", after: " le boîtier de Rodan a été fabriqué." },
             { before: "Le numéro de série mène à un entrepôt, mais ", correct: "où", after: " se trouve-t-il exactement ?" },
-            { before: "Doit-il attaquer par les airs ", correct: "ou", after: " foncer directement dans le cratère ?" },
-            { before: "Impossible de savoir ", correct: "où", after: " Rodan va frapper ensuite." },
-            { before: "Va-t-il falloir raisonner Rodan ", correct: "ou", after: " le combattre de force ?" },
+            { before: "Doit-il encercler Anguirus ", correct: "ou", after: " foncer directement dans la carrière ?" },
+            { before: "Impossible de savoir ", correct: "où", after: " Anguirus va frapper ensuite." },
+            { before: "Va-t-il falloir raisonner Anguirus ", correct: "ou", after: " le combattre de force ?" },
         ],
     },
     {
         kaiju: "gigan",
         nom: "Gigan",
-        decor: "decors_5.jpg",
+        decor: "decors_gigan.jpg",
         palier: 3,
         pairWords: ["son", "sont"],
         pairLabel: "son / sont",
@@ -117,7 +117,7 @@ const LEVELS = [
     {
         kaiju: "mechagodzilla",
         nom: "Mechagodzilla",
-        decor: "decors_4.jpg",
+        decor: "decors_mechagodzilla.jpg",
         palier: 4,
         pairWords: ["on", "ont", "on n'"],
         pairLabel: "on / ont",
@@ -244,15 +244,20 @@ function renderMedalsGallery() {
 }
 
 const KAIJU_FILES = {
-    mothra: "assets/kaiju_mothra.png",
     rodan: "assets/kaiju_rodan.png",
     anguirus: "assets/kaiju_anguirus.png",
     mechagodzilla: "assets/kaiju_mechagodzilla.png",
     gigan: "assets/kaiju_gigan.png",
-    biollante: null,
-    destroyah: null,
+    spacegodzilla: "assets/kaiju_space_godzilla.png",
+    biollante: "assets/kaiju_biollante.png",
+    destroyah: "assets/kaiju_destroyah.png",
     ghidorah: "assets/kaiju_ghidorah.png",
 };
+
+// Mothra n'est PAS un adversaire : elle apparaît uniquement lors du combo
+// bienveillant (voir registerCorrectForCombo / drawMothraFlyby). Chargée à
+// part, comme dans ta référence — ce n'est plus un niveau à vaincre.
+const MOTHRA_FILE = "assets/kaiju_mothra.png";
 
 const DECOR_FALLBACK = "assets/decors_1_bis.jpg";
 const DECOR_START = "assets/presentation.png"; // écran d'accueil (optionnel, retombe sur le décor du chapitre 1 si absent)
@@ -287,13 +292,17 @@ function getFrontierLevelIndex() {
 // Toutes les images "personnages" sont sur fond bleu pur #0000FF.
 function loadAndKeyImage(src, onReady) {
     const img = new Image();
+    // Sécurité : onReady() ne doit JAMAIS pouvoir rester sans appel — sinon
+    // le chargement reste bloqué indéfiniment et le bouton "Affronter" reste
+    // grisé pour toujours. tout le traitement (pas seulement le détourage)
+    // est donc protégé par un seul et même try/catch.
     img.onload = () => {
-        const off = document.createElement("canvas");
-        off.width = img.naturalWidth;
-        off.height = img.naturalHeight;
-        const octx = off.getContext("2d");
-        octx.drawImage(img, 0, 0);
         try {
+            const off = document.createElement("canvas");
+            off.width = img.naturalWidth;
+            off.height = img.naturalHeight;
+            const octx = off.getContext("2d");
+            octx.drawImage(img, 0, 0);
             const data = octx.getImageData(0, 0, off.width, off.height);
             const px = data.data;
             for (let i = 0; i < px.length; i += 4) {
@@ -307,14 +316,10 @@ function loadAndKeyImage(src, onReady) {
             }
             octx.putImageData(data, 0, 0);
             // toDataURL() peut lever une SecurityError sur certains navigateurs en
-            // file:// (double-clic sans serveur) même quand getImageData a réussi :
-            // sans ce second try/catch, onReady() n'était jamais appelé et le
-            // chargement restait bloqué indéfiniment (bouton "Affronter" grisé
-            // pour toujours). On retombe alors sur l'image d'origine (fond bleu
-            // visible, mais le jeu reste jouable).
+            // file:// (double-clic sans serveur) même quand getImageData a réussi.
             const keyed = new Image();
             keyed.onload = () => onReady(keyed);
-            keyed.onerror = () => onReady(img);
+            keyed.onerror = () => onReady(img); // repli : image non détourée mais visible
             keyed.src = off.toDataURL();
         } catch (e) {
             console.warn("Chroma-key impossible pour", src, "— image utilisée telle quelle.", e);
@@ -349,6 +354,7 @@ const ASSETS = {
     rayon: null,
     rayonBurning: null,          // optionnel
     decorStart: null,
+    mothra: null,                // gardienne, chargée à part (voir MOTHRA_FILE)
     kaiju: {},
     decors: {},
     ready: false,
@@ -357,11 +363,19 @@ const ASSETS = {
 function preloadAllAssets(onAllReady) {
     let pending = 0;
     let done = 0;
-    function tick() { done++; if (done >= pending) { ASSETS.ready = true; onAllReady(); } }
+    let finished = false;
+    function finish() {
+        if (finished) return;
+        finished = true;
+        ASSETS.ready = true;
+        onAllReady();
+    }
+    function tick() { done++; if (done >= pending) finish(); }
 
     pending++; loadAndKeyImage("assets/godzilla.png", (img) => { ASSETS.godzilla = img; tick(); });
     pending++; loadAndKeyImage("assets/godzilla_ouvert.png", (img) => { ASSETS.godzillaOuvert = img; tick(); });
     pending++; loadAndKeyImage("assets/rayon.png", (img) => { ASSETS.rayon = img; tick(); });
+    pending++; loadAndKeyImage(MOTHRA_FILE, (img) => { ASSETS.mothra = img; tick(); });
     // assets "burning" optionnels : pas d'erreur si absents, juste null -> filtre rose de secours
     pending++; loadAndKeyImage(GODZILLA_BURNING_FILE, (img) => { ASSETS.godzillaBurning = img; tick(); });
     pending++; loadAndKeyImage(GODZILLA_BURNING_OUVERT_FILE, (img) => { ASSETS.godzillaBurningOuvert = img; tick(); });
@@ -383,6 +397,13 @@ function preloadAllAssets(onAllReady) {
     });
     pending++; loadPlainImage(DECOR_FALLBACK, (img) => { ASSETS.decors.bis = img; tick(); });
     pending++; loadPlainImage(DECOR_START, (img) => { ASSETS.decorStart = img; tick(); }, DECOR_FALLBACK);
+
+    // Filet de sécurité : si un chargement reste bloqué pour une raison
+    // imprévue (navigateur/réseau), le jeu démarre quand même après 8s au
+    // lieu de laisser le bouton "Affronter" grisé indéfiniment.
+    setTimeout(() => {
+        if (!finished) { console.warn("Chargement des images incomplet après 8s — démarrage quand même."); finish(); }
+    }, 8000);
 }
 
 // ======================= OUTILS =======================
@@ -951,7 +972,7 @@ function drawGodzilla() {
 }
 
 function drawMothraFlyby() {
-    const img = ASSETS.kaiju.mothra;
+    const img = ASSETS.mothra;
     if (!mothraFlyby || !img) return;
     const elapsed = performance.now() - mothraFlyby.start;
     const t = elapsed / mothraFlyby.duration;
@@ -1349,6 +1370,9 @@ function showScreen(id) {
         const el = document.getElementById(sid);
         if (el) el.classList.toggle("hidden", sid !== id);
     });
+    // dès qu'un écran de menu est visible, on repasse au curseur normal —
+    // le viseur en croix ne doit apparaître que pendant le combat actif
+    document.body.classList.remove("aiming");
 }
 
 // ======================= CHAPITRES / NIVEAUX =======================
@@ -1395,6 +1419,7 @@ function showChapterVictory() {
 }
 
 function onChapterIntroContinue() {
+    document.body.classList.add("aiming");
     startLevelTimer();
     loadCurrentSentence();
 }

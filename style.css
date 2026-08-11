@@ -22,9 +22,12 @@ html, body {
     align-items: center;
     font-family: 'Rajdhani', 'Segoe UI', sans-serif;
     padding: 20px;
-    cursor: none;
     overflow: hidden;
 }
+/* Le viseur en croix ne remplace le curseur normal QUE pendant le combat
+   actif (classe posée par le JS) — pas sur les menus, où on doit pouvoir
+   viser les boutons normalement comme sur n'importe quel site. */
+body.aiming { cursor: none; }
 
 #game-wrapper {
     position: relative;
@@ -424,7 +427,13 @@ canvas {
     align-items: flex-start;
     gap: 10px;
 }
-.lore-line .ico { font-size: 19px; flex-shrink: 0; }
+.lore-line .ico { font-size: 19px; flex-shrink: 0; padding-top: 1px; }
+/* IMPORTANT : tout le texte doit être regroupé dans CE SEUL enfant flex.
+   Sans ce wrapper, un <b> au milieu du texte coupe la phrase en plusieurs
+   "items" flex indépendants (icône, texte avant, <b>, texte après), qui se
+   mettent chacun à la ligne à leur compte au lieu de former un seul
+   paragraphe qui s'enroule normalement — d'où le texte éclaté en colonnes. */
+.lore-line .lore-text { flex: 1; min-width: 0; }
 .lore-line b { color: #ffb347; }
 
 .hero-frame {
@@ -547,7 +556,10 @@ button.small { padding: 8px 18px; font-size: 14px; margin-top: 0; letter-spacing
     pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.15s ease;
 }
+body.aiming #custom-cursor { opacity: 1; }
 .crosshair-ring {
     position: absolute; width: 100%; height: 100%;
     border: 3px solid rgba(255,130,60,0.85);
