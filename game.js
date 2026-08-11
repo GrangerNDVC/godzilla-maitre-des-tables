@@ -1374,6 +1374,14 @@ function showScreen(id) {
     // le viseur en croix ne doit apparaître que pendant le combat actif
     document.body.classList.remove("aiming");
 }
+// Combat actif : plus aucun écran affiché (juste le canvas). Utilisé au
+// moment précis où on quitte l'écran de chapitre pour de vrai.
+function hideAllScreens() {
+    SCREEN_IDS.forEach((sid) => {
+        const el = document.getElementById(sid);
+        if (el) el.classList.add("hidden");
+    });
+}
 
 // ======================= CHAPITRES / NIVEAUX =======================
 function showChapterIntro() {
@@ -1419,6 +1427,7 @@ function showChapterVictory() {
 }
 
 function onChapterIntroContinue() {
+    hideAllScreens();
     document.body.classList.add("aiming");
     startLevelTimer();
     loadCurrentSentence();
