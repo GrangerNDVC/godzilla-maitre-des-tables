@@ -1501,6 +1501,25 @@ function goToMenu() {
     showScreen("start-screen");
 }
 
+// Quitter vers le menu à tout moment, y compris en pleine partie (demandé
+// par Julie) : nettoie proprement tout ce qui pourrait être en cours
+// (chrono, rayon, cristaux, carte d'aide) avant de revenir à l'accueil.
+// Le chapitre en cours n'est PAS marqué comme terminé — on pourra le
+// reprendre depuis le début plus tard.
+function quitToMenu() {
+    if (chronoInterval) clearInterval(chronoInterval);
+    gameActive = false;
+    shotLock = false;
+    beam = null;
+    godzillaMouthOpen = false;
+    bossDefeat = null;
+    cristaux = [];
+    if (activeCard) { activeCard.remove(); activeCard = null; }
+    if (cardTimeout) clearTimeout(cardTimeout);
+    document.getElementById("settings-panel").classList.add("hidden");
+    goToMenu();
+}
+
 function updateStartButtonLabel() {
     const btn = document.getElementById("btn-start");
     if (!btn) return;
@@ -1754,6 +1773,7 @@ document.getElementById("chk-show-chrono").addEventListener("change", (e) => {
 document.getElementById("settings-btn").addEventListener("click", () => {
     document.getElementById("settings-panel").classList.toggle("hidden");
 });
+document.getElementById("btn-quit-menu").addEventListener("click", quitToMenu);
 document.getElementById("btn-reset-progress").addEventListener("click", () => {
     if (confirm("Effacer la progression enregistrée sur cet appareil (chapitres débloqués, rang de maîtrise) ? Cette action ne peut pas être annulée.")) {
         resetAllProgress();

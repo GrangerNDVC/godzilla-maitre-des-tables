@@ -1,19 +1,19 @@
-# Godzilla : Protocole Titan — README (v2.2)
+# Godzilla : Protocole Titan — README (v2.3)
 
-## Dernier correctif : l'écran de chapitre restait affiché au lancement
-Le bouton « ⚔️ Affronter [Titan] » démarrait bien la partie derrière (chrono lancé, phrase chargée), mais **oubliait de cacher l'écran de texte** — d'où l'impression que rien ne se passait, alors que le jeu tournait déjà en dessous. Une vraie régression introduite en réorganisant l'écran de chapitre en 3 boutons (Continuer / Recommencer / Menu) : le chemin "Continuer depuis l'intro" n'appelait jamais la fonction qui masque l'écran. Corrigé, et vérifié qu'aucun autre bouton n'a le même oubli (les 3 autres passaient déjà tous par la fonction centralisée qui gère l'affichage).
+## Nouveau : revenir au menu à tout moment
+⚙️ (en haut à droite, visible même en pleine partie) → « 🏠 Revenir au menu ». Nettoie proprement ce qui était en cours (chrono, rayon, cristaux, carte d'aide) sans marquer le chapitre comme raté ni comme gagné — tu le retrouveras simplement à reprendre depuis le début la prochaine fois.
 
-## 4 chapitres au total, mais oui, ils se débloquent bien un par un
-Pour être bien claire cette fois — deux choses différentes :
-- **Le total est fixé à 4** (à/a, ou/où, son/sont, on/ont) et ne grandira pas tout seul : c'est tout le contenu des leçons 1 et 3 du fascicule, comme tu l'avais demandé au départ. Il n'y a pas de 5ᵉ chapitre caché qui apparaîtra un jour.
-- **Mais à l'intérieur de ces 4**, oui : ton intuition est correcte. Le chapitre 2 (Anguirus) reste verrouillé (🔒 sur l'accueil) tant que tu n'as pas fini le chapitre 1 (Rodan), le chapitre 3 tant que le 2 n'est pas fini, etc. Une fois un chapitre gagné, il reste débloqué pour toujours et rejouable à volonté (accueil ou Dossiers Monarch).
+## Un pair par ennemi, ou plusieurs pairs par ennemi ? Mon avis
+Ta remarque a du sens : si chaque ennemi ne teste qu'un seul duo, couvrir tout le fascicule (9 leçons, ~21 duos au total) demanderait ~21 ennemis — bien plus que les 8 kaijus de ta réserve actuelle (Rodan, Anguirus, Mechagodzilla, Gigan, SpaceGodzilla, Biollante, Destroyah, Ghidorah).
 
-Si tu veux que le total grandisse vraiment (jusqu'à 8, avec d'autres leçons du fascicule), dis-le-moi — je détaille comment dans le README précédent, ça reste disponible si tu veux qu'on s'y mette.
+Je pencherais quand même pour **garder un seul duo par ennemi**, pour une raison pédagogique : un « groupe de besoins » a justement besoin d'un maximum de répétitions concentrées sur UNE seule distinction à la fois (mes 8 phrases par chapitre = 8 répétitions du même piège) — mélanger plusieurs duos dans les mêmes phrases dilue cette répétition et peut brouiller les repères d'un élève qui a encore du mal.
+
+Bonne nouvelle côté nombre d'ennemis : tes 8 kaijus existants suffisent pour couvrir jusqu'à 8 duos **sans aucun nouveau dessin** — les 4 restants (SpaceGodzilla, Biollante, Destroyah, Ghidorah) peuvent couvrir 4 duos de plus (leçon 2 à elle seule en a 3, par exemple) dès que tu veux qu'on s'y mette. Pour aller au-delà de 8 (couvrir tout le fascicule), il faudra soit de nouveaux ennemis, soit — piste que je te propose — un ou deux **chapitres de révision** en fin de parcours qui mélangent plusieurs duos déjà vus individuellement (là, mélanger a du sens : c'est de la révision, pas une première découverte).
+
+Mais c'est vraiment ton appel — dis-moi ce que tu préfères et j'ajuste.
 
 ## Testé
-- `node --check` : syntaxe valide.
-- Script de contrôle : 44 `getElementById()` tous présents, 33 classes toutes stylées, structure des 4 niveaux/32 phrases sans anomalie.
-- Relecture manuelle de chaque transition d'écran (accueil → intro → combat → victoire → chapitre suivant / fin de partie → menu) pour confirmer qu'aucune autre ne laisse un écran affiché par erreur.
+`node --check` OK, 45 `getElementById()` tous présents, 33 classes toutes stylées, structure des 4 niveaux/32 phrases sans anomalie.
 
 ## Non testé
-Toujours pas de navigateur disponible ici pour un vrai test visuel — merci de re-tester le lancement du chapitre 1 en premier.
+Toujours pas de navigateur ici — merci de vérifier que le bouton menu fonctionne bien en pleine partie (idéalement testé en plein milieu d'une phrase, puis pendant l'animation du rayon).
