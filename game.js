@@ -1395,8 +1395,13 @@ function showChapterIntro() {
     document.getElementById("btn-chapter-continue").innerText = "⚔️ Affronter " + lvl.nom;
     document.getElementById("btn-chapter-continue").classList.remove("hidden");
     document.getElementById("btn-chapter-retry").classList.add("hidden");
-    document.getElementById("btn-chapter-menu").classList.add("hidden");
+    // Le bouton menu reste disponible même sur l'écran d'introduction : on
+    // doit pouvoir refuser un combat proposé depuis les Dossiers Monarch
+    // sans être forcé de le lancer.
+    document.getElementById("btn-chapter-menu").classList.remove("hidden");
+    document.getElementById("btn-chapter-menu").innerText = "↩️ Retour au menu";
     document.getElementById("btn-chapter-continue").onclick = onChapterIntroContinue;
+    document.getElementById("btn-chapter-menu").onclick = goToMenu;
     showScreen("chapter-screen");
 }
 
@@ -1420,6 +1425,7 @@ function showChapterVictory() {
     document.getElementById("btn-chapter-continue").classList.remove("hidden");
     document.getElementById("btn-chapter-retry").classList.remove("hidden");
     document.getElementById("btn-chapter-menu").classList.remove("hidden");
+    document.getElementById("btn-chapter-menu").innerText = "🏠 Menu";
     document.getElementById("btn-chapter-continue").onclick = () => levelUp();
     document.getElementById("btn-chapter-retry").onclick = () => playSpecificLevel(currentLevelIndex);
     document.getElementById("btn-chapter-menu").onclick = goToMenu;
