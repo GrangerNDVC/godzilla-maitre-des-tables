@@ -56,6 +56,14 @@ canvas {
     display: block;
     width: 100%;
     height: 100%;
+    touch-action: none; /* empêche le défilement/zoom tactile pendant la partie */
+}
+
+/* Le viseur en croix suppose une souris en mouvement continu : sur un
+   écran tactile (pas de survol), on retombe sur un curseur/tap normal. */
+@media (pointer: coarse) {
+    #custom-cursor { display: none !important; }
+    body.aiming { cursor: auto; }
 }
 
 /* ---------- Réglages (⚙️) ---------- */
@@ -93,6 +101,20 @@ canvas {
 }
 #settings-panel label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 #settings-panel input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
+.settings-divider { height: 1px; background: rgba(255,178,71,0.2); margin: 2px 0; }
+.settings-section-title { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; color: #ffb347; font-size: 15px; }
+#cloud-status { font-size: 12px; color: #9096ac; line-height: 1.4; }
+.settings-code-label { flex-direction: column !important; align-items: stretch !important; gap: 4px !important; font-size: 13px; color: #c7cbdb; }
+#player-code-input {
+    background: #0a0c14;
+    border: 1px solid rgba(255,178,71,0.3);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #fff3e0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+}
+#player-code-input:focus { outline: none; border-color: #ffb347; }
 
 /* ---------- Bandeau question ---------- */
 #phrase-area {
@@ -599,4 +621,35 @@ body.aiming #custom-cursor { opacity: 1; }
 @media (max-width: 700px) {
     .home-main { flex-direction: column; }
     .home-left, .home-right { flex: 1 1 auto; }
+}
+
+/* ---------- Invite à tourner l'appareil (téléphone/tablette en portrait) ---------- */
+#rotate-prompt {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #05070d;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    color: #fff3e0;
+}
+#rotate-prompt .rotate-icon {
+    font-size: 64px;
+    margin-bottom: 18px;
+    animation: rotateHint 1.8s ease-in-out infinite;
+}
+#rotate-prompt p { font-size: 18px; line-height: 1.5; max-width: 320px; }
+@keyframes rotateHint {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(90deg); }
+}
+/* Seuil volontairement resserré : ne se déclenche que sur téléphone/petite
+   tablette en portrait, jamais sur un ordinateur en fenêtre étroite. */
+@media (max-width: 760px) and (orientation: portrait) {
+    #rotate-prompt { display: flex; }
+    #game-wrapper { visibility: hidden; }
 }

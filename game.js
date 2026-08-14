@@ -183,6 +183,7 @@ function loadMasteryPoints() {
 }
 function saveMasteryPoints() {
     try { localStorage.setItem(MASTERY_STORAGE_KEY, String(masteryPoints)); } catch (e) { /* stockage indisponible, tant pis */ }
+    saveProgressToCloud();
 }
 let masteryPoints = loadMasteryPoints();
 
@@ -278,6 +279,7 @@ function loadDefeatedLevels() {
 }
 function saveDefeatedLevels() {
     try { localStorage.setItem(DEFEATED_STORAGE_KEY, JSON.stringify([...defeatedLevels])); } catch (e) { /* tant pis */ }
+    saveProgressToCloud();
 }
 let defeatedLevels = loadDefeatedLevels();
 function markLevelDefeated(idx) {
@@ -286,6 +288,113 @@ function markLevelDefeated(idx) {
 function getFrontierLevelIndex() {
     for (let i = 0; i < LEVELS.length; i++) if (!defeatedLevels.has(i)) return i;
     return LEVELS.length - 1;
+}
+
+// ======================= SAUVEGARDE EN LIGNE (Firebase, optionnelle) =======================
+// Remplace ces valeurs par celles de TON propre projet Firebase (gratuit) :
+// console.firebase.google.com -> créer un projet -> Firestore Database ->
+// créer une base -> ⚙️ Paramètres du projet -> "Ajouter une application
+// Web" -> copie l'objet de config affiché là-bas ici. Étapes détaillées et
+// règles de sécurité Firestore à coller : voir le README.
+// Tant que ces valeurs restent inchangées, le jeu fonctionne normalement
+// avec la sauvegarde locale uniquement (aucune erreur, juste pas de sync).
+const FIREBASE_CONFIG = {
+    apiKey: "COLLE_TA_CLE_API_ICI",
+    authDomain: "TON-PROJET.firebaseapp.com",
+    projectId: "TON-PROJET",
+    storageBucket: "TON-PROJET.appspot.com",
+    messagingSenderId: "000000000000",
+    appId: "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx",
+};
+
+const PLAYER_CODE_KEY = "gpt_player_code_v1";
+let playerCode = null;
+let cloudDb = null;
+let cloudReady = false;
+
+function isFirebaseConfigured() {
+    return !!FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.indexOf("COLLE_TA_CLE") === -1;
+}
+
+function setCloudStatus(text) {
+    const el = document.getElementById("cloud-status");
+    if (el) el.textContent = text;
+}
+
+// Appelée une fois, au chargement de la page (voir window.onload). Ne
+// bloque jamais le jeu : si Firebase n'est pas configuré, pas chargé
+// (réseau bloqué, extension anti-pub...), ou en erreur, on retombe
+// silencieusement sur la sauvegarde locale déjà en place.
+function initCloudSync() {
+    if (!isFirebaseConfigured()) {
+        setCloudStatus("Sauvegarde en ligne non configurée — progression gardée sur cet appareil uniquement. (Voir le README pour l'activer.)");
+        return;
+    }
+    if (typeof firebase === "undefined") {
+        setCloudStatus("Firebase n'a pas pu se charger (connexion ?) — progression sur cet appareil uniquement.");
+        return;
+    }
+    try {
+        firebase.initializeApp(FIREBASE_CONFIG);
+        cloudDb = firebase.firestore();
+        cloudReady = true;
+        try { playerCode = localStorage.getItem(PLAYER_CODE_KEY) || null; } catch (e) { playerCode = null; }
+        const input = document.getElementById("player-code-input");
+        if (playerCode && input) input.value = playerCode;
+        if (playerCode) loadProgressFromCloud();
+        else setCloudStatus("Entre un code élève ci-dessus pour activer la sauvegarde en ligne.");
+    } catch (e) {
+        console.warn("Firebase indisponible :", e);
+        cloudReady = false;
+        setCloudStatus("Sauvegarde en ligne indisponible pour le moment — progression sur cet appareil uniquement.");
+    }
+}
+
+function setPlayerCode(code) {
+    code = (code || "").trim();
+    if (!code) return;
+    playerCode = code;
+    try { localStorage.setItem(PLAYER_CODE_KEY, code); } catch (e) { /* tant pis */ }
+    if (cloudReady) loadProgressFromCloud();
+    else setCloudStatus("Code enregistré, mais la sauvegarde en ligne n'est pas configurée (voir le README).");
+}
+
+// Fusionne systématiquement plutôt que d'écraser : passer d'un appareil à
+// l'autre ne fait jamais perdre un chapitre déjà débloqué (union des
+// chapitres vaincus, maximum des points de maîtrise).
+function loadProgressFromCloud() {
+    if (!cloudReady || !playerCode) return;
+    setCloudStatus("☁️ Synchronisation...");
+    cloudDb.collection("progress").doc(playerCode).get()
+        .then((doc) => {
+            if (doc.exists) {
+                const data = doc.data() || {};
+                (Array.isArray(data.defeatedLevels) ? data.defeatedLevels : []).forEach((i) => defeatedLevels.add(i));
+                masteryPoints = Math.max(masteryPoints, data.masteryPoints || 0);
+                saveDefeatedLevels(); saveMasteryPoints();
+                renderLevelsTrack(); updateStartButtonLabel();
+            }
+            setCloudStatus(`☁️ Synchronisé (code : ${playerCode})`);
+            saveProgressToCloud(); // repousse l'état fusionné, y compris vers un doc qui n'existait pas encore
+        })
+        .catch((e) => {
+            console.warn("Lecture cloud impossible :", e);
+            setCloudStatus("☁️ Erreur de synchronisation — nouvel essai à la prochaine victoire.");
+        });
+}
+
+function saveProgressToCloud() {
+    if (!cloudReady || !playerCode) return;
+    cloudDb.collection("progress").doc(playerCode).set({
+        defeatedLevels: [...defeatedLevels],
+        masteryPoints: masteryPoints,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    }, { merge: true }).then(() => {
+        setCloudStatus(`☁️ Synchronisé (code : ${playerCode})`);
+    }).catch((e) => {
+        console.warn("Écriture cloud impossible :", e);
+        setCloudStatus("☁️ Erreur de synchronisation — nouvel essai à la prochaine victoire.");
+    });
 }
 
 // ======================= CHARGEMENT + CHROMA KEY =======================
@@ -1713,6 +1822,9 @@ function resetAllProgress() {
     masteryPoints = 0;
     renderLevelsTrack();
     updateStartButtonLabel();
+    // Sans ça, la prochaine synchronisation restaurerait l'ancienne
+    // progression depuis le cloud.
+    saveProgressToCloud();
 }
 
 // ======================= BOUCLE DE RENDU =======================
@@ -1769,6 +1881,23 @@ canvas.addEventListener("mousedown", (e) => {
     handleShot(mx, my);
 });
 
+// Tablette / smartphone : même logique que mousedown, à partir du premier
+// point de contact. preventDefault() empêche le navigateur d'interpréter le
+// tap comme un défilement/zoom pendant la partie.
+canvas.addEventListener("touchstart", (e) => {
+    if (!gameActive) return;
+    if (!e.touches || e.touches.length === 0) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+    let mx = (touch.clientX - rect.left) * scaleX;
+    let my = (touch.clientY - rect.top) * scaleY;
+    mx = Math.min(Math.max(5, mx), canvas.width - 5);
+    my = Math.min(Math.max(SAFE_TOP + 10, my), canvas.height - 5);
+    handleShot(mx, my);
+}, { passive: false });
+
 applyChronoVisible(chronoVisible);
 document.getElementById("chk-show-chrono").checked = chronoVisible;
 document.getElementById("chk-show-chrono").addEventListener("change", (e) => {
@@ -1785,6 +1914,12 @@ document.getElementById("btn-reset-progress").addEventListener("click", () => {
         resetAllProgress();
         document.getElementById("settings-panel").classList.add("hidden");
     }
+});
+document.getElementById("btn-save-code").addEventListener("click", () => {
+    setPlayerCode(document.getElementById("player-code-input").value);
+});
+document.getElementById("player-code-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") setPlayerCode(e.target.value);
 });
 
 document.getElementById("btn-codex").addEventListener("click", () => { renderCodexScreen(); showScreen("codex-screen"); });
@@ -1809,6 +1944,7 @@ function fitGameToViewport() {
 }
 window.addEventListener("resize", fitGameToViewport);
 window.addEventListener("orientationchange", () => setTimeout(fitGameToViewport, 250));
+if (window.visualViewport) window.visualViewport.addEventListener("resize", fitGameToViewport);
 fitGameToViewport();
 
 document.getElementById("btn-start").addEventListener("click", startGame);
@@ -1824,6 +1960,7 @@ window.onload = () => {
     renderLevelsTrack();
     updateStartButtonLabel();
     showScreen("start-screen");
+    initCloudSync();
     preloadAllAssets(() => {
         if (loadingLabel) loadingLabel.classList.add("hidden");
         document.getElementById("btn-start").disabled = false;

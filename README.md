@@ -1,19 +1,48 @@
-# Godzilla : Protocole Titan — README (v2.3)
+# Godzilla : Protocole Titan — Tactile, tablette et sauvegarde en ligne
 
-## Nouveau : revenir au menu à tout moment
-⚙️ (en haut à droite, visible même en pleine partie) → « 🏠 Revenir au menu ». Nettoie proprement ce qui était en cours (chrono, rayon, cristaux, carte d'aide) sans marquer le chapitre comme raté ni comme gagné — tu le retrouveras simplement à reprendre depuis le début la prochaine fois.
+## 1. Tactile / tablette / smartphone (déjà actif, rien à configurer)
+- Le tir fonctionne maintenant au doigt (`touchstart`), en plus du clic souris.
+- Le viseur en croix (pensé pour une souris) se désactive automatiquement sur écran tactile ; le curseur redevient normal.
+- En **portrait** sur téléphone ou petite tablette, un écran "tourne ton appareil 📱" s'affiche à la place du jeu (le format 1100×700 est pensé pour du paysage). Rien à coder : c'est une règle CSS, elle disparaît dès que l'appareil est tourné.
+- La mise à l'échelle (déjà en place depuis la v2) écoute maintenant aussi les changements de barre d'adresse mobile (`visualViewport`), pour éviter qu'elle se recalcule mal quand le clavier ou la barre du navigateur apparaît/disparaît.
 
-## Un pair par ennemi, ou plusieurs pairs par ennemi ? Mon avis
-Ta remarque a du sens : si chaque ennemi ne teste qu'un seul duo, couvrir tout le fascicule (9 leçons, ~21 duos au total) demanderait ~21 ennemis — bien plus que les 8 kaijus de ta réserve actuelle (Rodan, Anguirus, Mechagodzilla, Gigan, SpaceGodzilla, Biollante, Destroyah, Ghidorah).
+**Non testé** (toujours pas d'appareil réel disponible ici) : merci de vérifier sur un vrai téléphone et une vraie tablette, notamment la taille des cristaux au doigt (ils font ~116px de diamètre, ce qui est confortable, mais à confirmer en vrai) et le comportement de l'écran de rotation.
 
-Je pencherais quand même pour **garder un seul duo par ennemi**, pour une raison pédagogique : un « groupe de besoins » a justement besoin d'un maximum de répétitions concentrées sur UNE seule distinction à la fois (mes 8 phrases par chapitre = 8 répétitions du même piège) — mélanger plusieurs duos dans les mêmes phrases dilue cette répétition et peut brouiller les repères d'un élève qui a encore du mal.
+## 2. Sauvegarde en ligne (Firebase) — 5 minutes de configuration
 
-Bonne nouvelle côté nombre d'ennemis : tes 8 kaijus existants suffisent pour couvrir jusqu'à 8 duos **sans aucun nouveau dessin** — les 4 restants (SpaceGodzilla, Biollante, Destroyah, Ghidorah) peuvent couvrir 4 duos de plus (leçon 2 à elle seule en a 3, par exemple) dès que tu veux qu'on s'y mette. Pour aller au-delà de 8 (couvrir tout le fascicule), il faudra soit de nouveaux ennemis, soit — piste que je te propose — un ou deux **chapitres de révision** en fin de parcours qui mélangent plusieurs duos déjà vus individuellement (là, mélanger a du sens : c'est de la révision, pas une première découverte).
+### Pourquoi Firebase et pas Supabase
+Les deux auraient fonctionné ; j'ai choisi Firebase parce que sa console guide davantage un non-développeur (pas de SQL à écrire), et que son SDK s'inclut par une simple balise `<script>` sans étape de compilation — exactement ce qu'il faut pour un projet en 3 fichiers comme celui-ci.
 
-Mais c'est vraiment ton appel — dis-moi ce que tu préfères et j'ajuste.
+### Ce que ça sauvegarde
+Uniquement la progression (chapitres débloqués + rang de maîtrise du mode Burning) — pas de note, pas de donnée personnelle. Chaque élève choisit lui-même un "code" (son prénom + un chiffre, par exemple) : pas besoin d'e-mail ni de mot de passe.
 
-## Testé
-`node --check` OK, 45 `getElementById()` tous présents, 33 classes toutes stylées, structure des 4 niveaux/32 phrases sans anomalie.
+### Étapes
+1. Va sur **console.firebase.google.com**, connecte-toi avec un compte Google, clique **Ajouter un projet**. Donne-lui un nom (ex. `godzilla-protocole-titan`), tu peux désactiver Google Analytics (pas nécessaire ici).
+2. Dans le menu de gauche du projet : **Build → Firestore Database → Créer une base de données**. Choisis l'emplacement le plus proche de chez toi (ex. `eur3 (europe-west)`), puis démarre en **mode production** (pas "mode test" — on va coller nos propres règles à l'étape 4).
+3. Toujours dans le projet : icône ⚙️ à côté de "Vue d'ensemble du projet" → **Paramètres du projet**. Descends jusqu'à "Vos applications", clique l'icône **`</>`** (Web), donne un surnom à l'appli (ex. `jeu-homophones`), **ne coche pas** "Configurer aussi Firebase Hosting". Firebase affiche un bloc `firebaseConfig = { apiKey: "...", ... }` : copie ces valeurs dans `game.js`, tout en haut, dans le bloc `FIREBASE_CONFIG` (cherche `COLLE_TA_CLE_API_ICI`).
+4. Dans **Firestore Database → Règles**, remplace tout le contenu par :
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /progress/{playerCode} {
+         allow read, write: if playerCode is string && playerCode.size() > 0 && playerCode.size() <= 24;
+       }
+     }
+   }
+   ```
+   Clique **Publier**.
+
+C'est tout — pas besoin d'activer l'authentification. Chaque élève entre son code une fois (⚙️ → champ "Code élève" → Valider) ; le jeu retient ce code sur l'appareil et synchronise automatiquement à chaque victoire.
+
+### Ce que ces règles impliquent (sois-en consciente)
+Sans authentification, n'importe qui connaissant le code exact d'un élève peut lire ou modifier SA progression (mais pas celle des autres, et pas la lister). Comme il n'y a aucune donnée sensible en jeu (juste "quels chapitres sont faits"), j'ai jugé ce compromis raisonnable pour la simplicité — encourage des codes pas totalement évidents (pas juste "1", "2", "3"). Si un jour tu veux du vrai compte par élève, on pourra ajouter l'authentification Firebase (un peu plus de configuration).
+
+### Si tu ne configures rien
+Le jeu fonctionne exactement comme avant (sauvegarde locale uniquement, par appareil) — aucune erreur, aucun blocage. Le panneau ⚙️ affiche juste "Sauvegarde en ligne non configurée".
+
+## Testé automatiquement
+`node --check` OK, structure des niveaux inchangée et valide, tous les nouveaux éléments (`cloud-status`, `player-code-input`, etc.) présents et stylés.
 
 ## Non testé
-Toujours pas de navigateur ici — merci de vérifier que le bouton menu fonctionne bien en pleine partie (idéalement testé en plein milieu d'une phrase, puis pendant l'animation du rayon).
+Toujours aucun accès à Firebase ni à un vrai navigateur depuis cet environnement — je n'ai pas pu vérifier la synchronisation en conditions réelles. Teste avec deux appareils différents (ou deux navigateurs) et le même code élève pour confirmer que la progression se retrouve bien des deux côtés.

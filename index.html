@@ -23,6 +23,14 @@
             </label>
             <button id="btn-quit-menu" class="secondary small">🏠 Revenir au menu</button>
             <button id="btn-reset-progress" class="secondary small">🗑️ Réinitialiser la progression</button>
+            <div class="settings-divider"></div>
+            <div class="settings-section-title">☁️ Sauvegarde en ligne</div>
+            <div id="cloud-status">Chargement...</div>
+            <label class="settings-code-label">
+                Code élève (au choix, ex. prénom + chiffre)
+                <input type="text" id="player-code-input" placeholder="ex : Lina7" maxlength="24">
+            </label>
+            <button id="btn-save-code" class="secondary small">💾 Valider le code</button>
         </div>
 
         <div id="phrase-area">
@@ -151,6 +159,17 @@
     <div class="crosshair-dot"></div>
 </div>
 
+<div id="rotate-prompt">
+    <div class="rotate-icon">📱</div>
+    <p>Tourne ton téléphone ou ta tablette en <b>mode paysage</b> pour jouer confortablement.</p>
+</div>
+
+<!-- Sauvegarde en ligne (facultative) : voir FIREBASE_CONFIG en haut de
+     game.js + le README pour l'activer. Si ces scripts ne se chargent pas
+     (hors-ligne, réseau bloqué...), le jeu continue de fonctionner
+     normalement avec la sauvegarde locale uniquement. -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 <script src="game.js"></script>
 </body>
 </html>
