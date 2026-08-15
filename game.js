@@ -299,12 +299,12 @@ function getFrontierLevelIndex() {
 // Tant que ces valeurs restent inchangées, le jeu fonctionne normalement
 // avec la sauvegarde locale uniquement (aucune erreur, juste pas de sync).
 const FIREBASE_CONFIG = {
-    apiKey: "COLLE_TA_CLE_API_ICI",
-    authDomain: "TON-PROJET.firebaseapp.com",
-    projectId: "TON-PROJET",
-    storageBucket: "TON-PROJET.appspot.com",
-    messagingSenderId: "000000000000",
-    appId: "1:000000000000:web:xxxxxxxxxxxxxxxxxxxxxx",
+    apiKey: "AIzaSyD2KxDXnRSatsah9Bql2ui4O5bg_UPPCsA",
+    authDomain: "godzilla-protocole-titan.firebaseapp.com",
+    projectId: "godzilla-protocole-titan",
+    storageBucket: "godzilla-protocole-titan.firebasestorage.app",
+    messagingSenderId: "316251249627",
+    appId: "1:316251249627:web:7d8fdcf99b8727a1af25fe",
 };
 
 const PLAYER_CODE_KEY = "gpt_player_code_v1";
