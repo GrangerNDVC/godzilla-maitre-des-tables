@@ -631,8 +631,8 @@ function playComboChime() {
 // ======================= CANVAS / ÉTAT GLOBAL =======================
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-const SAFE_TOP = 170;
-const SAFE_BOTTOM = 100;
+let SAFE_TOP = 170;
+let SAFE_BOTTOM = 100;
 
 let currentLevelIndex = 0;
 let currentScore = 0;
@@ -1000,8 +1000,10 @@ function drawStartScreenBackdrop() {
 function drawTitanLooming() {
     if (!titanRevealed) return;
     const img = ASSETS.kaiju[LEVELS[currentLevelIndex].kaiju];
-    const cx = canvas.width - 175, cy = SAFE_TOP + 150;
-    const size = 260;
+    const playH = canvas.height - SAFE_TOP - SAFE_BOTTOM;
+    const size = Math.max(140, Math.min(260, playH * 0.85, canvas.width * 0.26));
+    const cx = canvas.width - size * 0.68;
+    const cy = SAFE_TOP + playH * 0.4;
     ctx.save();
     ctx.globalAlpha = 0.92;
     if (img) {
@@ -1029,8 +1031,8 @@ function drawTitanLooming() {
 }
 
 // ======================= GODZILLA + RAYON =======================
-const GODZILLA_DRAW_WIDTH = 430;
-const GODZILLA_ANCHOR = { x: 170, y: canvas.height - 60 };
+let GODZILLA_DRAW_WIDTH = 430;
+let GODZILLA_ANCHOR = { x: 170, y: canvas.height - 60 };
 // Recalibré sur les fichiers godzilla.png / godzilla_ouvert.png de la v2
 // (Godzilla fait maintenant face à DROITE, vers l'arène, au lieu de
 // gauche). Mesuré par Julie par détection des pixels de la bouche.
@@ -1280,7 +1282,7 @@ function drawBossDefeat() {
     const img = ASSETS.kaiju[bossDefeat.kaijuKey];
     const cx = canvas.width / 2, baseY = canvas.height / 2 - 20;
     const rot = t * Math.PI;
-    const fall = t * 90;
+    const fall = t * Math.min(90, canvas.height * 0.13);
     const alpha = 1 - Math.max(0, t - 0.65) / 0.35;
 
     ctx.save();
@@ -1290,7 +1292,7 @@ function drawBossDefeat() {
     ctx.translate(cx, baseY + fall);
     ctx.rotate(rot);
     ctx.globalAlpha = Math.max(0, alpha);
-    const size = 460;
+    const size = Math.min(460, canvas.height * 0.82, canvas.width * 0.55);
     if (img) {
         ctx.drawImage(img, -size / 2, -size * (img.height / img.width) / 2, size, size * (img.height / img.width));
     } else {
@@ -1300,17 +1302,20 @@ function drawBossDefeat() {
     ctx.globalAlpha = 1;
 
     const lvl = LEVELS[currentLevelIndex];
+    const captionY = Math.max(36, canvas.height * 0.09);
+    const captionSize = canvas.height < 520 ? 22 : 30;
+    const bodySize = canvas.height < 520 ? 18 : 26;
     ctx.save();
     ctx.fillStyle = "#ffd966";
     ctx.textAlign = "center";
     ctx.shadowColor = "rgba(0,0,0,0.7)"; ctx.shadowBlur = 8;
     ctx.globalAlpha = Math.min(1, t * 3);
     if (t < 0.55) {
-        ctx.font = "bold 30px 'Bebas Neue', sans-serif";
-        ctx.fillText(lvl.defeatCaption, cx, 60);
+        ctx.font = `bold ${captionSize}px 'Bebas Neue', sans-serif`;
+        ctx.fillText(lvl.defeatCaption, cx, captionY);
     } else {
-        ctx.font = "bold 26px 'Bebas Neue', sans-serif";
-        wrapCanvasText(lvl.defeatDetail, cx, 60, 780, 32);
+        ctx.font = `bold ${bodySize}px 'Bebas Neue', sans-serif`;
+        wrapCanvasText(lvl.defeatDetail, cx, captionY, canvas.width * 0.72, bodySize + 6);
     }
     ctx.restore();
     ctx.globalAlpha = 1;
@@ -1929,18 +1934,49 @@ document.getElementById("btn-rules-back").addEventListener("click", () => showSc
 document.getElementById("btn-medals").addEventListener("click", () => { renderMedalsGallery(); showScreen("medals-screen"); });
 document.getElementById("btn-medals-back").addEventListener("click", () => showScreen("start-screen"));
 
-// ======================= MISE À L'ÉCHELLE (iPad / Surface / tablettes) =======================
+// ======================= MISE À L'ÉCHELLE (iPad / Surface / smartphone) =======================
+// Le canevas change réellement de forme selon l'écran (au lieu d'être
+// toujours réduit en conservant le ratio 1100x700 fixe) : sur un
+// smartphone en paysage, très allongé, l'ancienne version laissait de
+// grandes bandes vides à gauche/droite car elle réduisait TOUT le jeu
+// jusqu'à ce qu'il tienne en hauteur. Le jeu utilise maintenant la vraie
+// largeur disponible, quitte à changer de proportions.
+const CANVAS_MIN_W = 560, CANVAS_MAX_W = 1500;
+const CANVAS_MIN_H = 340, CANVAS_MAX_H = 760;
+
+// Recalcule toute la mise en page qui dépend de la taille du canevas
+// (zone de sécurité pour le texte/la barre de stats, ancrage de Godzilla).
+// Appelée à chaque redimensionnement, jamais figée sur 1100x700.
+function recalcLayout() {
+    const compact = canvas.height < 520;
+    SAFE_TOP = compact ? Math.round(canvas.height * 0.21) : 170;
+    SAFE_BOTTOM = compact ? Math.round(canvas.height * 0.17) : 100;
+    GODZILLA_DRAW_WIDTH = Math.round(canvas.width * 0.39);
+    GODZILLA_ANCHOR = { x: Math.round(canvas.width * 0.155), y: canvas.height - Math.max(35, Math.round(canvas.height * 0.085)) };
+    document.body.classList.toggle("compact-hud", compact);
+}
+
 function fitGameToViewport() {
     const wrapper = document.getElementById("game-wrapper");
     const container = document.getElementById("game-container");
     if (!wrapper || !container) return;
+
     const margin = 24;
-    const availW = window.innerWidth - margin;
-    const availH = window.innerHeight - margin;
-    const scale = Math.min(availW / 1100, availH / 700, 1);
-    container.style.transform = `scale(${scale})`;
-    wrapper.style.width = Math.round(1100 * scale + 16) + "px";
-    wrapper.style.height = Math.round(700 * scale + 16) + "px";
+    const availW = Math.max(1, window.innerWidth - margin);
+    const availH = Math.max(1, window.innerHeight - margin);
+    const w = Math.round(Math.max(CANVAS_MIN_W, Math.min(CANVAS_MAX_W, availW)));
+    const h = Math.round(Math.max(CANVAS_MIN_H, Math.min(CANVAS_MAX_H, availH)));
+
+    if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+    }
+    recalcLayout();
+    container.style.transform = "none";
+    container.style.width = w + "px";
+    container.style.height = h + "px";
+    wrapper.style.width = (w + 16) + "px";
+    wrapper.style.height = (h + 16) + "px";
 }
 window.addEventListener("resize", fitGameToViewport);
 window.addEventListener("orientationchange", () => setTimeout(fitGameToViewport, 250));
