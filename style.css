@@ -95,6 +95,8 @@ canvas {
     box-shadow: 0 12px 26px rgba(0,0,0,0.5);
     font-size: 14px;
     color: #dfe2ee;
+    max-height: calc(100% - 72px);
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -637,6 +639,60 @@ body.compact-hud .stat-value { font-size: 21px; }
 body.compact-hud #chrono-box { font-size: 17px; padding: 4px 12px; }
 body.compact-hud #burning-badge { font-size: 14px; padding: 5px 12px; }
 body.compact-hud #settings-btn { top: 8px; width: 32px; height: 32px; font-size: 15px; }
+
+/* ---------- Mode compact : écrans (accueil, chapitre, dossiers...) ----------
+   LE bug corrigé ici : .screen centre son contenu verticalement
+   (justify-content: center). Sur un canevas bas, un contenu plus haut que
+   l'écran débordait alors des DEUX côtés à la fois (le haut du titre ET le
+   bouton du bas devenaient invisibles, sans indice qu'il fallait remonter
+   pour voir le titre ou descendre pour voir le bouton). En mode compact,
+   le contenu part du haut à la place : tout ce qui dépasse déborde
+   seulement en bas, où un simple scroll vers le bas (le geste naturel) le
+   révèle. Rien ici ne touche aux règles par défaut (hors .compact-hud),
+   donc la version PC est inchangée. */
+body.compact-hud .screen {
+    justify-content: flex-start;
+    padding: 10px 16px 16px;
+}
+body.compact-hud .screen h1 { font-size: 26px; letter-spacing: 1.5px; margin-bottom: 6px; }
+body.compact-hud .screen p { font-size: 14px; line-height: 1.35; margin: 0; max-width: 96%; }
+body.compact-hud .chapter-eyebrow { font-size: 12px; letter-spacing: 2px; margin-bottom: 2px; }
+body.compact-hud #chapter-screen h1 { font-size: 22px; }
+body.compact-hud .screen button {
+    padding: 8px 20px;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-right: 6px;
+}
+body.compact-hud .home-screen { padding-top: 10px; }
+body.compact-hud .home-header { margin-bottom: 2px; }
+body.compact-hud .home-header h1 { font-size: 22px; margin-bottom: 2px; }
+body.compact-hud #loading-label { font-size: 11px; }
+body.compact-hud .home-main { gap: 12px; margin: 8px 0; }
+body.compact-hud .lore-box { padding: 8px 12px; gap: 5px; border-radius: 10px; }
+body.compact-hud .lore-line { font-size: 11.5px; line-height: 1.25; gap: 6px; }
+body.compact-hud .lore-line .ico { font-size: 13px; }
+body.compact-hud .hero-frame { height: 60px; border-radius: 10px; }
+body.compact-hud .home-tabs { gap: 6px; }
+body.compact-hud button.tab-btn { padding: 6px 4px; font-size: 10.5px; letter-spacing: 0.3px; margin-top: 0; }
+body.compact-hud .home-footer button { margin-top: 4px; }
+body.compact-hud .screen .levels-track { margin-top: 8px; gap: 4px; }
+body.compact-hud .level-chip { font-size: 11px; padding: 3px 8px 3px 3px; gap: 4px; }
+body.compact-hud .chip-thumb { width: 22px; height: 22px; }
+body.compact-hud .chip-thumb canvas { width: 22px; height: 22px; }
+body.compact-hud .codex-grid, body.compact-hud .medal-grid { margin-top: 8px; gap: 8px; }
+body.compact-hud .codex-cell { padding: 6px; gap: 4px; }
+body.compact-hud .codex-name { font-size: 15px; }
+body.compact-hud .codex-status { font-size: 11px; }
+body.compact-hud .medal-orb { width: 38px; height: 38px; font-size: 16px; }
+body.compact-hud .medal-name { font-size: 12px; }
+body.compact-hud .medal-threshold { font-size: 10px; }
+
+body.compact-hud #settings-panel { top: 46px; padding: 10px 12px; gap: 6px; font-size: 12px; min-width: 200px; }
+body.compact-hud #settings-panel button.small { padding: 6px 12px; font-size: 12px; }
+body.compact-hud .settings-code-label { font-size: 11px; }
+body.compact-hud #player-code-input { padding: 5px 8px; font-size: 12px; }
+body.compact-hud #cloud-status { font-size: 10.5px; }
 
 /* ---------- Invite à tourner l'appareil (téléphone/tablette en portrait) ---------- */
 #rotate-prompt {
