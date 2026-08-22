@@ -1961,9 +1961,20 @@ function fitGameToViewport() {
     const container = document.getElementById("game-container");
     if (!wrapper || !container) return;
 
-    const margin = 24;
-    const availW = Math.max(1, window.innerWidth - margin);
-    const availH = Math.max(1, window.innerHeight - margin);
+    // Lit le VRAI padding appliqué (body + wrapper) au lieu d'une valeur
+    // codée en dur : un ancien calcul oubliait celui du body (20px de
+    // chaque côté), ce qui pouvait faire déborder le jeu de la zone
+    // visible réelle et couper le bas de l'écran (bouton compris) par le
+    // "overflow:hidden" du body — un débordement invisible et impossible
+    // à révéler par le scroll interne des écrans. Cette version reste
+    // juste même si le CSS change plus tard.
+    const bodyCs = getComputedStyle(document.body);
+    const wrapCs = getComputedStyle(wrapper);
+    const padX = parseFloat(bodyCs.paddingLeft) + parseFloat(bodyCs.paddingRight) + parseFloat(wrapCs.paddingLeft) + parseFloat(wrapCs.paddingRight);
+    const padY = parseFloat(bodyCs.paddingTop) + parseFloat(bodyCs.paddingBottom) + parseFloat(wrapCs.paddingTop) + parseFloat(wrapCs.paddingBottom);
+
+    const availW = Math.max(1, window.innerWidth - padX);
+    const availH = Math.max(1, window.innerHeight - padY);
     const w = Math.round(Math.max(CANVAS_MIN_W, Math.min(CANVAS_MAX_W, availW)));
     const h = Math.round(Math.max(CANVAS_MIN_H, Math.min(CANVAS_MAX_H, availH)));
 
@@ -1975,8 +1986,8 @@ function fitGameToViewport() {
     container.style.transform = "none";
     container.style.width = w + "px";
     container.style.height = h + "px";
-    wrapper.style.width = (w + 16) + "px";
-    wrapper.style.height = (h + 16) + "px";
+    wrapper.style.width = Math.round(w + parseFloat(wrapCs.paddingLeft) + parseFloat(wrapCs.paddingRight)) + "px";
+    wrapper.style.height = Math.round(h + parseFloat(wrapCs.paddingTop) + parseFloat(wrapCs.paddingBottom)) + "px";
 }
 window.addEventListener("resize", fitGameToViewport);
 window.addEventListener("orientationchange", () => setTimeout(fitGameToViewport, 250));

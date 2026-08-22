@@ -40,6 +40,13 @@ body.aiming { cursor: none; }
     padding: 8px;
     transition: width 0.15s ease, height 0.15s ease;
 }
+/* Sur petit écran, chaque pixel compte : on réduit les marges externes.
+   Le JS (fitGameToViewport) lit le vrai padding appliqué, donc il n'y a
+   rien d'autre à synchroniser manuellement. */
+@media (max-width: 760px), (max-height: 560px) {
+    html, body { padding: 6px; }
+    #game-wrapper { padding: 5px; }
+}
 
 #game-container {
     position: relative;
@@ -376,6 +383,12 @@ canvas {
 
 .screen p { font-size: 20px; color: #c7cbdb; max-width: 680px; line-height: 1.6; }
 
+/* Conteneurs génériques : transparents par défaut (aucun changement sur
+   PC), ils ne prennent leur rôle de "zone défilante / pied de page
+   toujours visible" qu'en mode compact (voir plus bas). */
+.screen-scroll { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.screen-actions { width: 100%; text-align: center; }
+
 .screen .levels-track {
     display: flex;
     gap: 6px;
@@ -652,8 +665,27 @@ body.compact-hud #settings-btn { top: 8px; width: 32px; height: 32px; font-size:
    donc la version PC est inchangée. */
 body.compact-hud .screen {
     justify-content: flex-start;
-    padding: 10px 16px 16px;
+    padding: 8px 16px 10px;
 }
+/* Le coeur du correctif : .screen-scroll prend tout l'espace disponible
+   et défile TOUT SEUL (min-height:0 est indispensable pour qu'un enfant
+   flex puisse être plus petit que son contenu, sinon il repousse le pied
+   de page hors de l'écran au lieu de défiler). .screen-actions garde sa
+   taille naturelle et reste donc TOUJOURS visible, sans dépendre du bon
+   fonctionnement du scroll tactile sur l'appareil. */
+body.compact-hud .screen-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+}
+body.compact-hud .screen-actions {
+    flex: 0 0 auto;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,178,71,0.18);
+}
+body.compact-hud .home-footer.screen-actions { border-top: none; padding-top: 4px; }
 body.compact-hud .screen h1 { font-size: 26px; letter-spacing: 1.5px; margin-bottom: 6px; }
 body.compact-hud .screen p { font-size: 14px; line-height: 1.35; margin: 0; max-width: 96%; }
 body.compact-hud .chapter-eyebrow { font-size: 12px; letter-spacing: 2px; margin-bottom: 2px; }
