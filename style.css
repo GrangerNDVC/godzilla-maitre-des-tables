@@ -74,6 +74,28 @@ canvas {
     body.aiming { cursor: auto; }
 }
 
+/* ---------- Bouton universel "retour à l'accueil" ----------
+   Toujours visible, sur tous les écrans ET en pleine partie (demandé par
+   Julie) : un seul bouton, un seul comportement prévisible (retour direct
+   à l'accueil, sans pile "précédent/suivant" qui ajouterait des cas
+   limites) — nettoie proprement la partie en cours si besoin (même
+   fonction que "Revenir au menu" dans les réglages). */
+#btn-universal-home {
+    position: absolute;
+    top: 16px;
+    right: 64px;
+    z-index: 70;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(10,14,24,0.85);
+    border: 1px solid rgba(255,178,71,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+#btn-universal-home:hover { background: rgba(30,20,10,0.9); }
+
 /* ---------- Réglages (⚙️) ---------- */
 #settings-btn {
     position: absolute;
@@ -639,92 +661,91 @@ body.aiming #custom-cursor { opacity: 1; }
     .home-left, .home-right { flex: 1 1 auto; }
 }
 
-/* ---------- Mode HUD compact (canevas bas — smartphone en paysage) ----------
-   Activé par recalcLayout() en JS (pas par media query : dépend de la
-   hauteur réelle du canevas, déjà calculée en tenant compte de l'écran). */
-body.compact-hud #phrase-area { top: 8px; padding: 8px 18px; right: 56px; }
-body.compact-hud #phrase-card { font-size: 17px; line-height: 1.3; }
-body.compact-hud .blank-gap { font-size: 20px; min-width: 46px; padding: 0 6px; margin: 0 1px; }
-body.compact-hud #stats-bar { bottom: 8px; padding: 5px 12px; gap: 5px; }
-body.compact-hud .stat-item { padding: 3px 10px; gap: 5px; }
-body.compact-hud .stat-label { font-size: 11px; letter-spacing: 0.5px; }
-body.compact-hud .stat-value { font-size: 21px; }
-body.compact-hud #chrono-box { font-size: 17px; padding: 4px 12px; }
-body.compact-hud #burning-badge { font-size: 14px; padding: 5px 12px; }
-body.compact-hud #settings-btn { top: 8px; width: 32px; height: 32px; font-size: 15px; }
+/* ---------- Mode HUD compact (écran bas — smartphone en paysage) ----------
+   Déclenché par une media query CSS pure plutôt qu'une classe posée par
+   JS : plus fiable, car évaluée directement par le navigateur selon la
+   vraie hauteur d'écran, sans dépendre du timing ni du calcul JS (qui ne
+   se déclenchait pas de façon fiable sur certains appareils). */
+@media (max-height: 560px) {
+    #phrase-area { top: 8px; padding: 8px 18px; right: 56px; }
+    #phrase-card { font-size: 17px; line-height: 1.3; }
+    .blank-gap { font-size: 20px; min-width: 46px; padding: 0 6px; margin: 0 1px; }
+    #stats-bar { bottom: 8px; padding: 5px 12px; gap: 5px; }
+    .stat-item { padding: 3px 10px; gap: 5px; }
+    .stat-label { font-size: 11px; letter-spacing: 0.5px; }
+    .stat-value { font-size: 21px; }
+    #chrono-box { font-size: 17px; padding: 4px 12px; }
+    #burning-badge { font-size: 14px; padding: 5px 12px; }
+    #settings-btn { top: 8px; width: 32px; height: 32px; font-size: 15px; }
+    #btn-universal-home { top: 8px; right: 48px; width: 32px; height: 32px; font-size: 14px; }
 
-/* ---------- Mode compact : écrans (accueil, chapitre, dossiers...) ----------
-   LE bug corrigé ici : .screen centre son contenu verticalement
-   (justify-content: center). Sur un canevas bas, un contenu plus haut que
-   l'écran débordait alors des DEUX côtés à la fois (le haut du titre ET le
-   bouton du bas devenaient invisibles, sans indice qu'il fallait remonter
-   pour voir le titre ou descendre pour voir le bouton). En mode compact,
-   le contenu part du haut à la place : tout ce qui dépasse déborde
-   seulement en bas, où un simple scroll vers le bas (le geste naturel) le
-   révèle. Rien ici ne touche aux règles par défaut (hors .compact-hud),
-   donc la version PC est inchangée. */
-body.compact-hud .screen {
-    justify-content: flex-start;
-    padding: 8px 16px 10px;
-}
-/* Le coeur du correctif : .screen-scroll prend tout l'espace disponible
-   et défile TOUT SEUL (min-height:0 est indispensable pour qu'un enfant
-   flex puisse être plus petit que son contenu, sinon il repousse le pied
-   de page hors de l'écran au lieu de défiler). .screen-actions garde sa
-   taille naturelle et reste donc TOUJOURS visible, sans dépendre du bon
-   fonctionnement du scroll tactile sur l'appareil. */
-body.compact-hud .screen-scroll {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-}
-body.compact-hud .screen-actions {
-    flex: 0 0 auto;
-    padding-top: 6px;
-    border-top: 1px solid rgba(255,178,71,0.18);
-}
-body.compact-hud .home-footer.screen-actions { border-top: none; padding-top: 4px; }
-body.compact-hud .screen h1 { font-size: 26px; letter-spacing: 1.5px; margin-bottom: 6px; }
-body.compact-hud .screen p { font-size: 14px; line-height: 1.35; margin: 0; max-width: 96%; }
-body.compact-hud .chapter-eyebrow { font-size: 12px; letter-spacing: 2px; margin-bottom: 2px; }
-body.compact-hud #chapter-screen h1 { font-size: 22px; }
-body.compact-hud .screen button {
-    padding: 8px 20px;
-    font-size: 15px;
-    margin-top: 10px;
-    margin-right: 6px;
-}
-body.compact-hud .home-screen { padding-top: 10px; }
-body.compact-hud .home-header { margin-bottom: 2px; }
-body.compact-hud .home-header h1 { font-size: 22px; margin-bottom: 2px; }
-body.compact-hud #loading-label { font-size: 11px; }
-body.compact-hud .home-main { gap: 12px; margin: 8px 0; }
-body.compact-hud .lore-box { padding: 8px 12px; gap: 5px; border-radius: 10px; }
-body.compact-hud .lore-line { font-size: 11.5px; line-height: 1.25; gap: 6px; }
-body.compact-hud .lore-line .ico { font-size: 13px; }
-body.compact-hud .hero-frame { height: 60px; border-radius: 10px; }
-body.compact-hud .home-tabs { gap: 6px; }
-body.compact-hud button.tab-btn { padding: 6px 4px; font-size: 10.5px; letter-spacing: 0.3px; margin-top: 0; }
-body.compact-hud .home-footer button { margin-top: 4px; }
-body.compact-hud .screen .levels-track { margin-top: 8px; gap: 4px; }
-body.compact-hud .level-chip { font-size: 11px; padding: 3px 8px 3px 3px; gap: 4px; }
-body.compact-hud .chip-thumb { width: 22px; height: 22px; }
-body.compact-hud .chip-thumb canvas { width: 22px; height: 22px; }
-body.compact-hud .codex-grid, body.compact-hud .medal-grid { margin-top: 8px; gap: 8px; }
-body.compact-hud .codex-cell { padding: 6px; gap: 4px; }
-body.compact-hud .codex-name { font-size: 15px; }
-body.compact-hud .codex-status { font-size: 11px; }
-body.compact-hud .medal-orb { width: 38px; height: 38px; font-size: 16px; }
-body.compact-hud .medal-name { font-size: 12px; }
-body.compact-hud .medal-threshold { font-size: 10px; }
+    /* LE bug corrigé ici : .screen centre son contenu verticalement
+       (justify-content: center). Sur un écran bas, un contenu plus haut
+       que l'écran débordait des DEUX côtés à la fois (le haut du titre ET
+       le bouton du bas devenaient invisibles). En mode compact, le
+       contenu part du haut : ce qui dépasse déborde seulement en bas. */
+    .screen {
+        justify-content: flex-start;
+        padding: 8px 16px 10px;
+    }
+    /* Le coeur du correctif : .screen-scroll prend tout l'espace
+       disponible et défile TOUT SEUL (min-height:0 est indispensable
+       pour qu'un enfant flex puisse être plus petit que son contenu).
+       .screen-actions garde sa taille naturelle et reste donc TOUJOURS
+       visible, sans dépendre du bon fonctionnement du scroll tactile. */
+    .screen-scroll {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+    }
+    .screen-actions {
+        flex: 0 0 auto;
+        padding-top: 6px;
+        border-top: 1px solid rgba(255,178,71,0.18);
+    }
+    .home-footer.screen-actions { border-top: none; padding-top: 4px; }
+    .screen h1 { font-size: 26px; letter-spacing: 1.5px; margin-bottom: 6px; }
+    .screen p { font-size: 14px; line-height: 1.35; margin: 0; max-width: 96%; }
+    .chapter-eyebrow { font-size: 12px; letter-spacing: 2px; margin-bottom: 2px; }
+    #chapter-screen h1 { font-size: 22px; }
+    .screen button {
+        padding: 8px 20px;
+        font-size: 15px;
+        margin-top: 10px;
+        margin-right: 6px;
+    }
+    .home-screen { padding-top: 10px; }
+    .home-header { margin-bottom: 2px; }
+    .home-header h1 { font-size: 22px; margin-bottom: 2px; }
+    #loading-label { font-size: 11px; }
+    .home-main { gap: 12px; margin: 8px 0; }
+    .lore-box { padding: 8px 12px; gap: 5px; border-radius: 10px; }
+    .lore-line { font-size: 11.5px; line-height: 1.25; gap: 6px; }
+    .lore-line .ico { font-size: 13px; }
+    .hero-frame { height: 60px; border-radius: 10px; }
+    .home-tabs { gap: 6px; }
+    button.tab-btn { padding: 6px 4px; font-size: 10.5px; letter-spacing: 0.3px; margin-top: 0; }
+    .home-footer button { margin-top: 4px; }
+    .screen .levels-track { margin-top: 8px; gap: 4px; }
+    .level-chip { font-size: 11px; padding: 3px 8px 3px 3px; gap: 4px; }
+    .chip-thumb { width: 22px; height: 22px; }
+    .chip-thumb canvas { width: 22px; height: 22px; }
+    .codex-grid, .medal-grid { margin-top: 8px; gap: 8px; }
+    .codex-cell { padding: 6px; gap: 4px; }
+    .codex-name { font-size: 15px; }
+    .codex-status { font-size: 11px; }
+    .medal-orb { width: 38px; height: 38px; font-size: 16px; }
+    .medal-name { font-size: 12px; }
+    .medal-threshold { font-size: 10px; }
 
-body.compact-hud #settings-panel { top: 46px; padding: 10px 12px; gap: 6px; font-size: 12px; min-width: 200px; }
-body.compact-hud #settings-panel button.small { padding: 6px 12px; font-size: 12px; }
-body.compact-hud .settings-code-label { font-size: 11px; }
-body.compact-hud #player-code-input { padding: 5px 8px; font-size: 12px; }
-body.compact-hud #cloud-status { font-size: 10.5px; }
+    #settings-panel { top: 46px; padding: 10px 12px; gap: 6px; font-size: 12px; min-width: 200px; }
+    #settings-panel button.small { padding: 6px 12px; font-size: 12px; }
+    .settings-code-label { font-size: 11px; }
+    #player-code-input { padding: 5px 8px; font-size: 12px; }
+    #cloud-status { font-size: 10.5px; }
+}
 
 /* ---------- Invite à tourner l'appareil (téléphone/tablette en portrait) ---------- */
 #rotate-prompt {

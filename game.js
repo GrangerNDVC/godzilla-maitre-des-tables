@@ -1910,6 +1910,7 @@ document.getElementById("chk-show-chrono").addEventListener("change", (e) => {
     saveChronoVisible(chronoVisible);
     applyChronoVisible(chronoVisible);
 });
+document.getElementById("btn-universal-home").addEventListener("click", quitToMenu);
 document.getElementById("settings-btn").addEventListener("click", () => {
     document.getElementById("settings-panel").classList.toggle("hidden");
 });
