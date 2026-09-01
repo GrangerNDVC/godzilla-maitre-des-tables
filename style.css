@@ -609,6 +609,12 @@ button.small { padding: 8px 18px; font-size: 14px; margin-top: 0; letter-spacing
 
 .hidden { display: none !important; }
 
+/* Libellé court du bouton "Commencer" (voir game.js), réservé au mode
+   compact — masqué par défaut sur PC. Bascule 100% CSS, cohérent avec le
+   choix déjà fait pour btn-start-full / btn-start-short : pas de classe
+   JS à synchroniser avec la vraie hauteur d'écran. */
+.btn-start-short { display: none; }
+
 /* ---------- Curseur viseur ---------- */
 #custom-cursor {
     position: fixed;
@@ -716,15 +722,38 @@ body.aiming #custom-cursor { opacity: 1; }
         margin-top: 10px;
         margin-right: 6px;
     }
-    .home-screen { padding-top: 10px; }
+    .btn-start-full { display: none; }
+    .btn-start-short { display: inline; }
+    .home-screen {
+        padding-top: 10px;
+        /* Image de présentation en fond plein écran + voile sombre pour
+           la lisibilité du texte posé par-dessus, à la place du petit
+           cadre .hero-frame (masqué juste plus bas) — demandé par Julie
+           pour gagner de la place et donner plus d'impact visuel sur
+           mobile. Le dégradé fonce vers le bas pour garantir un bon
+           contraste juste derrière le bouton "Commencer". */
+        background-image: linear-gradient(rgba(5,7,13,0.5), rgba(5,7,13,0.85)), url('assets/presentation.png');
+        background-size: cover;
+        background-position: center;
+        backdrop-filter: none;
+    }
     .home-header { margin-bottom: 2px; }
-    .home-header h1 { font-size: 22px; margin-bottom: 2px; }
+    .home-header h1 { font-size: 22px; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.85); }
     #loading-label { font-size: 11px; }
     .home-main { gap: 12px; margin: 8px 0; }
     .lore-box { padding: 8px 12px; gap: 5px; border-radius: 10px; }
+    /* Sur PC, .lore-box a son propre fond opaque (#10131c, voir plus
+       haut). Ici, la carte devient un panneau semi-transparent pour
+       laisser deviner l'image derrière — le voile ci-dessus assure déjà
+       l'essentiel de la lisibilité, ce panneau n'a plus qu'à renforcer un
+       peu le contraste local. */
+    .lore-box.compact { background: rgba(8,10,18,0.55); backdrop-filter: blur(3px); }
     .lore-line { font-size: 11.5px; line-height: 1.25; gap: 6px; }
     .lore-line .ico { font-size: 13px; }
-    .hero-frame { height: 60px; border-radius: 10px; }
+    /* Le petit cadre-aperçu n'a plus de raison d'être : la même image
+       sert maintenant de fond plein écran à tout l'accueil (voir
+       .home-screen ci-dessus). */
+    .hero-frame { display: none; }
     .home-tabs { gap: 6px; }
     button.tab-btn { padding: 6px 4px; font-size: 10.5px; letter-spacing: 0.3px; margin-top: 0; }
     .home-footer button { margin-top: 4px; }

@@ -1644,9 +1644,13 @@ function updateStartButtonLabel() {
     const btn = document.getElementById("btn-start");
     if (!btn) return;
     const frontier = getFrontierLevelIndex();
-    btn.textContent = defeatedLevels.size === 0
-        ? "🦖 Commencer le chapitre 1"
-        : `🦖 Continuer — chapitre ${frontier + 1}`;
+    const isFirstTime = defeatedLevels.size === 0;
+    // Deux libellés (complet / court) rendus en même temps : c'est la
+    // media query dans style.css qui choisit lequel afficher selon la
+    // hauteur d'écran — pas de logique JS à maintenir en plus.
+    const fullLabel = isFirstTime ? "🦖 Commencer le chapitre 1" : `🦖 Continuer — chapitre ${frontier + 1}`;
+    const shortLabel = isFirstTime ? "🦖 Chapitre 1" : `🦖 Chapitre ${frontier + 1}`;
+    btn.innerHTML = `<span class="btn-start-full">${fullLabel}</span><span class="btn-start-short">${shortLabel}</span>`;
     btn.dataset.frontier = frontier;
 }
 
@@ -1942,8 +1946,19 @@ document.getElementById("btn-medals-back").addEventListener("click", () => showS
 // grandes bandes vides à gauche/droite car elle réduisait TOUT le jeu
 // jusqu'à ce qu'il tienne en hauteur. Le jeu utilise maintenant la vraie
 // largeur disponible, quitte à changer de proportions.
+// IMPORTANT (cause réelle du bug "bouton Commencer invisible en
+// paysage") : la hauteur ne doit JAMAIS être forcée au-delà de l'espace
+// vraiment disponible. Le <body> centre son contenu avec overflow:hidden
+// (voir style.css) : si le conteneur est plus haut que l'écran, le haut
+// ET le bas sont rognés à parts égales, sans aucun scroll possible pour
+// le révéler — exactement ce qui rendait le bouton invisible, quel que
+// soit le soin apporté à la mise en page interne (.screen-scroll /
+// .screen-actions, déjà correcte). L'ancienne hauteur plancher (340px)
+// provoquait précisément ce dépassement sur les téléphones bas. Sur un
+// tout petit écran, le jeu devient donc plus compact plutôt que de
+// déborder.
 const CANVAS_MIN_W = 560, CANVAS_MAX_W = 1500;
-const CANVAS_MIN_H = 340, CANVAS_MAX_H = 760;
+const CANVAS_MAX_H = 760;
 
 // Recalcule toute la mise en page qui dépend de la taille du canevas
 // (zone de sécurité pour le texte/la barre de stats, ancrage de Godzilla).
@@ -1977,7 +1992,7 @@ function fitGameToViewport() {
     const availW = Math.max(1, window.innerWidth - padX);
     const availH = Math.max(1, window.innerHeight - padY);
     const w = Math.round(Math.max(CANVAS_MIN_W, Math.min(CANVAS_MAX_W, availW)));
-    const h = Math.round(Math.max(CANVAS_MIN_H, Math.min(CANVAS_MAX_H, availH)));
+    const h = Math.round(Math.min(CANVAS_MAX_H, availH));
 
     if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
