@@ -124,9 +124,9 @@ const LEVELS = [
         astuce: "Remplace le mot par « avaient » : si la phrase garde son sens, c'est ont (le verbe avoir). Sinon, c'est on (qu'on peut remplacer par il). Devant une négation qui commence par une voyelle, cela donne on n' — comme dans « on n'a pas vu ».",
         chapterTitle: "Le fantôme d'Apex",
         chapterIntro: "La taupe est démasquée à temps — mais trop tard pour empêcher l'inévitable. Sous une ancienne base futuriste d'Apex Cybernetics, un fragment du crâne de Ghidorah, cru détruit depuis des années, a servi de cœur à une nouvelle machine. Mechagodzilla se relève, plus silencieux et plus rapide que jamais. Depuis leurs derniers combats, Godzilla accumule de l'énergie dans ses écailles : cette fois, il ne pourra pas se contenter de briser un boîtier. Il va devoir puiser dans toutes ses forces.",
-        victoryBeat: "Dans un dernier assaut incandescent, Godzilla perce le blindage de Mechagodzilla et met fin à des années de mensonges. La division fantôme d'Apex Cybernetics est démantelée, la taupe arrêtée. Sur l'île Infant, loin des caméras, Mothra observe le ciel s'éclaircir — et quelque chose dans son regard semble dire que cette histoire n'est pas tout à fait terminée.",
+        victoryBeat: "Dans un dernier assaut incandescent, Godzilla perce le blindage de Mechagodzilla et met fin à des années de mensonges. La division fantôme d'Apex Cybernetics est démantelée, la taupe arrêtée. Pourtant, dans les ruines, un technicien ramasse une carte froissée couverte de points rouges. Sur l'île Infant, loin des caméras, Mothra observe le ciel s'éclaircir — et quelque chose dans son regard semble dire que cette histoire n'est pas tout à fait terminée.",
         defeatCaption: "MECHAGODZILLA EST DÉTRUIT !",
-        defeatDetail: "Grâce à Godzilla, MONARCH met fin à la division fantôme d'Apex Cybernetics. Le Protocole Titan est officiellement clos.",
+        defeatDetail: "Grâce à Godzilla, MONARCH met fin à la division fantôme d'Apex Cybernetics. Mais dans les ruines, une carte couverte de points rouges vient d'être retrouvée.",
         statusLabel: "Détruit",
         retryVariants: [
             "Un bouclier d'urgence encaisse le coup final : Mechagodzilla recule dans l'ombre de la base, ses systèmes déjà en train de se réparer.",
@@ -141,6 +141,469 @@ const LEVELS = [
             { before: "Les capteurs de Monarch ", correct: "ont", after: " localisé une activité électrique sous la base." },
             { before: "Jusqu'ici, ", correct: "on n'", after: "imaginait pas qu'un fragment du crâne de Ghidorah avait survécu." },
             { before: "Dans les couloirs de Monarch, ", correct: "on", after: " raconte que la machine s'est réveillée seule, sans commande humaine." },
+        ],
+    },
+    // ===================== SUITE : LE RÉSEAU CHIMÈRE (chapitres 5 à 21) =====================
+    {
+        kaiju: "kamacuras", nom: "Kamacuras", decor: "decors_kamacuras.jpg", palier: 2,
+        pairWords: ["et", "est"], pairLabel: "et / est",
+        astuce: "Remplace le mot par « était » : si la phrase garde son sens, c'est est (le verbe être). Sinon, c'est et (qui relie deux mots, comme « et puis »).",
+        chapterTitle: "Les relais de la forêt",
+        chapterIntro: "Dans les ruines de la base d'Apex, un technicien de Monarch a ramassé une carte froissée : dix-sept points rouges répartis sur toute la planète, chacun près d'un Titan endormi. Des relais de contrôle, cachés par l'ennemi. Le premier signal s'allume dans une forêt dense, où une immense mante religieuse, Kamacuras, vient de sortir de terre. Godzilla part en éclaireur.",
+        victoryBeat: "Le boîtier arraché, Kamacuras replie ses faux et disparaît sous les feuillages. Dans le tronc creux, les techniciens trouvent un second relais, plus récent, avec un identifiant gravé : « Nœud 2 ». Quelqu'un coordonne tous ces relais à distance.",
+        defeatCaption: "KAMACURAS EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Kamacuras retourne sous les feuillages. MONARCH découvre un identifiant gravé : quelqu'un coordonne tous les relais.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Un nuage de feuilles aveugle Godzilla une seconde de trop : Kamacuras s'enfonce dans la forêt et disparaît dans la nuit.",
+            "Les faux de la mante brouillent les capteurs de Godzilla : le Titan s'échappe entre les arbres. Il faudra le retrouver.",
+        ],
+        sentences: [
+            { before: "Au cœur de la forêt, Kamacuras ", correct: "est", after: " sorti de terre au milieu de la nuit." },
+            { before: "Ses faux sont longues ", correct: "et", after: " aussi tranchantes que des lames de rasoir." },
+            { before: "Le relais d'Apex ", correct: "est", after: " caché dans un tronc d'arbre creux." },
+            { before: "Les techniciens de Monarch installent un détecteur ", correct: "et", after: " attendent un signal." },
+            { before: "Kamacuras avance entre les arbres, rapide ", correct: "et", after: " silencieux." },
+            { before: "Le danger ", correct: "est", after: " immense : la forêt abrite un village de bûcherons." },
+            { before: "Godzilla surgit des eaux d'une rivière ", correct: "et", after: " rejoint la forêt à grandes enjambées." },
+            { before: "Le boîtier ", correct: "est", after: " enfin repéré, accroché à la nuque de la mante." },
+        ],
+    },
+    {
+        kaiju: "kumonga", nom: "Kumonga", decor: "decors_kumonga.jpg", palier: 2,
+        pairWords: ["ce", "se"], pairLabel: "ce / se",
+        astuce: "Passe la phrase à « je » : si « se » devient « me » (il se cache → je me cache), c'est se. Sinon, c'est ce, qui accompagne un nom (ce tunnel) ou introduit « ce qui », « ce que ».",
+        chapterTitle: "Le piège des galeries",
+        chapterIntro: "Le boîtier de Kamacuras indiquait la suite : un ancien réseau de galeries minières, où le deuxième relais émet sans relâche. Les mineurs du village voisin parlent de toiles grandes comme des maisons. Kumonga, l'araignée géante, a tissé son piège dans l'obscurité. Godzilla doit y entrer.",
+        victoryBeat: "Libéré, Kumonga remonte vers l'obscurité et laisse ses fils de soie retomber doucement. Sur le boîtier brisé, les techniciens lisent un message gravé : « Prochain nœud : zone portuaire ».",
+        defeatCaption: "KUMONGA EST CALMÉE !",
+        defeatDetail: "Libérée de son relais, Kumonga remonte dans l'obscurité. Un message gravé désigne la zone portuaire comme prochain nœud.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Un filet de soie enveloppe les pattes de Godzilla : Kumonga s'enfuit dans une galerie trop étroite pour le suivre.",
+            "La galerie s'effondre dans un grondement : Kumonga disparaît derrière l'éboulis avant que Godzilla ne puisse tirer.",
+        ],
+        sentences: [
+            { before: "Dans ", correct: "ce", after: " tunnel minier abandonné, un capteur de Monarch s'affole." },
+            { before: "Kumonga tisse ", correct: "ce", after: " filet géant entre les piliers de la galerie." },
+            { before: "Les mineurs racontent ", correct: "ce", after: " qu'ils ont aperçu : des toiles grandes comme des maisons." },
+            { before: "Le monstre ", correct: "se", after: " cache dans l'ombre, prêt à bondir sur tout intrus." },
+            { before: "Un fil de soie recouvre ", correct: "ce", after: " qui ressemble à un boîtier métallique." },
+            { before: "Pour l'atteindre, Godzilla ", correct: "se", after: " fraye un passage à travers la roche." },
+            { before: "Son rayon bleu ", correct: "se", after: " reflète sur les parois et éclaire toute la galerie." },
+            { before: "Soudain, Kumonga ", correct: "se", after: " fige : le boîtier vient de tomber de son dos." },
+        ],
+    },
+    {
+        kaiju: "ebirah", nom: "Ebirah", decor: "decors_ebirah.jpg", palier: 2,
+        pairWords: ["ces", "ses"], pairLabel: "ces / ses",
+        astuce: "Si tu peux dire « à lui » ou « à elle » (ses pinces = les pinces à lui), c'est ses. Sinon, c'est ces : il montre plusieurs choses (ces quais = ces quais-là).",
+        chapterTitle: "Le port fantôme",
+        chapterIntro: "Le troisième nœud émet depuis un port de pêche déserté, au bord d'une mer devenue étrangement agitée. Des marins affirment avoir vu d'immenses pinces rouges sortir des vagues : Ebirah, le crustacé géant, défend un relais d'Apex caché sous la jetée. Godzilla n'a qu'à suivre la côte.",
+        victoryBeat: "Débarrassé du boîtier, Ebirah replonge calmement vers le large. Dans la cabine d'un cargo abandonné, les agents trouvent des registres d'expédition : tous les relais ont voyagé par bateau, sous la même signature — « l'Architecte ».",
+        defeatCaption: "EBIRAH EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Ebirah replonge vers le large. Les registres d'un cargo révèlent une signature : « l'Architecte ».",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Une vague géante soulevée par Ebirah balaie la jetée : le crustacé plonge et disparaît dans les profondeurs.",
+            "Ebirah projette un nuage d'encre sombre : Godzilla ne voit plus rien, et le Titan s'esquive vers le large.",
+        ],
+        sentences: [
+            { before: "Au large du port, Ebirah agite ", correct: "ses", after: " pinces immenses au-dessus des vagues." },
+            { before: "Les pêcheurs ont abandonné ", correct: "ces", after: " quais depuis plusieurs semaines." },
+            { before: "Sous ", correct: "ces", after: " eaux sombres, un relais d'Apex clignote en cadence." },
+            { before: "Ebirah replie ", correct: "ses", after: " antennes contre sa carapace pour se protéger." },
+            { before: "Les marins montrent du doigt ", correct: "ces", after: " containers éventrés sur le quai." },
+            { before: "Ebirah se débat et claque ", correct: "ses", after: " pinces dans le vide." },
+            { before: "Les techniciens inspectent ", correct: "ces", after: " débris métalliques éparpillés sur le sable." },
+            { before: "Ebirah ferme ", correct: "ses", after: " yeux globuleux : le boîtier d'Apex vient de céder." },
+        ],
+    },
+    {
+        kaiju: "manda", nom: "Manda", decor: "decors_manda.jpg", palier: 2,
+        pairWords: ["c'est", "s'est"], pairLabel: "c'est / s'est",
+        astuce: "Essaie « c'était » et « s'était ». Si « c'était » marche, c'est c'est (cela est). Si « s'était » marche (il s'était caché), c'est s'est : le verbe se cacher au passé.",
+        chapterTitle: "La fosse sous la plateforme",
+        chapterIntro: "Le quatrième nœud émet depuis les profondeurs, au large d'une plateforme pétrolière abandonnée. Les sonars de Monarch captent un grondement qu'ils n'avaient jamais entendu : Manda, le serpent de mer, long de plusieurs centaines de mètres, est remonté des abysses. Godzilla plonge à sa rencontre.",
+        victoryBeat: "Manda replonge dans sa fosse, apaisé. À la surface, un halo doré traverse les nuages : Mothra survole la plateforme en silence, puis s'éloigne vers l'horizon. Dans le boîtier brisé, un plan indique le prochain relais : un abri antiatomique, sous une colline.",
+        defeatCaption: "MANDA EST CALMÉ !",
+        defeatDetail: "Libéré à son tour, Manda regagne sa fosse. Mothra survole la mer en silence. Un plan désigne un abri antiatomique comme prochain relais.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Manda s'enroule autour des piliers de la plateforme et s'enfonce dans l'obscurité avant que Godzilla ne puisse viser.",
+            "Une vague de trente mètres projette Godzilla contre un pilier : le serpent de mer en profite pour disparaître dans les abysses.",
+        ],
+        sentences: [
+            { before: "Le sonar de Monarch capte un grondement profond : ", correct: "c'est", after: " Manda, le serpent de mer légendaire." },
+            { before: "Le monstre ", correct: "s'est", after: " enroulé autour d'une plateforme pétrolière abandonnée." },
+            { before: "Un ingénieur affirme que Manda ", correct: "s'est", after: " réveillé hier soir, après des siècles de calme." },
+            { before: "Pour les équipes de Monarch, ", correct: "c'est", after: " un signal d'alarme : le relais se trouve sous la plateforme." },
+            { before: "Au fond de l'eau, ", correct: "c'est", after: " un boîtier d'Apex qui émet un signal très aigu." },
+            { before: "Godzilla ", correct: "s'est", after: " glissé sous la plateforme et attend, immobile." },
+            { before: "Quand Manda attaque, ", correct: "c'est", after: " une vague de trente mètres qui s'abat sur la plateforme." },
+            { before: "Le boîtier arraché, le serpent ", correct: "s'est", after: " détendu et glisse vers les profondeurs." },
+        ],
+    },
+    {
+        kaiju: "baragon", nom: "Baragon", decor: "decors_baragon.jpg", palier: 2,
+        pairWords: ["mais", "mes"], pairLabel: "mais / mes",
+        astuce: "Remplace le mot par « pourtant » : si la phrase garde son sens, c'est mais. Sinon, c'est mes (« les miens » : mes écrans = les écrans à moi), toujours suivi d'un nom.",
+        chapterTitle: "Sous la colline",
+        chapterIntro: "Le plan trouvé dans le boîtier de Manda est clair : le cinquième nœud se cache dans un ancien abri antiatomique que l'Architecte a racheté. Des secousses y sont signalées depuis une semaine, celles de Baragon, un petit Titan fouisseur que Monarch croyait timide et inoffensif. Pourquoi a-t-il changé de comportement ?",
+        victoryBeat: "Baragon, libéré, replonge dans son terrier. Au fond du tunnel, une cloison cachée révèle des écrans éteints : tous les relais étaient reliés à une même centrale, quelque part dans les montagnes.",
+        defeatCaption: "BARAGON EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Baragon retourne dans son terrier. Une cloison cachée révèle que tous les relais sont reliés à une centrale.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Baragon creuse à toute vitesse : le tunnel s'effondre derrière lui, et Godzilla perd sa trace sous la terre.",
+            "Une porte blindée se referme dans un claquement sourd : Baragon s'enfuit par un conduit trop étroit pour Godzilla.",
+        ],
+        sentences: [
+            { before: "Dans les tunnels, Baragon est rapide, ", correct: "mais", after: " il évite les lumières." },
+            { before: "Une analyste lit à voix haute : « Voici ", correct: "mes", after: " relevés : les secousses viennent du sud. »" },
+            { before: "Baragon creuse la terre à toute vitesse, ", correct: "mais", after: " les parois s'effondrent derrière lui." },
+            { before: "Un technicien précise : « Je n'ai plus de signal sur ", correct: "mes", after: " écrans. »" },
+            { before: "Le boîtier est caché dans un abri antiatomique, ", correct: "mais", after: " une porte blindée le protège." },
+            { before: "Godzilla jaillit du sol près du terrier de Baragon, ", correct: "mais", after: " celui-ci s'enfuit dans un tunnel étroit." },
+            { before: "Une scientifique murmure : « Je confie à Godzilla tous ", correct: "mes", after: " espoirs. »" },
+            { before: "L'analyste sourit : « Merci, Godzilla ! Grâce à toi, ", correct: "mes", after: " collègues sont sains et saufs. »" },
+        ],
+    },
+    {
+        kaiju: "varan", nom: "Varan", decor: "decors_varan.jpg", palier: 3,
+        pairWords: ["la", "là"], pairLabel: "la / là",
+        astuce: "Remplace le mot par « ici » : si la phrase garde son sens, c'est là (le lieu). Sinon, c'est la (devant un nom : la vallée).",
+        chapterTitle: "Le lac des sommets",
+        chapterIntro: "Les écrans de l'abri antiatomique ont livré une position : un lac de montagne, où l'Architecte teste un nouvel émetteur sur Varan, le Titan volant des hauteurs. Godzilla doit traverser tout le massif pour l'atteindre.",
+        victoryBeat: "Varan, apaisé, replie ses ailes membraneuses. Sur la berge, les agents de Monarch retrouvent un journal de bord : l'Architecte note ses essais, Titan après Titan, comme un chercheur qui prépare une expérience bien plus grande.",
+        defeatCaption: "VARAN EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Varan se pose sur la berge. Un journal de bord prouve que l'Architecte prépare une expérience bien plus grande.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Varan déploie ses ailes et s'élève dans la brume : Godzilla le perd de vue au-dessus des sommets.",
+            "Une rafale glaciale couche les sapins : Varan en profite pour fuir au-delà de la crête.",
+        ],
+        sentences: [
+            { before: "Varan vit près d'un lac de montagne, ", correct: "là", after: " où l'air est froid et limpide." },
+            { before: "Monarch survole ", correct: "la", after: " vallée à basse altitude avec un drone." },
+            { before: "Le relais d'Apex ne peut être que ", correct: "là", after: " : sur ce plateau rocheux." },
+            { before: "Les ailes membraneuses de Varan déchirent ", correct: "la", after: " brume matinale." },
+            { before: "Soudain, une lueur rouge s'allume ", correct: "là", after: " au sommet de la falaise." },
+            { before: "Godzilla saisit ", correct: "la", after: " crête de la montagne pour grimper." },
+            { before: "Varan accélère : ", correct: "la", after: " tempête qu'il provoque couche les sapins." },
+            { before: "Le boîtier est brisé : Varan se pose ", correct: "là", after: ", calme, au bord de l'eau." },
+        ],
+    },
+    {
+        kaiju: "gorosaurus", nom: "Gorosaurus", decor: "decors_gorosaurus.jpg", palier: 3,
+        pairWords: ["ma", "m'a"], pairLabel: "ma / m'a",
+        astuce: "Remplace le mot par « m'avait » : si la phrase garde son sens, c'est m'a (me + a). Sinon, c'est ma, qui accompagne un nom (ma radio).",
+        chapterTitle: "Le plateau des grondements",
+        chapterIntro: "Le journal de l'Architecte mentionne l'essai suivant : un plateau boisé, où vit Gorosaurus, un dinosaure carnivore au caractère difficile. Une équipe de Monarch s'y trouve déjà en reconnaissance, en hélicoptère, et envoie des messages de plus en plus inquiets. Chacun raconte ce qu'il voit.",
+        victoryBeat: "Gorosaurus s'éloigne, calmé, dans la forêt. Dans le boîtier, un détail intrigue les ingénieurs : le dispositif contient de minuscules fragments cristallins, un matériau qu'Apex n'avait jamais utilisé jusque-là.",
+        defeatCaption: "GOROSAURUS EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Gorosaurus retourne dans la forêt. Le boîtier contient d'étranges fragments de cristal inconnus.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Gorosaurus fonce à travers les arbres : l'hélicoptère de Monarch doit s'éloigner, et le Titan disparaît dans la forêt.",
+            "Un arbre arraché s'abat devant Godzilla : Gorosaurus s'enfuit à toute allure vers le plateau.",
+        ],
+        sentences: [
+            { before: "Le pilote de l'hélicoptère raconte : « Voici ", correct: "ma", after: " carte du plateau où vit Gorosaurus. »" },
+            { before: "Un ranger se souvient : « Le vieux gardien ", correct: "m'a", after: " dit que Gorosaurus n'était jamais sorti de la forêt. »" },
+            { before: "Un technicien s'écrie : « Regardez ", correct: "ma", after: " radio : elle capte le signal d'Apex ! »" },
+            { before: "La cheffe d'équipe confie : « Cette mission ", correct: "m'a", after: " demandé un courage immense. »" },
+            { before: "Un guide murmure : « Gorosaurus ", correct: "m'a", after: " regardé droit dans les yeux, puis il a rugi. »" },
+            { before: "Le pilote ajoute : « Je vais poser l'hélicoptère près de ", correct: "ma", after: " cabane, sur la crête. »" },
+            { before: "L'analyste prévient Godzilla par radio : « Le signal d'Apex ", correct: "m'a", after: " brouillé tous les écrans ! »" },
+            { before: "Un guide soupire : « Grâce à Godzilla, ", correct: "ma", after: " vallée est de nouveau en paix. »" },
+        ],
+    },
+    {
+        kaiju: "titanosaurus", nom: "Titanosaurus", decor: "decors_titanosaurus.jpg", palier: 3,
+        pairWords: ["ta", "t'a"], pairLabel: "ta / t'a",
+        astuce: "Remplace le mot par « t'avait » : si la phrase garde son sens, c'est t'a (te + a). Sinon, c'est ta, qui accompagne un nom (ta torche).",
+        chapterTitle: "La grotte derrière la cascade",
+        chapterIntro: "Les fragments de cristal mènent Monarch à un lac de montagne, où une grotte se cache derrière une cascade. Titanosaurus, un dinosaure aquatique à la queue en forme de nageoire, y repose près d'un relais d'Apex. Monarch envoie une petite équipe de repérage, dont une jeune stagiaire pour sa première mission.",
+        victoryBeat: "Libéré, Titanosaurus replonge dans le lac. La jeune stagiaire, émue, reçoit les félicitations de toute l'équipe. Mais sur le boîtier, un nouveau message s'affiche : l'Architecte sait que Monarch le traque.",
+        defeatCaption: "TITANOSAURUS EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Titanosaurus replonge dans le lac. Un message révèle que l'Architecte sait que Monarch le traque.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "D'un coup de queue, Titanosaurus soulève un mur d'eau : la cascade s'effondre et le Titan disparaît dans le lac.",
+            "L'écho de la grotte brouille tous les signaux : Titanosaurus s'enfuit sous l'eau, hors de portée de Godzilla.",
+        ],
+        sentences: [
+            { before: "Une vétérane de Monarch dit à la stagiaire : « Prends ", correct: "ta", after: " combinaison, nous partons pour le lac. »" },
+            { before: "La stagiaire demande : « Est-ce que le capitaine ", correct: "t'a", after: " expliqué comment fonctionne un relais ? »" },
+            { before: "La vétérane répond : « Le sonar ", correct: "t'a", after: " peut-être menti : vérifie encore. »" },
+            { before: "Elle ajoute : « Garde ", correct: "ta", after: " torche allumée dans la caverne. »" },
+            { before: "Un technicien crie : « Attention, ", correct: "ta", after: " lampe éclaire le boîtier ! »" },
+            { before: "La stagiaire murmure : « Tu es sûre que Godzilla ", correct: "t'a", after: " entendue ? »" },
+            { before: "Le technicien la rassure : « Garde ", correct: "ta", after: " calme : Godzilla s'occupe de tout. »" },
+            { before: "Le technicien sourit : « Grâce à toi, Monarch ", correct: "t'a", after: " choisie pour la prochaine mission. »" },
+        ],
+    },
+    {
+        kaiju: "megalon", nom: "Megalon", decor: "decors_megalon.jpg", palier: 3,
+        pairWords: ["sa", "ça"], pairLabel: "sa / ça",
+        astuce: "Remplace le mot par « cela » : si la phrase garde son sens, c'est ça. Sinon, c'est sa : il accompagne un nom (sa carapace = la carapace à lui).",
+        chapterTitle: "La mine de sel",
+        chapterIntro: "Le message du boîtier désigne une mine de sel abandonnée, où des secousses font trembler la région depuis trois jours. Megalon, un insecte géant qui perce la roche, y a creusé des kilomètres de galeries autour d'un relais d'Apex. Godzilla descend sous terre.",
+        victoryBeat: "Megalon, libéré, s'enfonce dans la roche. Dans la mine, les ingénieurs découvrent des cuves étranges remplies d'une matière visqueuse et verdâtre : Apex menait ici des expériences sur la pollution, et le prochain relais semble en dépendre.",
+        defeatCaption: "MEGALON EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Megalon s'enfonce dans la roche. Des cuves remplies d'une matière verdâtre intriguent MONARCH.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Megalon fore un tunnel dans la paroi et disparaît dans un nuage de poussière avant que Godzilla ne tire.",
+            "Un éboulement bloque la galerie : Megalon s'enfuit par un conduit étroit, loin sous la montagne.",
+        ],
+        sentences: [
+            { before: "Megalon, l'insecte géant, perce la roche avec ", correct: "sa", after: " tête cornue." },
+            { before: "Les ingénieurs se demandent si ", correct: "ça", after: " vaut la peine de risquer une descente." },
+            { before: "Un mineur affirme que ", correct: "ça", after: " tremble depuis trois jours." },
+            { before: "Le monstre cogne ", correct: "sa", after: " carapace contre les parois de la mine." },
+            { before: "Dans le noir, ", correct: "ça", after: " brille : un boîtier d'Apex est fixé sur la nuque du monstre." },
+            { before: "Godzilla attrape Megalon et plaque ", correct: "sa", after: " carapace contre le sol." },
+            { before: "Dans le tunnel, ", correct: "ça", after: " sent la poussière et la fumée." },
+            { before: "Libéré, Megalon replie ", correct: "sa", after: " carapace et se réfugie dans le sol." },
+        ],
+    },
+    {
+        kaiju: "hedorah", nom: "Hedorah", decor: "decors_hedora.jpg", palier: 3,
+        pairWords: ["quelle", "qu'elle"], pairLabel: "quelle / qu'elle",
+        astuce: "Remplace « elle » par « il » : si « qu'il » marche, c'est qu'elle. Sinon, c'est quelle, qui accompagne un nom féminin (quelle direction ?).",
+        chapterTitle: "La brume de la baie",
+        chapterIntro: "Les cuves de la mine étaient reliées à une canalisation qui descend vers la côte : l'Architecte nourrit un Titan né des déchets industriels, Hedorah, le monstre de la pollution. Une brume toxique avance déjà vers une ville portuaire. Godzilla doit l'arrêter avant la nuit.",
+        victoryBeat: "Hedorah se dissout lentement dans les vagues, le boîtier d'Apex fondu en son centre. Monarch envoie des équipes de nettoyage. Dans l'eau, un détail brille : un morceau de cristal violacé, qui ne ressemble à rien de terrestre.",
+        defeatCaption: "HEDORAH EST DISSOUS !",
+        defeatDetail: "Le boîtier détruit, Hedorah se dissout dans les vagues. MONARCH repêche un cristal violacé qui ne vient pas de la Terre.",
+        statusLabel: "Dissous",
+        retryVariants: [
+            "La brume toxique s'épaissit : Godzilla recule, étouffé, et Hedorah se glisse dans les égouts de la ville.",
+            "Hedorah se divise en dizaines de nuages sombres : Godzilla ne sait plus lequel viser, et le monstre s'enfuit.",
+        ],
+        sentences: [
+            { before: "Monarch ignore ", correct: "quelle", after: " direction prendra la brume toxique qui s'élève de la baie." },
+            { before: "La brume avance vers la ville ; les habitants craignent ", correct: "qu'elle", after: " n'atteigne les maisons avant la nuit." },
+            { before: "Le chimiste observe la boue toxique avec inquiétude : il redoute ", correct: "qu'elle", after: " ne s'infiltre dans les nappes d'eau potable." },
+            { before: "Personne ne comprend ", correct: "quelle", after: " étrange matière nourrit Hedorah." },
+            { before: "La fumée est si âcre que Godzilla redoute ", correct: "qu'elle", after: " ne lui brûle les poumons." },
+            { before: "Les enfants demandent ", correct: "quelle", after: " maladie se cache derrière cette fumée." },
+            { before: "Monarch se demande ", correct: "quelle", after: " arme pourrait vaincre un monstre né de la pollution." },
+            { before: "Le rayon de Godzilla dissout la brume avant ", correct: "qu'elle", after: " ne contamine la ville." },
+        ],
+    },
+    {
+        kaiju: "zilla", nom: "Zilla", decor: "decors_zilla.jpg", palier: 4,
+        pairWords: ["peu", "peut"], pairLabel: "peu / peut",
+        astuce: "Remplace le mot par « pouvait » : si la phrase garde son sens, c'est peut (le verbe pouvoir). Sinon, c'est peu (le contraire de beaucoup).",
+        chapterTitle: "La ville évacuée",
+        chapterIntro: "Le cristal violacé n'a pas fini de livrer ses secrets, mais un autre signal d'Apex vient de s'allumer en pleine ville. Dans une grande cité côtière évacuée, Zilla, un lézard géant d'une vitesse stupéfiante, saccage les avenues. Les relais semblent désormais attirer les Titans vers les zones habitées, pour tester leurs limites.",
+        victoryBeat: "Zilla, libéré, file se cacher dans les égouts. Au laboratoire de Monarch, l'analyse du cristal violacé tombe enfin : il n'est pas d'origine terrestre. L'Architecte utilise des fragments venus de l'espace.",
+        defeatCaption: "ZILLA EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Zilla file dans les égouts. L'analyse du cristal confirme qu'il vient de l'espace.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Zilla disparaît dans un parking souterrain : Godzilla, trop grand pour le suivre, perd sa trace dans la ville.",
+            "Le lézard saute d'un immeuble à l'autre et s'évanouit dans la fumée, hors de portée du rayon.",
+        ],
+        sentences: [
+            { before: "Zilla, le lézard géant, est rapide : il ", correct: "peut", after: " traverser une avenue en trois secondes." },
+            { before: "Dans la ville, il y a très ", correct: "peu", after: " d'habitants car ils ont été évacués." },
+            { before: "Les caméras de la ville enregistrent ", correct: "peu", after: " d'images utilisables." },
+            { before: "Un soldat demande si Zilla ", correct: "peut", after: " être arrêté par des chars." },
+            { before: "Godzilla ", correct: "peut", after: " le suivre dans les canaux, car il est excellent nageur." },
+            { before: "Les rues sont étroites : Godzilla a très ", correct: "peu", after: " de place pour manœuvrer." },
+            { before: "Zilla disparaît dans un parking, mais le relais ", correct: "peut", after: " le localiser grâce à son signal." },
+            { before: "Épuisé, Zilla court ", correct: "peu", after: " avant de s'effondrer au bord du fleuve." },
+        ],
+    },
+    {
+        kaiju: "battra", nom: "Battra", decor: "decors_battra.jpg", palier: 4,
+        pairWords: ["sans", "s'en"], pairLabel: "sans / s'en",
+        astuce: "Remplace le mot par « avec » : si le sens devient contraire, c'est sans. Sinon, passe à « je » : si tu peux dire « je m'en », c'est s'en (il s'en va → je m'en vais).",
+        chapterTitle: "Les glaces du Grand Nord",
+        chapterIntro: "Le cristal venu de l'espace réagit aux ondes d'Apex : un nouveau signal s'élève des glaciers du Grand Nord, où dort Battra, la larve noire, sombre jumelle de la gardienne Mothra. Dans ce froid extrême, Godzilla devra affronter la tempête autant que le Titan.",
+        victoryBeat: "Mothra se pose doucement sur la glace, près de Battra. Sans un bruit, les deux Titans se reconnaissent, et la larve noire s'enfonce calmement sous le glacier. Sur le boîtier d'Apex, Monarch lit un nom gravé : « Projet Chimère ».",
+        defeatCaption: "BATTRA EST APAISÉ !",
+        defeatDetail: "Mothra veille sur Battra, qui s'enfonce sous le glacier. Le boîtier porte un nom : « Projet Chimère ».",
+        statusLabel: "Apaisé",
+        retryVariants: [
+            "Une tempête de neige s'abat sur le glacier : Godzilla perd Battra de vue, et la larve noire disparaît sous la glace.",
+            "La glace se fend sous les pattes de Godzilla : Battra en profite pour s'enfuir dans une crevasse.",
+        ],
+        sentences: [
+            { before: "Battra, la larve noire, surgit des glaciers ", correct: "sans", after: " un seul bruit." },
+            { before: "Le Titan ", correct: "s'en", after: " prend aux équipes de Monarch avec violence." },
+            { before: "Les satellites tombent en panne ", correct: "sans", after: " raison apparente." },
+            { before: "Pris de rage, Battra ", correct: "s'en", after: " va vers la côte en fendant la glace." },
+            { before: "Battra attaque les hélicoptères et ", correct: "s'en", after: " débarrasse d'un seul coup de queue." },
+            { before: "Godzilla avance ", correct: "sans", after: " peur dans la tempête de neige." },
+            { before: "Une aurore boréale apparaît dans le ciel ", correct: "sans", after: " que personne ne comprenne pourquoi." },
+            { before: "Battra libéré ", correct: "s'en", after: " retourne dans les glaciers." },
+        ],
+    },
+    {
+        kaiju: "megaguirus", nom: "Megaguirus", decor: "decors_megaguirus.jpg", palier: 4,
+        pairWords: ["ni", "n'y"], pairLabel: "ni / n'y",
+        astuce: "Si la phrase relie deux choses avec « ni… ni », c'est ni. Si tu peux écrire « ne » + « y » (il n'y a pas, personne n'y voit), c'est n'y.",
+        chapterTitle: "L'essaim",
+        chapterIntro: "Le nom « Projet Chimère » mène Monarch à une petite ville de la plaine, où le ciel s'est obscurci en plein jour : une nuée de libellules géantes tourne au-dessus des toits. À sa tête, Megaguirus, la reine des insectes, protège un relais d'Apex caché dans une ruche de métal et de boue.",
+        victoryBeat: "Le boîtier détruit, l'essaim se disperse et Megaguirus s'envole vers les marais. Dans la ruche, Monarch découvre une salle de contrôle : les relais n'étaient pas des armes mais des capteurs. L'Architecte mesurait l'énergie que les Titans pouvaient absorber.",
+        defeatCaption: "MEGAGUIRUS EST CALMÉE !",
+        defeatDetail: "Libérée de son relais, Megaguirus s'envole vers les marais. Une salle de contrôle révèle que les relais mesuraient l'énergie des Titans.",
+        statusLabel: "Calmée",
+        retryVariants: [
+            "L'essaim se referme autour de Godzilla comme un nuage vivant : Megaguirus profite de l'aveuglement pour s'enfuir.",
+            "Un souffle d'ailes projette Godzilla au sol : la reine disparaît dans la ruche avant qu'il ne puisse tirer.",
+        ],
+        sentences: [
+            { before: "Le nuage de libellules géantes ne laisse ", correct: "ni", after: " champ ni forêt intacts sur son passage." },
+            { before: "Dans la petite ville évacuée, il ", correct: "n'y", after: " a plus un seul habitant." },
+            { before: "Les soldats tirent partout, mais personne ", correct: "n'y", after: " voit assez clair pour viser la reine." },
+            { before: "Megaguirus, la reine des insectes, ne craint ", correct: "ni", after: " le feu ni les balles de Monarch." },
+            { before: "Les radars ne détectent ", correct: "ni", after: " Megaguirus ni son essaim, tant ils volent vite." },
+            { before: "Dans le ciel noirci par les ailes, on ", correct: "n'y", after: " voit plus rien." },
+            { before: "Le relais d'Apex est caché dans la ruche, mais Monarch ", correct: "n'y", after: " accède qu'au prix d'un combat." },
+            { before: "Godzilla n'a ", correct: "ni", after: " peur ni hésitation devant la reine : il tire." },
+        ],
+    },
+    {
+        kaiju: "orga", nom: "Orga", decor: "decors_orga.jpg", palier: 4,
+        pairWords: ["si", "s'y"], pairLabel: "si / s'y",
+        astuce: "Passe la phrase à « je » : si tu peux dire « je m'y », c'est s'y (il s'y cache). Sinon, c'est si : une condition (si tu veux…) ou une intensité (si fort que…).",
+        chapterTitle: "Le laboratoire enfoui",
+        chapterIntro: "Tous les relais envoyaient leurs mesures vers un seul endroit : un laboratoire souterrain d'Apex, où vit Orga, un Titan capable de refermer chacune de ses blessures. Pour l'Architecte, c'est le cobaye idéal pour tester jusqu'où un monstre peut encaisser la puissance de Godzilla.",
+        victoryBeat: "Orga, libéré, s'endort dans son bassin. Sur les écrans du laboratoire, une dernière carte s'allume : tous les relais convergent vers un seul point, loin au sud. Là-bas, le cristal venu de l'espace se met à pulser.",
+        defeatCaption: "ORGA EST CALMÉ !",
+        defeatDetail: "Libéré de son relais, Orga s'endort dans son bassin. Une carte montre où convergent tous les signaux : loin au sud.",
+        statusLabel: "Calmé",
+        retryVariants: [
+            "Les blessures d'Orga se referment aussitôt : le Titan, redevenu intact, s'enfuit par un tunnel du laboratoire.",
+            "Le rayon d'Orga fait fondre les murs : Godzilla recule, et le monstre disparaît dans les profondeurs.",
+        ],
+        sentences: [
+            { before: "Orga, le Titan qui se régénère, est ", correct: "si", after: " résistant que chaque blessure se referme aussitôt." },
+            { before: "Le laboratoire d'Apex est profond : le monstre ", correct: "s'y", after: " cache depuis des mois." },
+            { before: "Une ingénieure demande : « Que se passera-t-il ", correct: "si", after: " Orga absorbe l'énergie de Godzilla ? »" },
+            { before: "Les cellules d'Orga réagissent aux radiations : il ", correct: "s'y", after: " nourrit à chaque tir." },
+            { before: "Le gardien du site avoue que personne ne ", correct: "s'y", after: " est risqué depuis la panne." },
+            { before: "Godzilla n'est pas inquiet : il sait que ", correct: "si", after: " Orga attaque, il ripostera." },
+            { before: "Godzilla recule : les parois sont ", correct: "si", after: " chaudes que ses écailles fument." },
+            { before: "Le boîtier détruit, Orga rentre dans son bassin et ", correct: "s'y", after: " endort." },
+        ],
+    },
+    {
+        kaiju: "spacegodzilla", nom: "SpaceGodzilla", decor: "decors_space_godzilla.jpg", palier: 4,
+        pairWords: ["leur", "leurs"], pairLabel: "leur / leurs",
+        astuce: "Si le nom qui suit est au pluriel (leurs pointes), il faut un s : leurs. Devant un nom au singulier (leur village) ou devant un verbe (Monarch leur ordonne), c'est leur.",
+        chapterTitle: "La forêt de cristaux",
+        chapterIntro: "Le cristal spatial pulse au sud, dans une plaine désertique où un impact venu du ciel a fait pousser une forêt de cristaux géants. Au centre, un Titan couvert de pointes brillantes absorbe leur énergie : SpaceGodzilla, que Monarch croyait né de cellules de Godzilla emportées dans l'espace. C'est le premier adversaire digne de Godzilla.",
+        victoryBeat: "SpaceGodzilla s'effondre, ses cristaux réduits en poussière brillante. Dans la lumière qui s'éteint, Monarch décode le dernier message du relais : « Dernière phase — la serre ». Une serre, au cœur d'un institut botanique abandonné.",
+        defeatCaption: "SPACEGODZILLA EST NEUTRALISÉ !",
+        defeatDetail: "Ses cristaux réduits en poussière, SpaceGodzilla s'effondre. Un dernier message désigne une serre, dans un institut botanique.",
+        statusLabel: "Neutralisé",
+        retryVariants: [
+            "Un mur de cristaux surgit du sol : le rayon de Godzilla se disperse, et SpaceGodzilla recule hors de portée.",
+            "Les cristaux se lient en un bouclier géant : Godzilla doit reculer, et le Titan disparaît dans un éclair violet.",
+        ],
+        sentences: [
+            { before: "Les cristaux d'espace dressent ", correct: "leurs", after: " pointes vers le ciel." },
+            { before: "Les techniciens de Monarch protègent ", correct: "leur", after: " base avec des boucliers." },
+            { before: "Les satellites de Monarch envoient ", correct: "leurs", after: " images avant de tomber en panne." },
+            { before: "Les habitants ont quitté ", correct: "leur", after: " village en emportant le strict nécessaire." },
+            { before: "Les techniciens sont trop près du Titan : Monarch ", correct: "leur", after: " ordonne de reculer." },
+            { before: "Les deux Titans se battent à coups de rayons : ", correct: "leurs", after: " ondes de choc fendent la plaine." },
+            { before: "Les cristaux protègent SpaceGodzilla en formant autour de lui ", correct: "leur", after: " bouclier." },
+            { before: "Godzilla brise ", correct: "leurs", after: " dernières pointes, et le Titan s'effondre." },
+        ],
+    },
+    {
+        kaiju: "biollante", nom: "Biollante", decor: "decors_biollante.jpg", palier: 4,
+        pairWords: ["près", "prêt"], pairLabel: "près / prêt",
+        astuce: "Mets la phrase au féminin : si « prêt » devient « prête », c'est prêt. Sinon, c'est près (le contraire de loin).",
+        chapterTitle: "La serre de l'institut",
+        chapterIntro: "Le dernier message mène Monarch à un vieil institut botanique : dans une serre géante, Apex a mêlé des cellules de Godzilla à celles d'une plante pour créer Biollante, un hybride mi-fleur, mi-Titan, aux lianes immenses. Le piège est parfait : plus Godzilla approche, plus les lianes se resserrent.",
+        victoryBeat: "Biollante libère un nuage de pétales dorés, puis se rétracte et disparaît dans la terre. Dans les serres, Monarch trouve la clé : un plan des derniers relais, menant à une cuve de confinement sous un ancien site d'essais en mer. Quelqu'un l'a déjà ouverte.",
+        defeatCaption: "BIOLLANTE EST NEUTRALISÉE !",
+        defeatDetail: "Biollante se rétracte dans la terre. Un plan désigne une cuve de confinement déjà ouverte, sous un ancien site d'essais.",
+        statusLabel: "Neutralisée",
+        retryVariants: [
+            "Les lianes de Biollante enserrent Godzilla et le font reculer : le Titan se retire dans la serre avant la riposte.",
+            "Une pluie de spores aveugle Godzilla : Biollante s'enfonce dans le sol, hors de portée du rayon.",
+        ],
+        sentences: [
+            { before: "Dans l'institut botanique, Biollante n'est plus qu'à quelques mètres, ", correct: "près", after: " des vieilles serres." },
+            { before: "Le directeur de Monarch lève le bras : Godzilla est ", correct: "prêt", after: " à tirer." },
+            { before: "Les techniciens de Monarch restent ", correct: "près", after: " des véhicules, par prudence." },
+            { before: "Le pilote de l'hélicoptère est ", correct: "prêt", after: " à décoller en cas d'urgence." },
+            { before: "Le Titan relève ses lianes, ", correct: "prêt", after: " à frapper." },
+            { before: "Un chercheur murmure : « Les lianes sont tout ", correct: "près", after: " de nous ! »" },
+            { before: "Le rayon de Godzilla passe tout ", correct: "près", after: " d'une fleur géante qui explose." },
+            { before: "Le Titan blessé n'est plus ", correct: "prêt", after: " à se battre." },
+        ],
+    },
+    {
+        kaiju: "destroyah", nom: "Destoroyah", decor: "decors_destroyah.jpg", palier: 4,
+        pairWords: ["plutôt", "plus tôt"], pairLabel: "plutôt / plus tôt",
+        astuce: "Remplace le mot par « plus tard » : si la phrase garde son sens, c'est plus tôt (deux mots). Sinon, c'est plutôt (en un mot : « assez » ou « de préférence »).",
+        chapterTitle: "L'éveil de l'abîme",
+        chapterIntro: "La cuve de confinement, sous l'ancien site d'essais, a été ouverte de l'intérieur. Les micro-organismes d'Apex, inspirés de l'Oxygen Destroyer, se sont rassemblés pour former Destoroyah, un Titan qui change de forme et devient plus puissant à chaque phase. Monarch comprend que l'Architecte voulait justement mesurer jusqu'où il pouvait aller.",
+        victoryBeat: "Destoroyah s'effondre et se dissout dans l'eau, sa dernière forme réduite en écume. Dans la cuve, Monarch trouve la fin du puzzle : tous les relais alimentaient un seul noyau, un cercueil de métal où repose un morceau géant de crâne à trois têtes. Un grondement monte du sol : le crâne vient de se réveiller.",
+        defeatCaption: "DESTOROYAH EST DÉTRUIT !",
+        defeatDetail: "Sa dernière forme réduite en écume, Destoroyah est détruit. Mais dans la cuve, un crâne à trois têtes vient de se réveiller.",
+        statusLabel: "Détruit",
+        retryVariants: [
+            "Destoroyah change de forme et d'un bond évite le rayon : le Titan se fond dans l'eau noire avant que Godzilla ne puisse l'achever.",
+            "Un éclair de lumière aveugle Godzilla : Destoroyah en profite pour se réfugier sous l'ancien site d'essais.",
+        ],
+        sentences: [
+            { before: "L'alerte de Monarch est arrivée ", correct: "plus tôt", after: " que prévu : Destoroyah est déjà réveillé." },
+            { before: "Les micro-organismes d'Apex sont ", correct: "plutôt", after: " dangereux dans l'eau salée." },
+            { before: "Godzilla préfère combattre ", correct: "plutôt", after: " que fuir devant le monstre." },
+            { before: "Les techniciens auraient dû partir ", correct: "plus tôt", after: " avant que le niveau de l'eau monte." },
+            { before: "Les écailles de Destoroyah sont ", correct: "plutôt", after: " fragiles : elles se réparent vite." },
+            { before: "Le monstre grandit et change de forme ", correct: "plus tôt", after: " que les analystes ne l'avaient calculé." },
+            { before: "Le ciel est ", correct: "plutôt", after: " sombre ce soir, comme avant un orage." },
+            { before: "Si Godzilla avait tiré ", correct: "plus tôt", after: ", le monstre n'aurait jamais atteint cette taille." },
+        ],
+    },
+    // ===================== CHAPITRE BONUS : RÉVISION (King Ghidorah) =====================
+    // Ne teste pas un nouveau duo : mélange 16 duos déjà vus. Chaque phrase
+    // porte ses propres `choices` et sa propre `astuce` (voir le moteur).
+    {
+        kaiju: "ghidorah", nom: "King Ghidorah", decor: "decors_ghidorah.jpg", palier: 4,
+        pairWords: [], pairLabel: "Révision",
+        bonus: true,
+        astuce: "Relis bien la phrase et essaie la petite astuce de substitution du duo que tu vois.",
+        chapterTitle: "Le dragon à trois têtes",
+        chapterIntro: "CHAPITRE BONUS. Sous la glace, le morceau de crâne a enfin atteint son but : tous les relais d'Apex alimentaient un noyau secret, qui ressuscite King Ghidorah, le dragon à trois têtes. Cette fois, pas un seul duo d'homophones, mais tous ceux que tu as déjà vus, mélangés. Godzilla compte sur toi pour la dernière bataille.",
+        victoryBeat: "King Ghidorah s'effondre, ses trois têtes enfin silencieuses. Godzilla pousse un rugissement de victoire qui résonne sur la glace. Mothra, au-dessus du cratère, déploie ses ailes et salue le roi des monstres avant de s'éloigner vers l'île Infant. Monarch referme le dossier : Apex Cybernetics n'est plus qu'un souvenir. Le monde est en paix — pour l'instant.",
+        defeatCaption: "KING GHIDORAH EST VAINCU !",
+        defeatDetail: "Le dragon à trois têtes s'effondre. Le Protocole Titan est enfin terminé, et Godzilla reste le roi des monstres.",
+        statusLabel: "Vaincu",
+        retryVariants: [
+            "Les trois têtes lancent trois éclairs à la fois : Godzilla est repoussé, et Ghidorah s'élève dans la tempête. Le combat doit reprendre.",
+            "Un coup d'ailes déclenche une avalanche : Godzilla doit reculer, et le dragon s'envole hors de portée.",
+        ],
+        sentences: [
+            { before: "Sous la glace, un crâne géant ", correct: "a", after: " repris vie en quelques secondes.", choices: ["a", "à"], astuce: "Remplace par « avait » : si la phrase garde son sens, c'est a (le verbe avoir). Sinon, c'est à." },
+            { before: "Monarch cherche l'endroit ", correct: "où", after: " King Ghidorah va surgir.", choices: ["ou", "où"], astuce: "Remplace par « ou bien » : si la phrase garde son sens, c'est ou. Sinon, c'est où (un lieu)." },
+            { before: "Les trois cous du dragon ", correct: "sont", after: " couverts d'écailles dorées.", choices: ["son", "sont"], astuce: "Remplace par « étaient » : si la phrase garde son sens, c'est sont. Sinon, c'est son (comme sa ou ses)." },
+            { before: "Les satellites ", correct: "ont", after: " perdu le signal au moment de l'éveil.", choices: ["on", "ont"], astuce: "Remplace par « avaient » : si la phrase garde son sens, c'est ont. Sinon, c'est on (on peut dire « il »)." },
+            { before: "Ghidorah déploie ses ailes ", correct: "et", after: " lance un cri qui fait trembler la glace.", choices: ["et", "est"], astuce: "Remplace par « était » : si la phrase garde son sens, c'est est. Sinon, c'est et (comme « et puis »)." },
+            { before: "Le dragon ", correct: "se", after: " dresse au-dessus du cratère, immense et furieux.", choices: ["ce", "se"], astuce: "Passe à « je » : « je me dresse » marche, donc c'est se. Ce accompagne un nom (ce cratère)." },
+            { before: "Les agents de Monarch s'abritent derrière ", correct: "ces", after: " rochers noircis par la foudre.", choices: ["ces", "ses"], astuce: "Si tu peux dire « à lui / à elle », c'est ses. Sinon, c'est ces (ces rochers-là)." },
+            { before: "Pour Monarch, ", correct: "c'est", after: " le pire cauchemar de toute leur histoire.", choices: ["c'est", "s'est"], astuce: "Essaie « c'était » : si ça marche, c'est c'est. Si « s'était » marche (il s'était caché), c'est s'est." },
+            { before: "Godzilla encaisse un éclair, ", correct: "mais", after: " il riposte aussitôt.", choices: ["mais", "mes"], astuce: "Remplace par « pourtant » : si ça marche, c'est mais. Mes = « les miens »." },
+            { before: "Le dragon recule d'un pas : Godzilla se tient ", correct: "là", after: ", face à lui, immobile.", choices: ["la", "là"], astuce: "Remplace par « ici » : si la phrase garde son sens, c'est là (le lieu)." },
+            { before: "Mothra déploie ", correct: "sa", after: " lumière dorée et enveloppe Godzilla.", choices: ["sa", "ça"], astuce: "Remplace par « cela » : si ça marche, c'est ça. Sinon, c'est sa (devant un nom)." },
+            { before: "Une technicienne s'écrie : « Cette lumière dorée ", correct: "m'a", after: " redonné courage ! »", choices: ["ma", "m'a"], astuce: "Remplace par « m'avait » : si ça marche, c'est m'a. Sinon, c'est ma (devant un nom)." },
+            { before: "Ghidorah recule : il ignore ", correct: "quelle", after: " est cette lumière qui l'aveugle.", choices: ["quelle", "qu'elle"], astuce: "Remplace « elle » par « il » : si « qu'il » marche, c'est qu'elle. Sinon, c'est quelle." },
+            { before: "Il ne ", correct: "peut", after: " plus voler : Godzilla lui a brisé une aile.", choices: ["peu", "peut"], astuce: "Remplace par « pouvait » : si ça marche, c'est peut. Peu = pas beaucoup." },
+            { before: "Godzilla charge son rayon ", correct: "sans", after: " reculer d'un pas.", choices: ["sans", "s'en"], astuce: "Remplace par « avec » : si le sens devient contraire, c'est sans. Sinon, c'est s'en (je m'en)." },
+            { before: "Le dragon s'effondre tout ", correct: "près", after: " du cratère, vaincu.", choices: ["près", "prêt"], astuce: "Mets au féminin : « prête » ? Alors c'est prêt. Sinon, c'est près (le contraire de loin)." },
         ],
     },
 ];
@@ -249,11 +712,38 @@ const KAIJU_FILES = {
     anguirus: "assets/kaiju_anguirus.png",
     mechagodzilla: "assets/kaiju_mechagodzilla.png",
     gigan: "assets/kaiju_gigan.png",
-    spacegodzilla: "assets/kaiju_space_godzilla.png",
-    biollante: "assets/kaiju_biollante.png",
-    destroyah: "assets/kaiju_destroyah.png",
     ghidorah: "assets/kaiju_ghidorah.png",
+    // Chapitres 5 et suivants : fichiers déposés SANS le préfixe "kaiju_"
+    // (y compris les noms tels qu'ils sont dans le dossier : hedora, battea).
+    kamacuras: "assets/kamacuras.png",
+    kumonga: "assets/kumonga.png",
+    ebirah: "assets/ebirah.png",
+    manda: "assets/manda.png",
+    baragon: "assets/baragon.png",
+    varan: "assets/varan.png",
+    gorosaurus: "assets/gorosaurus.png",
+    titanosaurus: "assets/titanosaurus.png",
+    megalon: "assets/megalon.png",
+    hedorah: "assets/hedora.png",
+    zilla: "assets/zilla.png",
+    battra: "assets/battea.png",
+    megaguirus: "assets/megaguirus.png",
+    orga: "assets/orga.png",
+    // Pas encore dans le dossier : plusieurs noms possibles sont essayés dans l'ordre.
+    spacegodzilla: ["assets/space_godzilla.png", "assets/spacegodzilla.png", "assets/kaiju_space_godzilla.png"],
+    biollante: ["assets/biollante.png", "assets/kaiju_biollante.png"],
+    destroyah: ["assets/destroyah.png", "assets/kaiju_destroyah.png", "assets/destoroyah.png"],
 };
+
+// Charge le premier fichier qui existe parmi une liste de candidats.
+function loadFirstKeyed(files, onReady) {
+    const list = Array.isArray(files) ? files : [files];
+    let i = 0;
+    (function next() {
+        if (i >= list.length) { onReady(null); return; }
+        loadAndKeyImage(list[i++], (img) => { if (img) onReady(img); else next(); });
+    })();
+}
 
 // Mothra n'est PAS un adversaire : elle apparaît uniquement lors du combo
 // bienveillant (voir registerCorrectForCombo / drawMothraFlyby). Chargée à
@@ -495,7 +985,7 @@ function preloadAllAssets(onAllReady) {
         const file = KAIJU_FILES[key];
         pending++;
         if (!file) { ASSETS.kaiju[key] = null; tick(); return; }
-        loadAndKeyImage(file, (img) => { ASSETS.kaiju[key] = img; tick(); });
+        loadFirstKeyed(file, (img) => { ASSETS.kaiju[key] = img; tick(); });
     });
 
     LEVELS.forEach((lvl, idx) => {
@@ -1174,7 +1664,7 @@ function showHelpCard(fact, wrongVal) {
     if (activeCard) { if (cardTimeout) clearTimeout(cardTimeout); activeCard.remove(); activeCard = null; }
     const correction = escapeHtml(fact.before) + "<u>" + escapeHtml(fact.correct) + "</u>" + escapeHtml(fact.after);
     const explanation = `Tu as choisi « ${escapeHtml(wrongVal)} », ce n'est pas le bon mot ici.`;
-    const rule = LEVELS[currentLevelIndex].astuce;
+    const rule = fact.astuce || LEVELS[currentLevelIndex].astuce;
 
     const card = document.createElement("div");
     card.className = "help-card";
@@ -1238,7 +1728,8 @@ function loadCurrentSentence() {
     }
     currentFact = lvl.sentences[currentSentenceIndex];
     renderSentence(currentFact);
-    const opts = shuffle(lvl.pairWords.map((w) => ({ val: w, correct: w === currentFact.correct })));
+    const words = currentFact.choices || lvl.pairWords;
+    const opts = shuffle(words.map((w) => ({ val: w, correct: w === currentFact.correct })));
     cristaux = opts.map((o) => new Cristal(o.val, o.correct, lvl.kaiju, Math.floor(Math.random() * 4)));
 
     // il ne reste plus que TITAN_REVEAL_REMAINING phrases (celle-ci incluse) :
@@ -1441,7 +1932,9 @@ function startLevelTimer() {
 
 function stopLevelTimerAndComputeBonus() {
     if (chronoInterval) clearInterval(chronoInterval);
-    const finalTime = currentLevelTime;
+    // Seuils calibrés pour 8 phrases : un chapitre plus long (révision) est ramené à la même échelle.
+    const lvlForTime = LEVELS[Math.min(currentLevelIndex, LEVELS.length - 1)];
+    const finalTime = currentLevelTime / (lvlForTime.sentences.length / 8);
     const bonus = finalTime <= 25 ? 100 : finalTime <= 35 ? 70 : finalTime <= 50 ? 45 : finalTime <= 70 ? 25 : 10;
     const penalty = errors * 5;
     let levelBonus = Math.max(0, bonus - penalty);
@@ -1644,13 +2137,9 @@ function updateStartButtonLabel() {
     const btn = document.getElementById("btn-start");
     if (!btn) return;
     const frontier = getFrontierLevelIndex();
-    const isFirstTime = defeatedLevels.size === 0;
-    // Deux libellés (complet / court) rendus en même temps : c'est la
-    // media query dans style.css qui choisit lequel afficher selon la
-    // hauteur d'écran — pas de logique JS à maintenir en plus.
-    const fullLabel = isFirstTime ? "🦖 Commencer le chapitre 1" : `🦖 Continuer — chapitre ${frontier + 1}`;
-    const shortLabel = isFirstTime ? "🦖 Chapitre 1" : `🦖 Chapitre ${frontier + 1}`;
-    btn.innerHTML = `<span class="btn-start-full">${fullLabel}</span><span class="btn-start-short">${shortLabel}</span>`;
+    btn.textContent = defeatedLevels.size === 0
+        ? "🦖 Commencer le chapitre 1"
+        : `🦖 Continuer — chapitre ${frontier + 1}`;
     btn.dataset.frontier = frontier;
 }
 
@@ -1662,46 +2151,25 @@ function renderLevelsTrack() {
     if (!track) return;
     track.innerHTML = "";
     const frontier = getFrontierLevelIndex();
+    const progress = document.createElement("div");
+    progress.className = "levels-progress";
+    progress.textContent = `Progression : ${defeatedLevels.size} / ${LEVELS.length} chapitres`;
+    track.appendChild(progress);
     LEVELS.forEach((lvl, i) => {
         const known = defeatedLevels.has(i);
-        const isNext = i === frontier;
-        const isLocked = !known && !isNext;
-        const chip = document.createElement("div");
-        chip.className = "level-chip" + (known ? " known" : isLocked ? " locked" : " next");
-
-        const thumb = document.createElement("div");
-        thumb.className = "chip-thumb";
-        if (known && ASSETS.ready && ASSETS.kaiju[lvl.kaiju]) {
-            const mini = document.createElement("canvas");
-            mini.width = 56; mini.height = 56;
-            const mctx = mini.getContext("2d");
-            const img = ASSETS.kaiju[lvl.kaiju];
-            const s = Math.max(56 / img.width, 56 / img.height);
-            const w = img.width * s, h = img.height * s;
-            mctx.drawImage(img, (56 - w) / 2, (56 - h) / 2, w, h);
-            thumb.appendChild(mini);
+        const isNext = i === frontier && !known;
+        const dot = document.createElement("div");
+        dot.className = "level-dot" + (known ? " known" : isNext ? " next" : " locked") + (lvl.bonus ? " bonus" : "");
+        if (known) {
+            dot.title = `Chapitre ${i + 1} · ${lvl.pairLabel} — ${lvl.nom} (clique pour rejouer)`;
+            dot.addEventListener("click", () => playSpecificLevel(i));
+        } else if (isNext) {
+            dot.title = `Chapitre ${i + 1} · ${lvl.pairLabel} — prochain défi`;
+            dot.addEventListener("click", () => playSpecificLevel(i));
         } else {
-            thumb.textContent = isLocked ? "🔒" : "❓";
+            dot.title = `Chapitre ${i + 1} · verrouillé`;
         }
-
-        const label = document.createElement("div");
-        label.className = "chip-label";
-        label.textContent = known
-            ? `${i + 1}. ${lvl.pairLabel} — ${lvl.nom}`
-            : isLocked
-                ? `${i + 1}. ${lvl.pairLabel} — verrouillé`
-                : `${i + 1}. ${lvl.pairLabel} — ???`;
-
-        chip.appendChild(thumb);
-        chip.appendChild(label);
-
-        if (known || isNext) {
-            chip.title = known ? `Rejouer le chapitre ${i + 1} pour améliorer ton score` : "Prochain chapitre — clique ici ou sur le bouton pour l'affronter";
-            chip.addEventListener("click", () => playSpecificLevel(i));
-        } else {
-            chip.title = `Verrouillé — termine le chapitre ${i} pour débloquer celui-ci`;
-        }
-        track.appendChild(chip);
+        track.appendChild(dot);
     });
 }
 
@@ -1946,19 +2414,8 @@ document.getElementById("btn-medals-back").addEventListener("click", () => showS
 // grandes bandes vides à gauche/droite car elle réduisait TOUT le jeu
 // jusqu'à ce qu'il tienne en hauteur. Le jeu utilise maintenant la vraie
 // largeur disponible, quitte à changer de proportions.
-// IMPORTANT (cause réelle du bug "bouton Commencer invisible en
-// paysage") : la hauteur ne doit JAMAIS être forcée au-delà de l'espace
-// vraiment disponible. Le <body> centre son contenu avec overflow:hidden
-// (voir style.css) : si le conteneur est plus haut que l'écran, le haut
-// ET le bas sont rognés à parts égales, sans aucun scroll possible pour
-// le révéler — exactement ce qui rendait le bouton invisible, quel que
-// soit le soin apporté à la mise en page interne (.screen-scroll /
-// .screen-actions, déjà correcte). L'ancienne hauteur plancher (340px)
-// provoquait précisément ce dépassement sur les téléphones bas. Sur un
-// tout petit écran, le jeu devient donc plus compact plutôt que de
-// déborder.
 const CANVAS_MIN_W = 560, CANVAS_MAX_W = 1500;
-const CANVAS_MAX_H = 760;
+const CANVAS_MIN_H = 340, CANVAS_MAX_H = 760;
 
 // Recalcule toute la mise en page qui dépend de la taille du canevas
 // (zone de sécurité pour le texte/la barre de stats, ancrage de Godzilla).
@@ -1992,7 +2449,7 @@ function fitGameToViewport() {
     const availW = Math.max(1, window.innerWidth - padX);
     const availH = Math.max(1, window.innerHeight - padY);
     const w = Math.round(Math.max(CANVAS_MIN_W, Math.min(CANVAS_MAX_W, availW)));
-    const h = Math.round(Math.min(CANVAS_MAX_H, availH));
+    const h = Math.round(Math.max(CANVAS_MIN_H, Math.min(CANVAS_MAX_H, availH)));
 
     if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
